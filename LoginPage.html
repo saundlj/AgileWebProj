@@ -4,7 +4,20 @@
     <title>Title of the Document</title>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a basic HTML document.</p>
+    <h1>Login Page</h1>
+
+    <a href="http://127.0.0.1:3000/CreateAccount.html">Don't Already Have an Account?</a>
+   
+    <p>Please enter your account details (for existing users).</p>
+
+    <form action="/submit-account-details" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
