@@ -4,13 +4,14 @@
     <title>Title of the Document</title>
 </head>
 <body>
-    <h1>Login Page</h1>
+    <h1>Create your account</h1>
 
-    <a href="http://127.0.0.1:3000/CreateAccount.html">Don't Already Have an Account?</a>
-   
-    <p>Please enter your account details (for existing users).</p>
+    <form action = "" method = "post" nonvalidate>
+        {{ form.hidden_tag() }}
+        <p>{{ form.submit() }}</p>
+    </form>
 
-    <form action="/submit-account-details" method="post">
+    <p>Please enter your account details</p>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
