@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    {% if title %}
-    <title> {{title }}</title>
-    {% else %}
-    <title> No Title </title>
-    {% endif %}
-</head>
-<body>   
+{% extends "layout.html" %}
+{% block content %}
     {% for post in posts %}
-        <h1>
-            {{post.title}}
-        </h1>
-        <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-        <p>Location : {{post.location}}</p>
-        <p>Job Type : {{post.job_type}}</p>
-        <p>Salary : {{post.salary}}</p>
-        <p>Description : {{post.description}}</p>
+    <h1>
+        {{post.title}}
+    </h1>
+    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
+    <p>Location : {{post.location}}</p>
+    <p>Job Type : {{post.job_type}}</p>
+    <p>Salary : {{post.salary}}</p>
+    <p>Description : {{post.description}}</p>
     {% endfor %}
-</body>
-</html>
+{% endblock content %}

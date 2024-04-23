@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Title of the Document</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
     <h1>Login Page</h1>
 
     <form action = "" method = "post" nonvalidate>
         {{ form.hidden_tag() }}
         <p>{{ form.submit() }}</p>
     </form>
-   
+
     <p>Please enter your account details (for existing users).</p>
 
     <form action="/submit-account-details" method="post">
@@ -22,5 +18,4 @@
         
         <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+{% endblock content %}
