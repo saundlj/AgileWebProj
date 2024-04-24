@@ -24,6 +24,7 @@ posts = [
     }
 ]
 
+@flaskApp.route("/")
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
     form = CreateAccountForm()
@@ -38,9 +39,9 @@ def createAccount():
         return redirect(url_for('login'))
     return render_template("CreateAccount.html", form = form)
 
-@flaskApp.route("/")
-def groups():
-    return "Test Page. Flask is working... or is it. Maybe now?"
+#@flaskApp.route("/")
+#def groups():
+#    return "Test Page. Flask is working... or is it. Maybe now?"
 
 
 @flaskApp.route("/about")

@@ -2,12 +2,12 @@
 {% block content %}
     <h1>Create your account</h1>
 
-    <form action = "" method = "post" nonvalidate>
-        {{ form.hidden_tag() }}
-        <p>{{ form.submit() }}</p>
-    </form>
+    <button class = 'btn btn-link btn-sm' onclick="location.href='{{ url_for('login') }}'">
+    <span class= "fa fa-pen"></span>
+    Already have an account?</button>
 
     <p>Please enter your account details</p>
+
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
