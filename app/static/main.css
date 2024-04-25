@@ -86,3 +86,7 @@ body {
   #sub-header {
     font-size: 1.5rem;
     }
+  
+  #about-list {
+    list-style-type: circle;
+  }
