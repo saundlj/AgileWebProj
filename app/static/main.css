@@ -78,3 +78,15 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
+  #redirect-btn {
+  border: 1px solid blue; 
+  }
+
+  #sub-header {
+    font-size: 1.5rem;
+    }
+  
+  #about-list {
+    list-style-type: circle;
+  }

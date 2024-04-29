@@ -2,18 +2,20 @@
 {% block content %}
     <h1>Create your account</h1>
 
-    <button class = 'btn btn-link btn-sm' onclick="location.href='{{ url_for('login') }}'">
+    <button id = 'redirect-btn' class = 'btn btn-link btn-sm' onclick="location.href='{{ url_for('login') }}'">
     <span class= "fa fa-pen"></span>
     Already have an account?</button>
+    <br>    
+    <br>
 
-    <p>Please enter your account details</p>
+    <p id = 'sub-header'>Please enter your account details</p>
 
-        <label for="username">Username:</label>
+        <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br><br>
         
-        <label for="password">Password:</label>
+        <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
         
-        <input type="submit" value="Submit">
+        <input type="submit" value="Create Account">
     </form>
 {% endblock content %}
