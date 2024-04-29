@@ -1,2 +1,10 @@
+# virtual environment
+# python3 -m venv myenv
+# myenv\scripts\activate (windows)
+# current packages: pip list
+# install packages: pip install -r requirements.txt
+# freeze packages: pip freeze (copy into requirements.txt)
+
 Flask==3.0.3
 flask-wtf==1.2.1
+
