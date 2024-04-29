@@ -1,6 +1,6 @@
 from app import flaskApp
-from flask import render_template,redirect, url_for
-from app.forms import CreateAccountForm, loginReturn
+from flask import render_template,redirect, url_for, flash
+from app.forms import CreateAccountForm, LoginForm
 
 posts = [
     {
@@ -27,26 +27,25 @@ posts = [
 @flaskApp.route("/")
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
-    form = CreateAccountForm()
+    form = LoginForm()
     if form.validate_on_submit():
         return redirect(url_for('createAccount'))
-    return render_template("LoginPage.html",form = form)
+    return render_template("LoginPage.html", form = form, title = 'Login')
 
 @flaskApp.route('/CreateAccount', methods = ['GET','POST'])
 def createAccount():
-    form = loginReturn()
+    form = CreateAccountForm()
     if form.validate_on_submit():
-        return redirect(url_for('login'))
-    return render_template("CreateAccount.html", form = form)
-
-#@flaskApp.route("/")
-#def groups():
-#    return "Test Page. Flask is working... or is it. Maybe now?"
+        flash(f'Account Created for {form.first_name.data}!', 'success')
+    return redirect(url_for('feed')) # redirect to home page
+    
+    # return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
 
 @flaskApp.route("/about")
 def about():
     return render_template("AboutPage.html")
+
 
 @flaskApp.route("/feed")
 def feed():
