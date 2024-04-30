@@ -36,10 +36,10 @@ def login():
 def createAccount():
     form = CreateAccountForm()
     if form.validate_on_submit():
-        flash(f'Account Created for {form.first_name.data}!', 'success')
-    return redirect(url_for('feed')) # redirect to home page
+        flash(f'Account Successfully Created for {form.first_name.data}!', 'success')
+        return redirect(url_for('feed')) # redirect to home page where user can select what they want to see?
     
-    # return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
+    return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
 
 @flaskApp.route("/about")
