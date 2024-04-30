@@ -11,6 +11,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequir
     #submit = SubmitField('Sign In')
 
 class CreateAccountForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=5, max=50)])
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=50)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=50)])
     email = EmailField('Email', validators=[DataRequired(), Email()])
