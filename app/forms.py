@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, BooleanField, PasswordField, EmailField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, BooleanField, PasswordField, EmailField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
+from app.models import *
+from sqlalchemy import func
 
 #write flask forms in python classes below.
 #e.g.
@@ -18,6 +20,21 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators = [DataRequired(), EqualTo('password')]) # repeat password
     submit = SubmitField("Create Account")
+
+    def validate_username(self, username):
+
+        user = User.query.filter_by(username=username.data).first() #search database for existing user (returns none if no username exists)
+        if user:
+            raise ValidationError('Username is taken. Please choose another!')
+        
+    def validate_email(self, email):
+
+        user = User.query.filter_by(func.lower(email.data)).first() #search database for existing user (returns none if no email exists)
+        if user:
+            raise ValidationError('Email is already registered. Please Login.')
+        
+    # Add password validator (make sure enough characters and symbols ect..)
+    
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
