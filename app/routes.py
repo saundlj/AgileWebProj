@@ -2,6 +2,8 @@ from app import flaskApp
 from flask import render_template,redirect, url_for, flash
 from app.forms import CreateAccountForm, LoginForm
 
+# flaskApp.config['SECRET_KEY'] == 'you-will-never-guess'
+
 posts = [
     {
     "title": "Software Engineer",
@@ -24,12 +26,17 @@ posts = [
     }
 ]
 
-@flaskApp.route("/")
+@flaskApp.route("/", methods = ['GET','POST'])
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for('createAccount'))
+        if form.email.data == 'admin@proj.com' and form.password.data == 'admin':
+            flash(f'Successfully Logged In!', 'success')
+            return redirect(url_for('feed'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    
     return render_template("LoginPage.html", form = form, title = 'Login')
 
 @flaskApp.route('/CreateAccount', methods = ['GET','POST'])
@@ -47,6 +54,6 @@ def about():
     return render_template("AboutPage.html")
 
 
-@flaskApp.route("/feed")
+@flaskApp.route("/feed", methods = ['GET', 'POST'])
 def feed():
     return render_template("FeedPage.html", posts = posts, title = 'Feed')
