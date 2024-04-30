@@ -8,6 +8,10 @@ from app import db
 # flask db init
 # flask db migrate
 # flask db upgrade
+# db.create_all()
+
+# INSTRUCTIONS TO CLEAR DATABASE
+# db.drop_all()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
