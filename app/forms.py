@@ -29,7 +29,7 @@ class CreateAccountForm(FlaskForm):
         
     def validate_email(self, email):
 
-        user = User.query.filter_by(func.lower(email.data)).first() #search database for existing user (returns none if no email exists)
+        user = User.query.filter_by(email = func.lower(email.data)).first() #search database for existing user (returns none if no email exists)
         if user:
             raise ValidationError('Email is already registered. Please Login.')
         

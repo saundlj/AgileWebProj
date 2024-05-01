@@ -3,7 +3,7 @@ from flask import render_template,redirect, url_for, flash
 from app.forms import CreateAccountForm, LoginForm
 from app import db
 from app.models import *
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 posts = [
     {
@@ -48,7 +48,6 @@ def login():
 
 @flaskApp.route('/CreateAccount', methods = ['GET','POST'])
 def createAccount():
-
     if current_user.is_authenticated:
         return redirect(url_for('feed'))
     
@@ -70,6 +69,7 @@ def about():
 
 
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
+@login_required # allows only a logged in user to access account page
 def feed():
     return render_template("FeedPage.html", title = 'Feed', posts = posts)
 
@@ -77,3 +77,9 @@ def feed():
 def logout():
     logout_user()
     return redirect(url_for('about'))
+
+@flaskApp.route("/account")
+@login_required # allows only a logged in user to access account page
+def account():
+    profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic)
