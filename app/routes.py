@@ -24,6 +24,16 @@ posts = [
     }
 ]
 
+testProfile = {
+    "Username": "----",
+    "Email": "generic_email@boring_email.com",
+    "Phone Number":"000",
+    "Location": "Perth",
+    "Field": "Computer Science",
+    "Education": "University of Western Australia"
+    }
+
+
 @flaskApp.route("/")
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
@@ -38,6 +48,11 @@ def createAccount():
     if form.validate_on_submit():
         return redirect(url_for('login'))
     return render_template("CreateAccount.html", form = form)
+
+@flaskApp.route("/profile")
+def profile():
+    return render_template("ProfilePage.html", testProfile = testProfile)
+    
 
 #@flaskApp.route("/")
 #def groups():
