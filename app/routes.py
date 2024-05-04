@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash
-from app.forms import CreateAccountForm, LoginForm
+from app.forms import CreateAccountForm, LoginForm, JobForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -64,7 +64,8 @@ def createAccount():
 
 @flaskApp.route('/JobPost', methods = ['GET','POST'])
 def JobPost():
-    return render_template("JobPost.html") # render template so no data lost
+    form = JobForm()
+    return render_template("JobPost.html", form = form) # render template so no data lost
 
 
 @flaskApp.route("/about")
