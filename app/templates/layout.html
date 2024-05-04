@@ -36,8 +36,13 @@
               </div>
               <!-- Navbar Right Side -->
               <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
-                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
+                  <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+                {% else %}
+                  <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+                  <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -45,6 +50,17 @@
     </header>
 
     <div class="container">
+        <!-- Display Flash messages above content -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{category}}">
+                {{message}}
+              </div>
+            {% endfor%}
+          {% endif %}
+        {% endwith %}
+
         {% block content %}{% endblock %}
     </div>
 
