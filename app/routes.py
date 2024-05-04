@@ -62,6 +62,10 @@ def createAccount():
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
+@flaskApp.route('/JobPost', methods = ['GET','POST'])
+def JobPost():
+    return render_template("JobPost.html") # render template so no data lost
+
 
 @flaskApp.route("/about")
 def about():
