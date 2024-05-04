@@ -45,3 +45,4 @@ class LoginForm(FlaskForm):
 class JobForm(FlaskForm):
     jobtitle = StringField('Job Title', validators=[DataRequired()])
     jobdescription = StringField('Job Description', validators=[DataRequired()])
+    submit = SubmitField("Create")
