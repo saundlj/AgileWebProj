@@ -21,6 +21,24 @@ posts = [
     "job_type": "Full-time, Tenure-track",
     "salary": "Commensurate with experience",
     "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
     }
 ]
 
