@@ -99,10 +99,14 @@ body {
   height: max-content;
 }
 
-.feedBox h1{
-  margin-top: 0;
-  margin-bottom: 5px;
-  padding: 15px;
+.feedBox:hover{
+  opacity: 0.8;
+}
+.feedbox h1{
+  padding-bottom: 2px;
+  padding-left: 20px;
+  margin-left: 10px;
+  opacity: 1;
 }
 
 .feedBox p{
@@ -111,4 +115,10 @@ body {
   font-weight: 550;
   padding-bottom: 2px;
   padding-left: 20px;
+  opacity: 1;
+}
+
+.gradient-background {
+  background: linear-gradient(to right, #59C2ff, #1270E3);  /* Initial gradient */
+  transition: background 0.5s ease; /* Smooth transition effect */
 }
