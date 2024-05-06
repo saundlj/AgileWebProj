@@ -1,5 +1,5 @@
 from app import flaskApp
-from flask import render_template,redirect, url_for, flash
+from flask import render_template,redirect, url_for, flash, request
 from app.forms import CreateAccountForm, LoginForm, JobForm
 from app import db
 from app.models import *
@@ -65,6 +65,14 @@ def createAccount():
 @flaskApp.route('/JobPost', methods = ['GET','POST'])
 def JobPost():
     form = JobForm()
+    if form.validate_on_submit():
+        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data)
+        db.session.add(job)
+        db.session.commit()
+        print(request.form)
+
+        flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')
+
     return render_template("JobPost.html", form = form) # render template so no data lost
 
 

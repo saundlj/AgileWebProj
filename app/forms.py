@@ -42,7 +42,10 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField("Login")
 
+
 class JobForm(FlaskForm):
     jobtitle = StringField('Job Title', validators=[DataRequired()])
     jobdescription = TextAreaField('Job Description', validators=[DataRequired()])
+    joblocation = StringField('Job Location', validators=[DataRequired()])
+    jobtype = StringField('Job Type', validators=[DataRequired()])
     submit = SubmitField("Create")
