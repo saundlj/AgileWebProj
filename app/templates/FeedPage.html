@@ -2,10 +2,15 @@
   {% extends "layout.html" %}
   {% block content %}
   <div class="container">
+    
+     <!-- Div for the grid which the feedBox sits in. -->
     <div class="row">
+      <!-- Div for the save button -->
+      
       {% for post in posts %}
       <div class="col-md-auto">
         <div class="affix feedBox">
+          
           <h1>
             {{post.title}}
           </h1>
@@ -14,6 +19,23 @@
           <p><strong>Job Type : </strong>{{post.job_type}}</p>
           <p><strong>Salary : </strong>{{post.salary}}</p>
           <p><strong>Description : </strong>{{post.description}}</p>
+          <div>
+            <button>
+              <a href="{{url_for('about')}}">
+                Like
+              </a>
+            </button>
+            <button>
+              <a href="{{url_for('login')}}">
+                Comment
+              </a>
+            </button>
+            <button>
+              <a href="{{url_for('createAccount')}}">
+                Save
+              </a>  
+            </button>
+          </div>
         </div>
         {% endfor %}
       </div>

@@ -115,3 +115,24 @@ body {
 .site-header:hover{
   background-color: #000000;
 }
+
+
+div button a{
+  margin-right: 20px;
+  margin-left: 20px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: (to left, #2961ed, #792eb3, #d05896);
+
+}
+
+div button:hover{
+  opacity: 0.6;
+}
+
+
+
+.seperator{
+  background-color: #000000;
+  opacity: 0.8;
+}
