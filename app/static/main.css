@@ -5,19 +5,16 @@ body {
   }
   
   h1, h2, h3, h4, h5, h6 {
-    color: #444444;
+    color: #131313;
   }
-  
-  .bg-steel {
-    background-color: #5f788a;
-  }
+
   
   .site-header .navbar-nav .nav-link {
     color: #cbd5db;
   }
   
   .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    color: #000000;
   }
   
   .site-header .navbar-nav .nav-link.active {
@@ -93,11 +90,11 @@ body {
 
 .feedBox{
   background: rgba(255, 255, 255, 0.6);
-  margin-left: 20px;
-  margin-top: 10px;
+  padding: 50px;
   border-radius: 10px;
   border-color: linear-gradient(to right, #2961ed, #792eb3, #d05896);
   height: max-content;
+  margin: 20px;
 }
 
 
