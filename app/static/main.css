@@ -87,7 +87,7 @@ body {
   #about-list {
     list-style-type: circle;
   }
-
+/* To highlight content, i've created a feedBox to seperate that content */
 .feedBox{
   background: rgba(255, 255, 255, 0.6);
   padding: 50px;
@@ -96,7 +96,6 @@ body {
   height: max-content;
   margin: 20px;
 }
-
 
 .feedbox h1{
   padding-bottom: 2px;
@@ -110,4 +109,9 @@ body {
   font-weight: 550;
   padding-bottom: 2px;
   padding-left: 20px;
+}
+
+/* When you hover over the site header it will turn black */
+.site-header:hover{
+  background-color: #000000;
 }
