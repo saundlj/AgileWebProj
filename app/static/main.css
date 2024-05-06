@@ -92,21 +92,19 @@ body {
   }
 
 .feedBox{
-  background-color: rgb(214, 212, 212);
+  background: rgba(255, 255, 255, 0.6);
   margin-left: 20px;
   margin-top: 10px;
   border-radius: 10px;
+  border-color: linear-gradient(to right, #2961ed, #792eb3, #d05896);
   height: max-content;
 }
 
-.feedBox:hover{
-  opacity: 0.8;
-}
+
 .feedbox h1{
   padding-bottom: 2px;
   padding-left: 20px;
   margin-left: 10px;
-  opacity: 1;
 }
 
 .feedBox p{
@@ -115,10 +113,4 @@ body {
   font-weight: 550;
   padding-bottom: 2px;
   padding-left: 20px;
-  opacity: 1;
-}
-
-.gradient-background {
-  background: linear-gradient(to right, #59C2ff, #1270E3);  /* Initial gradient */
-  transition: background 0.5s ease; /* Smooth transition effect */
 }
