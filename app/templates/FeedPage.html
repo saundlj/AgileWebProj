@@ -10,7 +10,6 @@
       {% for post in posts %}
       <div class="col-md-auto">
         <div class="affix feedBox">
-          
           <h1>
             {{post.title}}
           </h1>
@@ -19,7 +18,7 @@
           <p><strong>Job Type : </strong>{{post.job_type}}</p>
           <p><strong>Salary : </strong>{{post.salary}}</p>
           <p><strong>Description : </strong>{{post.description}}</p>
-          <div>
+          <!-- <div>
             <button>
               <a href="{{url_for('about')}}">
                 Like
@@ -35,10 +34,10 @@
                 Save
               </a>  
             </button>
-          </div>
-        </div>
+          </div> -->
+        </div> 
         {% endfor %}
-      </div>
+      </div> 
   </div>
   {% endblock content %}
 
