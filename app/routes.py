@@ -32,18 +32,25 @@ posts = [
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
 
-    if current_user.is_authenticated:
+    if current_user.is_authenticated: #if user is remembered 
         return redirect(url_for('feed'))
     
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and (form.password.data == user.password): # successful login 
-            login_user(user, remember=form.remember.data)
-            flash(f'Successfully Logged In!', 'success')
-            return redirect(url_for('feed'))
-        else:
-            flash('Login Unsuccessful. Please check email and/or password', 'danger')
+        user = User.query.filter_by(email=form.email.data).first() # check email exists 
+        if not user:
+            flash(f"Email entered is not registered. Try creating an account!", 'danger')
+            return render_template("LoginPage.html", form = form, title = 'Login')
+
+        password = form.password.data
+        if not user.check_password(password): # check password for account matches input
+            flash(f'Invalid password. Please try again.', 'danger')
+            return render_template("LoginPage.html", form = form, title = 'Login')
+        
+        login_user(user, remember=form.remember.data)
+        flash(f'Successfully Logged In!', 'success')
+        return redirect(url_for('feed'))
+    
     return render_template("LoginPage.html", form = form, title = 'Login')
 
 @flaskApp.route('/CreateAccount', methods = ['GET','POST'])
@@ -53,8 +60,8 @@ def createAccount():
     
     form = CreateAccountForm()
     if form.validate_on_submit():
-        # hash password?
-        user = User(username=form.username.data, first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password=form.password.data)
+        user = User(username=form.username.data, first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password_hash=form.password.data)
+        user.set_password() # hash password
         db.session.add(user)
         db.session.commit()
         flash(f'Account Successfully Created for {form.username.data}! You are now able to log in', 'success')

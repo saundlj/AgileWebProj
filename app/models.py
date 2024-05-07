@@ -1,6 +1,7 @@
 from typing import List
 from datetime import datetime, timezone
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # import data base mode
 from app import db, login_manager
@@ -14,6 +15,12 @@ from app import db, login_manager
 # INSTRUCTIONS TO CLEAR DATABASE
 # db.drop_all()
 
+# Migrate
+# flask db migrate
+
+# INSRUCTIONS FOR MIGRATING DATABASE WHEN A CHSNGE HAPPENS
+# flask db upgrade
+
 # helps manage user sessions in the backgroud - credit https://www.youtube.com/watch?v=CSHx6eCkmv0&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=6
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,8 +32,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg') #user photo
-    password = db.Column(db.String(60), nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg') 
+    password_hash = db.Column(db.String(128), nullable=False)
     # one to many relationship
     # backref adds author column to Post indicating user
     # lazy lets us look at all posts by a user 
@@ -34,6 +41,12 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
+    
+    def set_password(self):
+        self.password_hash = generate_password_hash(self.password_hash)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
     
 
 class Post(db.Model):
