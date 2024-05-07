@@ -43,6 +43,7 @@ class Post(db.Model):
     location = db.Column(db.String(100), nullable=True)
     job_type = db.Column(db.String(100), nullable=True)
     description = db.Column(db.Text, nullable=True)
+    salary = db.Column(db.Integer, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase becuase referencing column NOT class
     #user_id logic needs to be fixed
 

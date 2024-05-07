@@ -66,7 +66,7 @@ def createAccount():
 def JobPost():
     form = JobForm()
     if form.validate_on_submit():
-        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data)
+        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data)
         db.session.add(job)
         db.session.commit()
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
