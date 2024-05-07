@@ -1,11 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="container">
-        <div class="row justify-content-center"></div>
-            <div class="col-md-4">
-                <h1>Job Seeking got you feeling lost?...Let us be your compass</h1>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
+        <div class="row">
+            <div class="col-md-6">
                 <div class="feedBox">
                     <h1>Login Page</h1>
                     <button id = 'redirect-btn' onclick="location.href='{{ url_for('createAccount') }}'" class = 'btn btn-link btn-sm'>
@@ -22,7 +19,10 @@
                         <input type="submit" value="Login">
                     </form>
                 </div>
-            </div>         
+            </div>  
+            <div class="col-md-6">
+                <h1>Job Seeking got you feeling lost?...Let us be your compass</h1>
+            </div>       
       </div>
     </div>
 {% endblock content %}
