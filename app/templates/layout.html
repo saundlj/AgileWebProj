@@ -18,7 +18,8 @@
     <title> No Title </title>
     {% endif %}
 </head>
-<body style="background: linear-gradient(to left, #2961ed, #792eb3, #d05896); min-height: 100vh;">
+<!-- "background: linear-gradient(to left, #2961ed, #792eb3, #d05896); min-height: 100vh;" -->
+<body style="background-image: url('../static/Background.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center;">
     <!-- Navigation Bar
         Source: https://www.youtube.com/watch?v=QnDWIZuWYW0 -->
     <header class="site-header">
@@ -53,27 +54,5 @@
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- Script for Scroll wheel -->
-    <script>
-      // JavaScript to handle scroll wheel event
-      document.getElementById('container').addEventListener('wheel', function(event) {
-          // Check if the scroll direction is up or down
-          var scrollDirection = event.deltaY > 0 ? 'down' : 'up';
-  
-          // Adjust the scroll distance based on your preference
-          var scrollAmount = 100; // Adjust this value as needed
-  
-          // Scroll up or down based on the scroll direction
-          if (scrollDirection === 'down') {
-              window.scrollBy(0, scrollAmount);
-          } else {
-              window.scrollBy(0, -scrollAmount);
-          }
-  
-          // Prevent default scroll behavior
-          event.preventDefault();
-      });
-  </script>
-    
 </body>
 </html>
