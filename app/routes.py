@@ -69,11 +69,14 @@ def JobPost():
         job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data)
         db.session.add(job)
         db.session.commit()
-        print(request.form)
-
-        flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')
-
+        flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
+
+@flaskApp.route("/feed", methods = ['GET', 'POST'])
+@login_required # allows only a logged in user to access account page
+def feed():
+    job_posts = Post.query.all()
+    return render_template("FeedPage.html", title = 'Feed', job_posts = job_posts)
 
 
 @flaskApp.route("/about")
@@ -81,10 +84,10 @@ def about():
     return render_template("AboutPage.html")
 
 
-@flaskApp.route("/feed", methods = ['GET', 'POST'])
-@login_required # allows only a logged in user to access account page
-def feed():
-    return render_template("FeedPage.html", title = 'Feed', posts = posts)
+#@flaskApp.route("/feed", methods = ['GET', 'POST'])
+#@login_required # allows only a logged in user to access account page
+#def feed():
+#    return render_template("FeedPage.html", title = 'Feed', posts = posts)
 
 @flaskApp.route("/logout")
 def logout():
@@ -96,3 +99,7 @@ def logout():
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic)
+
+
+
+
