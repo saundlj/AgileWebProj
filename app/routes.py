@@ -68,12 +68,12 @@ def login():
         return redirect(url_for('createAccount'))
     return render_template("LoginPage.html",form = form)
 
-@flaskApp.route('/CreateAccount', methods = ['GET','POST'])
+@flaskApp.route('/createAccount', methods = ['GET','POST'])
 def createAccount():
     form = loginReturn()
     if form.validate_on_submit():
         return redirect(url_for('login'))
-    return render_template("CreateAccount.html", form = form)
+    return render_template("createAccount.html", form = form)
 
 #@flaskApp.route("/")
 #def groups():
@@ -92,4 +92,4 @@ def feed():
 def home():
     return render_template("home.html")
 
-    
+
