@@ -87,3 +87,9 @@ def about():
 @flaskApp.route("/feed")
 def feed():
     return render_template("FeedPage.html", posts = posts, title = 'Feed')
+
+@flaskApp.route("/home")
+def home():
+    return render_template("home.html")
+
+    
