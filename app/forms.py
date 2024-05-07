@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
 from app.models import *
 from sqlalchemy import func
@@ -47,6 +47,7 @@ class JobForm(FlaskForm):
     jobtitle = StringField('Job Title', validators=[DataRequired()])
     jobdescription = TextAreaField('Job Description', validators=[DataRequired()])
     joblocation = StringField('Job Location', validators=[DataRequired()])
-    jobtype = StringField('Job Type', validators=[DataRequired()])
+    jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
+    jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
     salary = IntegerField('Job Salary ($AUD)', validators=[DataRequired()])
     submit = SubmitField("Create")
