@@ -24,6 +24,52 @@ posts = [
     "job_type": "Full-time, Tenure-track",
     "salary": "Commensurate with experience",
     "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+    {
+    "title": "Manager",
+    "date_posted": "Sat 4 May, 2024",
+    "company": "BHP",
+    "location": "Perth,WA",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
+    },
+
+    {
+    "title": "University Lecturer in Computer Science",
+    "date_posted": "April 22, 2024",
+    "company": "Tech University",
+    "location": "New York, NY",
+    "job_type": "Full-time, Tenure-track",
+    "salary": "Commensurate with experience",
+    "description": "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities."
     }
 ]
 
@@ -53,7 +99,7 @@ def login():
     
     return render_template("LoginPage.html", form = form, title = 'Login')
 
-@flaskApp.route('/CreateAccount', methods = ['GET','POST'])
+@flaskApp.route('/createAccount', methods = ['GET','POST'])
 def createAccount():
     if current_user.is_authenticated:
         return redirect(url_for('feed'))
@@ -79,6 +125,7 @@ def JobPost():
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
 
+
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def feed():
@@ -91,11 +138,6 @@ def about():
     return render_template("AboutPage.html")
 
 
-#@flaskApp.route("/feed", methods = ['GET', 'POST'])
-#@login_required # allows only a logged in user to access account page
-#def feed():
-#    return render_template("FeedPage.html", title = 'Feed', posts = posts)
-
 @flaskApp.route("/logout")
 def logout():
     logout_user()
@@ -106,7 +148,6 @@ def logout():
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic)
-
 
 
 

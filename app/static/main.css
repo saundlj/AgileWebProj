@@ -5,19 +5,16 @@ body {
   }
   
   h1, h2, h3, h4, h5, h6 {
-    color: #444444;
+    color: #131313;
   }
-  
-  .bg-steel {
-    background-color: #5f788a;
-  }
+
   
   .site-header .navbar-nav .nav-link {
     color: #cbd5db;
   }
   
   .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    color: #000000;
   }
   
   .site-header .navbar-nav .nav-link.active {
@@ -90,3 +87,42 @@ body {
   #about-list {
     list-style-type: circle;
   }
+/* To highlight content, i've created a feedBox to seperate that content */
+.feedBox{
+  background: rgba(255, 255, 255, 0.6);
+  padding: 50px;
+  border-radius: 10px;
+  border-color: linear-gradient(to right, #2961ed, #792eb3, #d05896);
+  height: max-content;
+  margin: 20px;
+  border-color: #000000;
+  border-width: 10;
+}
+
+.feedbox h1{
+  padding-bottom: 2px;
+  padding-left: 20px;
+  margin-left: 10px;
+}
+
+.feedBox p{
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: 550;
+  padding-bottom: 2px;
+  padding-left: 20px;
+}
+
+/* When you hover over the site header it will turn black */
+.site-header:hover{
+  background-color: #000000;
+}
+
+
+.expandable-content{
+  display:none;
+}
+.expandable-content.active{
+  display: block;
+}
+

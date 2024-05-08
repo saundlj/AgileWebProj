@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
+
 {% block content %}
-    <div class="content-section">
-        <h1>Login Page</h1>
+<div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+        <!-- Login Box -->
+        <div class="col-md-6">
+            <div class="feedBox">
+              <h1>Login Page</h1>
 
         <button id = 'redirect-btn' onclick="location.href='{{ url_for('createAccount') }}'" class = 'btn btn-link btn-sm'>
         <span class= "fa fa-pen"></span>    
@@ -56,5 +61,14 @@
                 <a href="#"> Forgot Password?</a>
             </small>
         </form>
+    
+            </div>
+        </div>
+        <!-- Job Seeking Info -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <!-- Job Seeking Info Title -->
+            <h1>Job Seeking got you feeling lost?...Let us be your compass</h1>
+        </div>
     </div>
-{% endblock content %}
+</div>
+{% endblock %}
