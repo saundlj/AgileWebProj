@@ -43,19 +43,33 @@
               </div>
               <!-- Right side of navbar -->
               <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a> <!-- Link to Login page -->
-                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a> <!-- Link to Create Account page -->
+                
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
+                  <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+                {% else %}
+                  <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+                  <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+                {% endif %}
               </div>
             </div>
           </div>
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <div>
-      <div>
+    <div class="container">
+        <!-- Display Flash messages above content -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{category}}">
+                {{message}}
+              </div>
+            {% endfor%}
+          {% endif %}
+        {% endwith %}
+
         {% block content %}{% endblock %} <!-- Placeholder for main content, to be filled by child templates -->
-      </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
