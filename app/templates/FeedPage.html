@@ -1,67 +1,31 @@
-
-  {% extends "layout.html" %}
-  {% block content %}
-  <div class="container">
-    
-     <!-- Div for the grid which the feedBox sits in. -->
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <!-- Grid for displaying posts -->
     <div class="row">
-      <!-- Div for the save button -->
-      
-      {% for post in posts %}
-      <div class="col-md-12">
-        <div class="affix feedBox">
-          
-          <h1>
-            {{post.title}}
-            <span><button onclick="toggleExpand()">
-              <img src="../static/plusIcon.png" alt="" style="width: 24px; height: 20px;"></button>
-            </span>
-          </h1>
-          <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
-          <p><strong>Location :</strong> {{post.location}}</p>
-          <div class="expandable-content" id="expandableContent">
-            <p><strong>Job Type : </strong>{{post.job_type}}</p>
-            <p><strong>Salary : </strong>{{post.salary}}</p>
-            <p><strong>Description : </strong>{{post.description}}</p>
-          </div>
-        </div> 
+        <!-- Loop through each post -->
+        {% for post in posts %}
+        <div class="col-md-12">
+            <div class="affix feedBox">
+                <!-- Post title with expand button -->
+                <h1>
+                    {{post.title}}
+                    <span><button onclick="toggleExpand()">
+                        <img src="../static/plusIcon.png" alt="" style="width: 24px; height: 20px;">
+                    </button></span>
+                </h1>
+                <!-- Metadata -->
+                <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
+                <p><strong>Location :</strong> {{post.location}}</p>
+                <!-- Expandable content section -->
+                <div class="expandable-content" id="expandableContent">
+                    <p><strong>Job Type : </strong>{{post.job_type}}</p>
+                    <p><strong>Salary : </strong>{{post.salary}}</p>
+                    <p><strong>Description : </strong>{{post.description}}</p>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-      </div> 
-  </div>
-  {% endblock content %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-    example code from a blog website... could be worth looking into articles??
-
-    <article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="#">{{ post.author }}</a>
-        <small class="text-muted">{{ post.date_posted }}</small>
-      </div>
-      <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-      <p class="article-content">{{ post.content }}</p>
     </div>
-  </article>
--->
-
+</div>
+{% endblock content %}

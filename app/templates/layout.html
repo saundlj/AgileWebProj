@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
+    <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Font Awesome CDN-->
+    <!-- External CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'main.css')}}">
+
+    <!-- Title -->
     {% if title %}
-    <title> {{title }}</title>
+    <title>{{title}}</title> <!-- Sets the title of the HTML page -->
     {% else %}
-    <title> No Title </title>
+    <title>No Title</title> <!-- Sets default title if none provided -->
     {% endif %}
 </head>
-<!-- "background: linear-gradient(to left, #2961ed, #792eb3, #d05896); min-height: 100vh;" -->
 <body style="background-image: url('../static/Background.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center;">
-    <!-- Navigation Bar
-        Source: https://www.youtube.com/watch?v=QnDWIZuWYW0 -->
+
+    <!-- Navigation Bar -->
     <header class="site-header">
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-md fixed-top navbar-scroll">
           <div class="container">
+            <!-- Brand -->
             <a class="navbar-brand" href="{{url_for('home')}}">
-              <span><strong>Career Compass</strong></span>
+              <span><strong>Career Compass</strong></span> <!-- Logo or site name -->
             </a>
+            <!-- Toggler for mobile -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-icon"></span> <!-- Hamburger icon for mobile -->
             </button>
+            <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navbarToggle">
+              <!-- Left side of navbar -->
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{{url_for('feed')}}">Job Map</a>
-                <a class="nav-item nav-link" href="{{url_for('about')}}">About</a>
+                <a class="nav-item nav-link" href="{{url_for('feed')}}">Job Map</a> <!-- Link to Job Map page -->
+                <a class="nav-item nav-link" href="{{url_for('about')}}">About</a> <!-- Link to About page -->
               </div>
-              <!-- Navbar Right Side -->
+              <!-- Right side of navbar -->
               <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
-                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a> <!-- Link to Login page -->
+                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a> <!-- Link to Create Account page -->
               </div>
             </div>
           </div>
         </nav>
     </header>
 
+    <!-- Main Content -->
     <div>
-        {% block content %}{% endblock %}
+        {% block content %}{% endblock %} <!-- Placeholder for main content, to be filled by child templates -->
     </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Script -->
     <script>
       function toggleExpand() {
         var content = document.getElementById("expandableContent");
-        content.classList.toggle("active");
+        content.classList.toggle("active"); <!-- Toggles the 'active' class on an element with id 'expandableContent' -->
       }
     </script>
 </body>

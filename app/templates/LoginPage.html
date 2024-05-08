@@ -1,28 +1,39 @@
 {% extends "layout.html" %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="feedBox">
-                    <h1>Login Page</h1>
-                    <button id = "redirect-btn" onclick="javascript:location.href='createAccount'" class = 'btn btn-link btn-sm'>
-                    <span class= "fa fa-pen"></span>    
-                    Don't Already Have an Account?</button>
-                    <br>    
-                    <br>
-                    <p id = 'sub-header'>Please enter your account details</p>
-                    <form action="/submit-account-details" method="post">
-                        <label for="username">Username:</label><br>
-                        <input type="text" id="username" name="username" required><br><br>
-                        <label for="password">Password:</label><br>
-                        <input type="password" id="password" name="password" required><br><br>
-                        <input type="submit" value="Login">
-                    </form>
-                </div>
-            </div>  
-            <div class="col-md-6">
-                <h1>Job Seeking got you feeling lost?...Let us be your compass</h1>
-            </div>       
-      </div>
+<div class="container">
+    <div class="row">
+        <!-- Login Box -->
+        <div class="col-md-6">
+            <div class="feedBox">
+                <!-- Login Page Title -->
+                <h1>Login Page</h1>
+                <!-- Button to Redirect to Create Account -->
+                <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-link btn-sm">
+                    <span class="fa fa-pen"></span>
+                    Don't Already Have an Account?
+                </button>
+                <br><br>
+                <!-- Sub-header -->
+                <p id='sub-header'>Please enter your account details</p>
+                <!-- Login Form -->
+                <form action="/submit-account-details" method="post">
+                    <!-- Username Field -->
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" required><br><br>
+                    <!-- Password Field -->
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <!-- Submit Button -->
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+        <!-- Job Seeking Info -->
+        <div class="col-md-6">
+            <!-- Job Seeking Info Title -->
+            <h1>Job Seeking got you feeling lost?...Let us be your compass</h1>
+        </div>
     </div>
-{% endblock content %}
+</div>
+{% endblock %}
