@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
+<div id="result">
+  <!-- Content to be refreshed goes here -->
+  <div class="container">
+
     <!-- Grid for displaying posts -->
     <div class="row">
         <!-- Loop through each post -->
@@ -27,5 +30,7 @@
         </div>
         {% endfor %}
     </div>
+  </div>
 </div>
+
 {% endblock content %}
