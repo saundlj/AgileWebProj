@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
+<button class = 'btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
+    <span class= "fa fa-pen"></span>
+    Create a Job Post</button>
+    <br>
+    <br>
+    {% for post in job_posts %}
+     <h1>
+          {{post.title}}
+      </h1>
+      <p>Posted By {{post.company}} on {{post.date_posted}}</p>
+      <p>Location : {{post.location}}</p>
+      <p>Job Type : {{post.job_type}}</p>
+      <p>Salary ($AUD): {{post.salary}}</p>
+      <p>Description : {{post.description}}</p>
+    {% endfor %}
+
+
 <div id="result">
   <!-- Content to be refreshed goes here -->
   <div class="container">

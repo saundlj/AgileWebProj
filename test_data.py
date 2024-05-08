@@ -37,6 +37,34 @@ post2 = Post(title = 'Software Engineer',
              user_id = 2
              )
 
-db.session.add_all([user1, post1, user2, post2])
+post3 = Post(
+    title = "Software Engineer",
+    location = "San Francisco, CA",
+    job_type = "Full-time",
+    description = "Tech Innovations Inc. is seeking a talented and motivated Software Engineer to join our dynamic team in San Francisco. The successful candidate will be responsible for developing and maintaining high-quality software solutions, participating in the full software development lifecycle, and collaborating with cross-functional teams to deliver innovative products.",
+    salary = 50,
+    user_id = 2
+)
+
+post4 = Post(
+    title = "University Lecturer in Computer Science",
+    location =  "New York, NY",
+    job_type = "Full-time",
+    salary = 90000,
+    description = "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities.",
+    user_id = 2
+)
+
+
+post4 = Post(
+    title = "University Lecturer in Computer Science",
+    location = "New York, NY",
+    job_type =  "Full-time",
+    salary = 50000,
+    description = "Tech University's Department of Computer Science is seeking a dedicated and enthusiastic individual to join our faculty as a full-time, tenure-track University Lecturer. The successful candidate will contribute to the department's mission of providing high-quality education in computer science, conducting research, and engaging in service activities.",
+    user_id = 1
+)
+
+db.session.add_all([user1, post1, user2, post2, post3, post4])
 db.session.commit()
 
