@@ -50,13 +50,15 @@ class User(db.Model, UserMixin):
     
 
 class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc)) # all in one UTC
-    location = db.Column(db.String(100), nullable=False)
-    job_type = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) # lowercase becuase referencing column NOT class
+    id = db.Column(db.Integer, primary_key=True) #replace nulls
+    title = db.Column(db.String(100), nullable=True)
+    date_posted = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc)) # all in one UTC
+    location = db.Column(db.String(100), nullable=True)
+    job_type = db.Column(db.String(100), nullable=True)
+    description = db.Column(db.Text, nullable=True)
+    salary = db.Column(db.Integer, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase becuase referencing column NOT class
+    #user_id logic needs to be fixed
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted})"

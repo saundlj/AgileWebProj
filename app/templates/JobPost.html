@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content">
+        <h1>Create Your Job Post</h1>
+        
+        
+        <p id = 'sub-header'>Enter your job details:</p>
+
+        <form method="POST" action="">
+
+            {{form.hidden_tag()}}
+
+            <fieldset class="form-group">
+                <div class = "form-group">  
+                    {{form.jobtitle.label(class='form-control-label')}}
+
+                    {% if form.jobtitle.errors %}
+                        {{form.jobtitle(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.jobtitle.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.jobtitle(class='form-control')}}
+                    {% endif %}
+                </div>
+
+                <div class = "form-group">  
+                    {{form.jobdescription.label(class='form-control-label')}}
+
+                    {% if form.jobdescription.errors %}
+                        {{form.jobdescription(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.jobdescription.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.jobdescription(class='form-control')}}
+                    {% endif %}
+                </div>
+
+                <div class = "form-group">  
+                    {{form.joblocation.label(class='form-control-label')}}
+
+                    {% if form.joblocation.errors %}
+                        {{form.joblocation(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.joblocation.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.joblocation(class='form-control')}}
+                    {% endif %}
+                </div>
+
+                <div class = "form-group">  
+                    {{form.jobtype.label(class='form-control-label')}}
+
+                    {% if form.jobtype.errors %}
+                        {{form.jobtype(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.jobtype.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.jobtype(class='form-control')}}
+                    {% endif %}
+                </div>
+
+                <div class = "form-group">  
+                    {{form.salary.label(class='form-control-label')}}
+
+                    {% if form.salary.errors %}
+                        {{form.salary(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.salary.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.salary(class='form-control')}}
+                    {% endif %}
+                </div>
+
+            </fieldset>
+            <br>
+            <div class="form-group">
+                {{form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+    </div>
+<br>
+<br>
+<div style="display: inline;">
+    <span class="fa solid fa-star" style="color: gold;"></span>
+    <h2 style="display: inline;">Tips for writing a good job post</h2>
+</div>
+<p>
+    <ul> 
+    <li>Be specific about the job title</li> 
+    <li>Include any prerequiste qualifications</li> 
+    <li>Don't ask for candidates age, religion, gender, etc...</li>
+    </ul> 
+</p>
+{% endblock content %}

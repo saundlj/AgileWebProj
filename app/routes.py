@@ -1,6 +1,6 @@
 from app import flaskApp
-from flask import render_template,redirect, url_for, flash
-from app.forms import CreateAccountForm, LoginForm
+from flask import render_template,redirect, url_for, flash, request
+from app.forms import CreateAccountForm, LoginForm, JobForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -69,16 +69,32 @@ def createAccount():
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
+@flaskApp.route('/JobPost', methods = ['GET','POST'])
+def JobPost():
+    form = JobForm()
+    if form.validate_on_submit():
+        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data)
+        db.session.add(job)
+        db.session.commit()
+        flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
+    return render_template("JobPost.html", form = form) # render template so no data lost
+
+@flaskApp.route("/feed", methods = ['GET', 'POST'])
+@login_required # allows only a logged in user to access account page
+def feed():
+    job_posts = Post.query.all()
+    return render_template("FeedPage.html", title = 'Feed', job_posts = job_posts)
+
 
 @flaskApp.route("/about")
 def about():
     return render_template("AboutPage.html")
 
 
-@flaskApp.route("/feed", methods = ['GET', 'POST'])
-@login_required # allows only a logged in user to access account page
-def feed():
-    return render_template("FeedPage.html", title = 'Feed', posts = posts)
+#@flaskApp.route("/feed", methods = ['GET', 'POST'])
+#@login_required # allows only a logged in user to access account page
+#def feed():
+#    return render_template("FeedPage.html", title = 'Feed', posts = posts)
 
 @flaskApp.route("/logout")
 def logout():
@@ -90,3 +106,7 @@ def logout():
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic)
+
+
+
+
