@@ -62,4 +62,10 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted})"
-    
+
+class Account(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title_apl = db.Column(db.String(100), nullable=True)
+    health = db.Column(db.String(100), nullable=True)
+    earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc))
+    personal_bio = db.Column(db.Text, nullable=True)
