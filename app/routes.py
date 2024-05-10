@@ -10,7 +10,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 def home():
     return render_template("home.html", title = "Home")
 
-
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
 
@@ -88,9 +87,10 @@ def account():
         info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data)
         db.session.add(info)
         db.session.commit()
-        flash('Person biography created successfully')    
-
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form)
+        flash('Person biography created successfully')  
+    user_info = Account.query.filter(Account.user_id == User.id).order_by(Account.id.desc()).first()
+    print(user_info)
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 
 

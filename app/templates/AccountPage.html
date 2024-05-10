@@ -7,6 +7,10 @@
                 <h2 class="account-heading">Username: {{current_user.username}}</h2>
                 <p class="text-secondary">Name: {{current_user.first_name}} {{current_user.last_name}}</p>
                 <p class="text-secondary">Email: {{current_user.email}}</p>
+                <p class="text-secondary">Title: {{user_info.title_apl}}</p>
+                <p class="text-secondary">Health Status: {{user_info.health}}</p>
+                <p class="text-secondary">Earliest Start Date: {{user_info.earliest_start_date}}</p>
+                <p class="text-secondary">Personal Bio: {{user_info.personal_bio}}</p>
             </div>
         </div>
     </div>
@@ -83,11 +87,5 @@
             </div>
         </form>
     </div>
-
-
-
-
-
-
 
 {% endblock content %}
