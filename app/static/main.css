@@ -76,12 +76,10 @@ body {
     font-size: 2.5rem;
   }
 
-  #redirect-btn {
-  border: 1px solid blue; 
-  }
-
   #sub-header {
     font-size: 1.5rem;
+    margin-left: 0px;
+    padding-left: 0px;
     }
   
   #about-list {
@@ -124,4 +122,10 @@ body {
 }
 .expandable-content.active{
   display: block;
+}
+
+.btn{
+  background-color: #428bca;
+  border-color: #428bca;
+  color: black;
 }

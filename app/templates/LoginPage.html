@@ -1,108 +1,99 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+<!-- dynamically rendered (according to screensize) bootstrap container -->
 <div class="container d-flex justify-content-center align-items-center">
+
+    <!-- row in container rendering content centrally-->
     <div class="row d-flex align-items-center justify-content-center">
-        <!-- Login Box -->
+
+        <!-- grouping the 6 left side medium sized columns in the row-->
         <div class="col-md-6">
+
+            <!--rendering of login box within the 6 left hand columns-->
             <div class="feedBox">
-              <h1>Login Page</h1>
 
-              <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-link btn-sm">
-        <span class= "fa fa-pen"></span>    
-        Create an Account</button>
-        <br>    
-        <br>
+                <!--title-->
+                <h1>Login Page</h1>
+                
+                <!-- button to create account page-->
+                <button class="btn btn-sm btn-outline-info" id="redirect-btn" onclick="location.href='createAccount'">
 
-        <p id = 'sub-header'>Please enter your account details</p>
+                    <!-- button label (including a pen icon "fa fa-pen")-->
+                    <span class= "fa fa-pen"></span> Create Account
+                </button>
 
-        <form method="POST" action="">
+                <br>
+                <br>
 
-            {{form.hidden_tag()}}
+                <!--rendering feedbox sub title-->
+                <p id = 'sub-header'>Please enter your account details</p>
 
-            <fieldset class="form-group">
-                <div class = "form-group">  
-                    {{form.email.label(class='form-control-label')}}
-                    {% if form.email.errors %}
-                        {{form.email(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                <!--login form collecting user data -->
+                <form method="POST" action="">
+
+                    <!--WTForms security tokens -->
+                    {{form.hidden_tag()}}
+                    
+                    <!--container for the fields of the login form -->
+                    <fieldset class="form-group">
+
+                        <!--container for the email field -->
+                        <div class = "form-group">  
+                            {{form.email.label(class='form-control-label')}}
+                            {% if form.email.errors %}
+                                {{form.email(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.email(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.email(class='form-control')}}
-                    {% endif %}
-                </div>
-
-                <div class = "form-group">  
-                    {{form.password.label(class='form-control-label')}}
-                    {% if form.password.errors %}
-                        {{form.password(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                        
+                        <!--container for password field -->
+                        <div class = "form-group">  
+                            {{form.password.label(class='form-control-label')}}
+                            {% if form.password.errors %}
+                                {{form.password(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.password(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.password(class='form-control')}}
-                    {% endif %}
-                </div>
+                        
+                        <!-- container for remeber me functionality-->
+                        <div class="form-check">
+                            {{form.remember(class="form-check-input")}}
+                            {{form.remember.label(class="form-check-input-label")}}
+                        </div>
+                    </fieldset>
 
-                <div class="form-check">
-                    {{form.remember(class="form-check-input")}}
-                    {{form.remember.label(class="form-check-input-label")}}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{form.submit(class="btn btn-outline-info")}}
-            </div>
-            <small class="text-muted">
-                <a href="#"> Forgot Password?</a>
-            </small>
-        </form>
-    
+                    <!-- contianer for button which submits users login page -->
+                    <div class="form-group">
+                        {{form.submit(class="btn btn-sm btn-outline-info")}}
+                    </div>
+
+                    <!--link to forgot password page -->
+                    <small class="text-muted">
+                        <a href="#"> Forgot Password?</a>
+                    </small>
+                </form>
             </div>
         </div>
-        <!-- Job Seeking Info -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
-            <!-- Job Seeking Info Title -->
-            <h1 id="randomText">
-                <script>
-                    var textOptions = [
-                        "Job Seeking got you feeling lost?...Let us be your compass",
-                        "Your compass is pointing toward a bright future.",
-                        "Chart your path to success with Career Compass.",
-                        "Find your True North in in your Career Journey.",
-                        "Let us help you navigate the paths to professional success!",
-                        "Empower yourself with informed career choices through our platform!",
-                        "Chart your course to success today and let your career destiny unfold",
-                        "Steer towards your dream job with confidence and guidance",
-                        "Find clarity and direction in your career pursuits with our assistance!",
-                        "Empower Yourself to Make Informed Career Decisions and Shape Your Future!",
-                        "Discover Your Professional North Star and Navigate Your Career Path with Confidence!",
-                        "Chart Your Unique Course to Success and Let Us Illuminate the Way Forward!",
-                        "Empower Your Career Aspirations and Achieve Your Professional Dreams with Us!",
-                        "Uncover Hidden Opportunities and Propel Your Career Forward with Our Support!",
-                        "Forge Your Own Path to Success and Let Us Provide the Tools and Guidance!",
-                        "Empower Your Job Search with Our Platform and Find the Perfect Fit for You!"
-                    ];
-                    // Function to get a random element from the array
-                    function getRandomText() {
-                        return textOptions[Math.floor(Math.random() * textOptions.length)];
-                    }
 
-                    // Function to display random text on refresh
-                    function displayRandomText() {
-                        var randomText = getRandomText();
-                        document.getElementById("randomText").innerText = randomText;
-                    }
+        <!--rendering of job seeking quotes on the right hand side of page-->
+        <div class="col-md-6">
 
-                    // Call the function when the page loads
-                    displayRandomText();
-                </script>
-            </h1>
-            
+            <!-- HTML element to contain job seeking quotes, scripts in LoginPage.js file -->
+            <h1 id="randomText"></h1>
         </div>
     </div>
 </div>

@@ -75,7 +75,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Custom Script -->
+
+    <!-- AJAX refreshing script  -->
     <script>
       $(document).ready(function(){
         // Function to load data initially and at intervals
@@ -98,6 +99,41 @@
         // Set interval to refresh content every 5 seconds (adjust as needed)
         setInterval(refreshContent, 5000); // 5000 milliseconds = 5 seconds
       });
+    </script>
+
+    <!-- script for login page quotes-->
+    <script>
+      var textOptions = [
+          "Job Seeking got you feeling lost?...Let us be your compass",
+          "Your compass is pointing toward a bright future.",
+          "Chart your path to success with Career Compass.",
+          "Find your True North in in your Career Journey.",
+          "Let us help you navigate the paths to professional success!",
+          "Empower yourself with informed career choices through our platform!",
+          "Chart your course to success today and let your career destiny unfold",
+          "Steer towards your dream job with confidence and guidance",
+          "Find clarity and direction in your career pursuits with our assistance!",
+          "Empower Yourself to Make Informed Career Decisions and Shape Your Future!",
+          "Discover Your Professional North Star and Navigate Your Career Path with Confidence!",
+          "Chart Your Unique Course to Success and Let Us Illuminate the Way Forward!",
+          "Empower Your Career Aspirations and Achieve Your Professional Dreams with Us!",
+          "Uncover Hidden Opportunities and Propel Your Career Forward with Our Support!",
+          "Forge Your Own Path to Success and Let Us Provide the Tools and Guidance!",
+          "Empower Your Job Search with Our Platform and Find the Perfect Fit for You!"
+      ];
+      // Function to get a random element from the array
+      function getRandomText() {
+          return textOptions[Math.floor(Math.random() * textOptions.length)];
+      }
+
+      // Function to display random text on refresh
+      function displayRandomText() {
+          var randomText = getRandomText();
+          document.getElementById("randomText").innerText = randomText;
+      }
+
+      // Call the function when the page loads
+      displayRandomText();
     </script>
 </body>
 </html>

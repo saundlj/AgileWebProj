@@ -6,7 +6,7 @@
                 <div class="feedBox">
 
                     <h1>Create your account</h1>
-                    <button id="redirect-btn" onclick="location.href='login'" class="btn btn-link btn-sm">
+                    <button onclick="location.href='login'" class="btn btn-sm btn-outline-info">
                     <span class= "fa fa-pen"></span>
                     Already have an account?</button>
                     <br>    
@@ -105,8 +105,9 @@
                                 {% endif %}
                             </div>
                         </fieldset>
+                        <br>
                         <div class="form-group">
-                            {{form.submit(class="btn btn-outline-info")}}
+                            {{form.submit(class="btn btn-outline-info btn-sm")}}
                         </div>
                     </form>
                     </div>
