@@ -92,7 +92,7 @@ body {
   background: rgba(255, 255, 255, 0.6);
   padding: 50px;
   border-radius: 10px;
-  border-color: linear-gradient(to right, #2961ed, #792eb3, #d05896);
+  border-color: linear-gradient(to left, #2961ed, #792eb3, #d05896);
   height: max-content;
   margin: 20px;
   border-color: #000000;
@@ -134,4 +134,27 @@ footer{
   align-items: center;
 }
 
+/* Custom CSS for scroll-to-top button */
+#scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  z-index: 9999;
+  width: 80px;
+  height: 80px;
+  line-height: 40px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.6);
+  color: #000000;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.4s;
+  font-size: 1.5rem;
+  padding: 10px;
+}
+
+#scroll-to-top:hover {
+  opacity: 0.8;
+}
 
