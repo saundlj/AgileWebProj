@@ -98,16 +98,15 @@
         setInterval(refreshContent, 5000); // 5000 milliseconds = 5 seconds
       });
     </script>
-    <footer class="feedBox">
-      
-      <div class="container text-left">
+    <!-- <footer class="container-fluid p-O">
+      <div class="feedBox">
         <div class="row">
           <div class="col-md-4">
             <h4><strong>Get Started</strong></h4>
             <br>
-            <h5><a href="{{url_for('login')}}"></a>Login</h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('login')}}">Login</a></h5>
             <br>
-            <h5><a href="{{url_for('createAccount')}}"></a>Create Account</h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('createAccount')}}">Create Account</a></h5>
           </div>
           <div class="col-md-4">
             <h4><strong>Connect with us</strong></h4>
@@ -123,7 +122,7 @@
           <div class="col-md-4">
             <h4><strong>Our Why</strong></h4>
             <br>
-            <h5><a href="{{url_for('about')}}"></a>About us</h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('about')}}">About us</a></h5>
             <br>
             <h5>Blog</h5>
             <br>
@@ -131,7 +130,24 @@
             <br>
             <h5>Faqs</h5>
           </div>
-          
+        </div>
+      </div>
+    </footer> -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">
+            <h6><strong>PRIAVACY POLICY</strong></h6>
+          </div>
+          <div class="col-md-2">
+            <h6><strong>TERMS OF USE</strong></h6>
+          </div>
+          <div class="col-md-2">
+            <h6><strong>NEWSLETTER</strong></h6>
+          </div>
+          <div class="col-md-5">
+            <p><strong>COPYRIGHT CareerCompass inc. 2024 ALL RIGHTS RESERVED</strong></p>
+          </div>
         </div>
       </div>
     </footer>
