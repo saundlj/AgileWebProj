@@ -19,8 +19,7 @@
     <title>Career Compass</title> <!-- Sets default title if none provided -->
     {% endif %}
 </head>
-<body style="background-image: url('../static/Background.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center;">
-
+<body style="background-image: url('../static/Backgroundfive.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center; resize: none;">
     <!-- Navigation Bar -->
     <header class="site-header">
         <!-- Navbar -->
@@ -28,7 +27,7 @@
           <div class="container">
             <!-- Brand -->
             <a class="navbar-brand" href="{{url_for('home')}}">
-              <span><strong>Career Compass</strong></span> <!-- Logo or site name -->
+              <span><img src="../static/compass.png" alt="Compass Logo" class="img-fluid" style="max-height: 75px;"></span>
             </a>
             <!-- Toggler for mobile -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,22 +41,27 @@
                 <a class="nav-item nav-link" href="{{url_for('about')}}">About</a> <!-- Link to About page -->
               </div>
               <!-- Right side of navbar -->
-              <div class="navbar-nav">
-                
-                {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
-                  <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
-                {% else %}
-                  <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
-                  <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
-                {% endif %}
-              </div>
+            <div class="navbar-nav">
+              
+              {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
+                <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+              {% endif %}
+            </div>
             </div>
           </div>
         </nav>
     </header>
-
     <div class="container">
+      <div class="container">
+        <button id="scroll-to-top" title="Go to top">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+      </div>
+     
         <!-- Display Flash messages above content -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -71,7 +75,7 @@
 
         {% block content %}{% endblock %} <!-- Placeholder for main content, to be filled by child templates -->
     </div>
-
+    
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
@@ -100,5 +104,77 @@
         setInterval(refreshContent, 5000); // 5000 milliseconds = 5 seconds
       });
     </script>
+    <!-- <footer class="container-fluid p-O">
+      <div class="feedBox">
+        <div class="row">
+          <div class="col-md-4">
+            <h4><strong>Get Started</strong></h4>
+            <br>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('login')}}">Login</a></h5>
+            <br>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('createAccount')}}">Create Account</a></h5>
+          </div>
+          <div class="col-md-4">
+            <h4><strong>Connect with us</strong></h4>
+            <br>
+            <h5>Instagram</h5>
+            <br>
+            <h5>Facebook</h5>
+            <br>
+            <h5>Twitter</h5>
+            <br>
+            <h5>Onlyfans</h5>
+          </div>
+          <div class="col-md-4">
+            <h4><strong>Our Why</strong></h4>
+            <br>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('about')}}">About us</a></h5>
+            <br>
+            <h5>Blog</h5>
+            <br>
+            <h5>Contact us</h5>
+            <br>
+            <h5>Faqs</h5>
+          </div>
+        </div>
+      </div>
+    </footer> -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">
+            <h6><strong>PRIAVACY POLICY</strong></h6>
+          </div>
+          <div class="col-md-2">
+            <h6><strong>TERMS OF USE</strong></h6>
+          </div>
+          <div class="col-md-2">
+            <h6><strong>NEWSLETTER</strong></h6>
+          </div>
+          <div class="col-md-5">
+            <p><strong>COPYRIGHT CareerCompass inc. 2024 ALL RIGHTS RESERVED</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Custom JavaScript for scroll-to-top button -->
+<script>
+  $(document).ready(function() {
+      // Show or hide the scroll-to-top button based on scroll position
+      $(window).scroll(function() {
+          if ($(this).scrollTop() > 100) {
+              $('#scroll-to-top').fadeIn();
+          } else {
+              $('#scroll-to-top').fadeOut();
+          }
+      });
+  
+      // Scroll to top when button is clicked
+      $('#scroll-to-top').click(function() {
+          $('html, body').animate({scrollTop : 0},800);
+          return false;
+      });
+  });
+  </script>
 </body>
 </html>

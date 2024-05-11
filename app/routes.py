@@ -4,6 +4,7 @@ from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
+import time
 
 @flaskApp.route("/", methods = ['GET','POST'])
 @flaskApp.route("/home", methods = ['GET'])
@@ -46,6 +47,8 @@ def createAccount():
         db.session.add(user)
         db.session.commit()
         flash(f'Account Successfully Created for {form.username.data}! You are now able to log in', 'success')
+        time.sleep(5)
+        remove_flash()
         return redirect(url_for('login')) # redirect to login page
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
