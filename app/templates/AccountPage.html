@@ -13,13 +13,14 @@
     <div class="container">
         <!-- Row for profile information and greeting + the profile pic -->
         <div class="row feedBox align-items-center justify-content-center" style="height:100vh;">
-           
+            <!-- Div for the profile information -->
             <div class="col-md-6">
                 <h3>Hi There,</h3>
                 <h1>{{current_user.first_name}} {{current_user.last_name}}</h1>
                 <h3>welcome back,</h3>
-                <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>x
+                <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>
             </div>
+            <!-- Div for the profile pic -->
             <div class="col-md-6">
                 <img class="rounded-circle" src="{{profile_pic}}" alt="Profile pic">
             </div>
@@ -34,7 +35,7 @@
                     <br>{{current_user.email}}</h4>
             </div>
             <div class="col-md-4">
-                <h4 id="kenya-time"><strong>Time in Kenya</strong><br>
+                <h4><strong>Current Time in Kenya</strong><br><span id="kenya-time"></span><br>
                 </h4>
             </div>
         </div>
@@ -47,7 +48,7 @@
           const kenyaTime = new Date().toLocaleString("en-US", {timeZone: "Africa/Nairobi"});
           
           // Update the content of the HTML element with id "kenya-time"
-          document.getElementById("kenya-time").textContent = "Current time in Kenya: " + kenyaTime;
+          document.getElementById("kenya-time").textContent = kenyaTime;
         }
     
         // Call updateTime function initially to display the time immediately
