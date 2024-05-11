@@ -19,7 +19,7 @@
     <title>Career Compass</title> <!-- Sets default title if none provided -->
     {% endif %}
 </head>
-<body style="background-image: url('../static/Backgroundfive.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center;">
+<body style="background-image: url('../static/Backgroundfive.png'); background-size: 100% 100%; background-attachment: fixed; background-position: center; resize: none;">
     <!-- Navigation Bar -->
     <header class="site-header">
         <!-- Navbar -->
@@ -98,9 +98,41 @@
         setInterval(refreshContent, 5000); // 5000 milliseconds = 5 seconds
       });
     </script>
-    <footer>
-      <div class="container">
-        3
+    <footer class="feedBox">
+      
+      <div class="container text-left">
+        <div class="row">
+          <div class="col-md-4">
+            <h4><strong>Get Started</strong></h4>
+            <br>
+            <h5><a href="{{url_for('login')}}"></a>Login</h5>
+            <br>
+            <h5><a href="{{url_for('createAccount')}}"></a>Create Account</h5>
+          </div>
+          <div class="col-md-4">
+            <h4><strong>Connect with us</strong></h4>
+            <br>
+            <h5>Instagram</h5>
+            <br>
+            <h5>Facebook</h5>
+            <br>
+            <h5>Twitter</h5>
+            <br>
+            <h5>Onlyfans</h5>
+          </div>
+          <div class="col-md-4">
+            <h4><strong>Our Why</strong></h4>
+            <br>
+            <h5><a href="{{url_for('about')}}"></a>About us</h5>
+            <br>
+            <h5>Blog</h5>
+            <br>
+            <h5>Contact us</h5>
+            <br>
+            <h5>Faqs</h5>
+          </div>
+          
+        </div>
       </div>
     </footer>
 </body>
