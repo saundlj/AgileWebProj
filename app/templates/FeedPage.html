@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<!-- creating button redirecting user to create job post page-->
 <button class = 'btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
-    <span class= "fa fa-pen"></span>
-    Create a Job Post</button>
-    <br>
+    <!-- adding pen picture to button label-->
+    <span class= "fa fa-pen"></span> Create a Job Post
+</button>
+
+    <!-- <br>
     <br>
     {% for post in job_posts %}
      <h1>
@@ -14,26 +18,42 @@
       <p>Job Type : {{post.job_type}}</p>
       <p>Salary ($AUD): {{post.salary}}</p>
       <p>Description : {{post.description}}</p>
-    {% endfor %}
+    {% endfor %} -->
 
+<br>
 
 <div id="result">
-  <!-- Content to be refreshed goes here -->
+  
+  <!-- creating bootstrap container for job posts -->
   <div class="container">
 
-    <!-- Grid for displaying posts -->
+    <!-- creating a bootstrap row which every post will sit in -->
     <div class="row">
+
         <!-- Loop through each post -->
         {% for post in posts %}
+
+        <!--for each post access all 12 bootstrap columns-->
         <div class="col-md-12">
-            <div class="affix feedBox">
-                <!-- Post title with expand button -->
-                <h1>
-                    {{post.title}}
-                    <span><button onclick="toggleExpand()">
-                        <img src="../static/plusIcon.png" alt="" style="width: 24px; height: 20px;">
-                    </button></span>
+
+            <!-- create a feedbox object -->
+            <div class="feedBox">
+
+                <!-- words for post title -->
+                <h1> {{post.title}}
+
+                    <!-- label for post title and expandable content-->
+                    <span>
+
+                        <!-- stylying button with 3 different selectors -->
+                        <button onclick="toggleExpand()" class = "btn btn-sm btn-outline-info" id = "feed_expand_btn">
+
+                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
+                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
+                        </button>
+                    </span>
                 </h1>
+
                 <!-- Metadata -->
                 <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
                 <p><strong>Location :</strong> {{post.location}}</p>

@@ -129,3 +129,7 @@ body {
   border-color: #428bca;
   color: black;
 }
+
+#feed_expand_btn{
+  margin-top: -9px;
+}
