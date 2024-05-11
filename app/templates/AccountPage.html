@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
+    <!-- <div class="content-section align-items-center justify-content-center">
         <div class="media">
             <img class="rounded-circle account-img" src="{{profile_pic}}">
             <div class="media-body">
@@ -9,5 +9,51 @@
                 <p class="text-secondary">Email: {{current_user.email}}</p>
             </div>
         </div>
+    </div> -->
+    <div class="container">
+        <!-- Row for profile information and greeting + the profile pic -->
+        <div class="row feedBox align-items-center justify-content-center" style="height:100vh;">
+           
+            <div class="col-md-6">
+                <h3>Hi There,</h3>
+                <h1>{{current_user.first_name}} {{current_user.last_name}}</h1>
+                <h3>welcome back,</h3>
+                <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>x
+            </div>
+            <div class="col-md-6">
+                <img class="rounded-circle" src="{{profile_pic}}" alt="Profile pic">
+            </div>
+            <!-- Custom Footer row -->
+            <div class="row">
+            <div class="col-md-4">
+                <h4><strong>Username</strong><br>
+                    {{current_user.username}}</h4>
+            </div>
+            <div class="col-md-4">
+                <h4><strong>Email</strong>
+                    <br>{{current_user.email}}</h4>
+            </div>
+            <div class="col-md-4">
+                <h4 id="kenya-time"><strong>Time in Kenya</strong><br>
+                </h4>
+            </div>
+        </div>
+        </div>
     </div>
+    <script>
+        // Function to update the time every second
+        function updateTime() {
+          // Get the current date and time in Kenya timezone
+          const kenyaTime = new Date().toLocaleString("en-US", {timeZone: "Africa/Nairobi"});
+          
+          // Update the content of the HTML element with id "kenya-time"
+          document.getElementById("kenya-time").textContent = "Current time in Kenya: " + kenyaTime;
+        }
+    
+        // Call updateTime function initially to display the time immediately
+        updateTime();
+    
+        // Update the time every second
+        setInterval(updateTime, 1000);
+      </script>
 {% endblock content %}

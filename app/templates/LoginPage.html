@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center">
-    <div class="row d-flex align-items-center justify-content-center">
+<div class="container d-flex align-items-center justify-content-center" style="height: 100vh">
+    <div class="row">
         <!-- Login Box -->
         <div class="col-md-6">
             <div class="feedBox">
@@ -52,14 +52,15 @@
                 <div class="form-check">
                     {{form.remember(class="form-check-input")}}
                     {{form.remember.label(class="form-check-input-label")}}
+                    <span style="align-content: right;"><small class="text-muted">
+                        <a href="#"> Forgot Password?</a>
+                    </small></span>
                 </div>
             </fieldset>
             <div class="form-group">
                 {{form.submit(class="btn btn-outline-info")}}
             </div>
-            <small class="text-muted">
-                <a href="#"> Forgot Password?</a>
-            </small>
+            
         </form>
     
             </div>
