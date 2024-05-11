@@ -84,12 +84,11 @@ def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     form = ApplyForm()
     if form.validate_on_submit():
-        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data)
+        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
         db.session.add(info)
         db.session.commit()
         flash('Person biography created successfully')  
-    user_info = Account.query.filter(Account.user_id == User.id).order_by(Account.id.desc()).first()
-    print(user_info)
+    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 
