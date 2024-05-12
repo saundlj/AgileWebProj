@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
 from app.models import *
 from sqlalchemy import func
@@ -51,3 +51,13 @@ class JobForm(FlaskForm):
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
     salary = IntegerField('Job Salary ($AUD)', validators=[DataRequired()])
     submit = SubmitField("Create")
+
+
+class ApplyForm(FlaskForm):
+    title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.')]
+    title_apl = SelectField('Preferred Title', choices=title_choices, validators=[DataRequired()])
+    health_choices = [('Physically Able','Physically Able'), ('Not Physically Able','Not Physically Able'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
+    health = SelectField('Health Status', choices=health_choices, validators=[DataRequired()])
+    earliest_start_date = DateField('Earliest Start Date', default=datetime.now(timezone.utc))
+    personal_bio = TextAreaField('Personal Bio', validators=[DataRequired()])
+    submit = SubmitField("Submit")

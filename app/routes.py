@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -10,7 +10,6 @@ import time
 @flaskApp.route("/home", methods = ['GET'])
 def home():
     return render_template("home.html", title = "Home")
-
 
 @flaskApp.route('/login', methods = ['GET','POST'])
 def login():
@@ -82,11 +81,18 @@ def logout():
     logout_user()
     return redirect(url_for('about'))
 
-@flaskApp.route("/account")
+@flaskApp.route("/account", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic)
+    form = ApplyForm()
+    if form.validate_on_submit():
+        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
+        db.session.add(info)
+        db.session.commit()
+        flash('Person biography created successfully')  
+    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 
 
