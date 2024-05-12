@@ -6,20 +6,6 @@
     <!-- adding pen picture to button label-->
     <span class= "fa fa-pen"></span> Create a Job Post
 </button>
-
-    <!-- <br>
-    <br>
-    {% for post in job_posts %}
-     <h1>
-          {{post.title}}
-      </h1>
-      <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-      <p>Location : {{post.location}}</p>
-      <p>Job Type : {{post.job_type}}</p>
-      <p>Salary ($AUD): {{post.salary}}</p>
-      <p>Description : {{post.description}}</p>
-    {% endfor %} -->
-
 <br>
 
 <div id="result">
@@ -46,7 +32,7 @@
                     <span>
 
                         <!-- stylying button with 3 different selectors -->
-                        <button onclick="toggleExpand()" class = "btn btn-sm btn-outline-info" id = "feed_expand_btn">
+                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
 
                             <!-- image of plus icon as defualt "+" rendering inappropriate-->
                             <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
@@ -58,10 +44,12 @@
                 <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
                 <p><strong>Location :</strong> {{post.location}}</p>
                 <!-- Expandable content section -->
-                <div class="expandable-content" id="expandableContent">
+                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
                     <p><strong>Job Type : </strong>{{post.job_type}}</p>
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
+                    <!-- applying for job button-->
+                    <p><button class = 'btn btn-info btn-sm' onclick="applyBox()"> <span class= "fa fa-pen"></span> Apply </button></p>
                 </div>
             </div>
         </div>
@@ -69,5 +57,24 @@
     </div>
   </div>
 </div>
+
+<script>
+    function toggleExpand(id) {
+        // ID for the button which will expand the content
+        let x = document.getElementById(id);
+        
+        // ID for the content to be expanded
+        let y = document.getElementById("expandable_content_" + id.split("_")[2]);
+        console.log(y);
+
+        if (y.style.display === "none") {
+            y.style.display = "block";
+            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        } else {
+            y.style.display = "none";
+            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        }
+    }
+</script>
 
 {% endblock content %}

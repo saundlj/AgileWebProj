@@ -116,20 +116,12 @@ body {
   background-color: #000000;
 }
 
-
-.expandable-content{
-  display:none;
-}
-.expandable-content.active{
-  display: block;
-}
-
 .btn{
   background-color: #428bca;
   border-color: #428bca;
   color: black;
 }
 
-#feed_expand_btn{
-  margin-top: -9px;
+.feed_expand_btn{
+  margin-top: -10px;
 }
