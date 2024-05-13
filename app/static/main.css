@@ -144,3 +144,12 @@ footer{
   opacity: 0.8;
 }
 
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}

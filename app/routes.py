@@ -59,6 +59,9 @@ def JobPost():
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
 
+@flaskApp.route("/posts")
+def posts():
+    return render_template("posts.html")
 
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page

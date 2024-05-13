@@ -16,105 +16,108 @@
     </div> -->
     <div class="container">
         <!-- Row for profile information and greeting + the profile pic -->
-        <div class="row feedBox align-items-center justify-content-center" style="height:100vh;">
-            <!-- Div for the profile information -->
-            <div class="col-md-6">
-                <h3>Hi There,</h3>
-                <h1>{{current_user.first_name}} {{current_user.last_name}}</h1>
-                <h3>welcome back,</h3>
-                <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>
-            </div>
-            <!-- Div for the profile pic -->
-            <div class="col-md-6">
-                <img class="rounded-circle" src="{{profile_pic}}" alt="Profile pic">
-            </div>
-            <!-- Custom Footer row -->
-            <div class="row">
-            <div class="col-md-4">
-                <h4><strong>Username</strong><br>
-                    {{current_user.username}}</h4>
-            </div>
-            <div class="col-md-4">
-                <h4><strong>Email</strong>
-                    <br>{{current_user.email}}</h4>
-            </div>
-            <div class="col-md-4">
-                <h4><strong>Current Time in Kenya</strong><br><span id="kenya-time"></span><br>
-                </h4>
-            </div>
-        </div>
-        <div class="content">
-            <form method="POST" action="">
-    
-                {{form.hidden_tag()}}
-    
-                <fieldset class="form-group">
-                    <div class = "form-group">  
-                        {{form.title_apl.label(class='form-control-label')}}
-    
-                        {% if form.title_apl.errors %}
-                            {{form.title_apl(class="form-control is-invalid")}}
-                            <div class="invalid-feedback">
-                                {% for error in form.title_apl.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{form.title_apl(class='form-control')}}
-                        {% endif %}
-                    </div>
-    
-                    <div class = "form-group">  
-                        {{form.health.label(class='form-control-label')}}
-    
-                        {% if form.health.errors %}
-                            {{form.health(class="form-control is-invalid")}}
-                            <div class="invalid-feedback">
-                                {% for error in form.health.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{form.health(class='form-control')}}
-                        {% endif %}
-                    </div>
-                    
-                    <div class = "form-group">  
-                        {{form.earliest_start_date.label(class='form-control-label')}}
-                        {% if form.earliest_start_date.errors %}
-                            {{form.earliest_start_date(class="form-control is-invalid")}}
-                            <div class="invalid-feedback">
-                                {% for error in form.earliest_start_date.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{form.earliest_start_date(class='form-control')}}
-                        {% endif %}
-                    </div>
-    
-                    <div class = "form-group">  
-                        {{form.personal_bio.label(class='form-control-label')}}
-                        {% if form.personal_bio.errors %}
-                            {{form.personal_bio(class="form-control is-invalid")}}
-                            <div class="invalid-feedback">
-                                {% for error in form.personal_bio.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{form.personal_bio(class='form-control')}}
-                        {% endif %}
-                    </div>
-    
-                </fieldset>
-                <br>
-                <div class="btn-primary form-group">
-                    {{form.submit(class="btn btn-outline-info")}}
+        <div class="feedBox">
+            <div class="row align-items-center justify-content-center" style="height:100vh;">
+                <!-- Div for the profile information -->
+                <div class="col-md-6">
+                    <h3>Hi There,</h3>
+                    <h1>{{current_user.first_name}} {{current_user.last_name}}</h1>
+                    <h3>welcome back,</h3>
+                    <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>
                 </div>
-            </form>
+                <!-- Div for the profile pic -->
+                <div class="col-md-6">
+                    <img class="rounded-circle" src="{{profile_pic}}" alt="Profile pic">
+                </div>
+                <!-- Custom Footer row -->
+                <div class="row">
+                <div class="col-md-4">
+                    <h4><strong>Username</strong><br>
+                        {{current_user.username}}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4><strong>Email</strong>
+                        <br>{{current_user.email}}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4><strong>Current Time in Kenya</strong><br><span id="kenya-time"></span><br>
+                    </h4>
+                </div>
+            </div>
+            <div class="content">
+                <form method="POST" action="">
+        
+                    {{form.hidden_tag()}}
+        
+                    <fieldset class="form-group">
+                        <div class = "form-group">  
+                            {{form.title_apl.label(class='form-control-label')}}
+        
+                            {% if form.title_apl.errors %}
+                                {{form.title_apl(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.title_apl.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.title_apl(class='form-control')}}
+                            {% endif %}
+                        </div>
+        
+                        <div class = "form-group">  
+                            {{form.health.label(class='form-control-label')}}
+        
+                            {% if form.health.errors %}
+                                {{form.health(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.health.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.health(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        
+                        <div class = "form-group">  
+                            {{form.earliest_start_date.label(class='form-control-label')}}
+                            {% if form.earliest_start_date.errors %}
+                                {{form.earliest_start_date(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.earliest_start_date.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.earliest_start_date(class='form-control')}}
+                            {% endif %}
+                        </div>
+        
+                        <div class = "form-group">  
+                            {{form.personal_bio.label(class='form-control-label')}}
+                            {% if form.personal_bio.errors %}
+                                {{form.personal_bio(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.personal_bio.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.personal_bio(class='form-control')}}
+                            {% endif %}
+                        </div>
+        
+                    </fieldset>
+                    <br>
+                    <div class="btn-primary form-group">
+                        {{form.submit(class="btn btn-outline-info")}}
+                    </div>
+                </form>
+            </div>
+            </div>
         </div>
-        </div>
+        
     </div>
 
     
