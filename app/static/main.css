@@ -153,3 +153,14 @@ footer{
   border: 1px solid #ccc;
   padding: 10px;
 }
+
+.submitButton{
+  border-radius: 30px;
+  background: rgba(63,94,251, 0.8);
+  background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
+  border: #000000;
+  height: 40px;
+  width: 200px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
