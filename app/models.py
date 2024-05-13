@@ -40,6 +40,7 @@ class User(db.Model, UserMixin):
     # lazy lets us look at all posts by a user 
     posts = db.relationship('Post', backref='author', lazy=True)
     accounts = db.relationship('Account', backref='author', lazy=True)
+    applications = db.relationship('Application', backref='author', lazy=True)
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
@@ -61,9 +62,11 @@ class Post(db.Model):
     salary = db.Column(db.Integer, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
     #user_id logic needs to be fixed
+    post_fk = db.relationship('Application', backref='authors', lazy=True)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted})"
+    
 
 class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,3 +75,9 @@ class Account(db.Model):
     earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc))
     personal_bio = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
+
+
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)

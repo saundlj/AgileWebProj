@@ -1,5 +1,5 @@
 from app import flaskApp
-from flask import render_template,redirect, url_for, flash, request
+from flask import render_template,redirect, url_for, flash, request, jsonify
 from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
 from app import db
 from app.models import *
@@ -91,4 +91,24 @@ def account():
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 
+@flaskApp.route('/apply', methods=['POST'])
+@login_required
+def apply_for_job():
+    data = request.get_json()
+    job_id = data.get('jobId')
+
+    if not job_id:
+        return jsonify({'error': 'Job ID is missing'}), 400
+
+    # Check if the job ID exists in the database
+    job = Post.query.get(job_id)
+    if not job:
+        return jsonify({'error': 'Job not found'}), 404
+
+    # Create a new application record
+    application = Application(user_id=current_user.id, post_id=job_id)
+    db.session.add(application)
+    db.session.commit()
+
+    return jsonify({'message': 'Application submitted successfully'}), 200
 

@@ -46,11 +46,36 @@
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
                 </div>
+                <div>
+                    <button class="btn btn-success btn-sm" onclick="applyForJob({{ post.id }})">
+                        Apply
+                    </button>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
   </div>
 </div>
+
+<script>
+    function applyForJob(jobId) {
+        fetch('/apply', {
+            method: 'POST',
+            body: JSON.stringify({ jobId: jobId }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert('Applied successfully');
+            } else {
+                alert('Failed to apply');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 {% endblock content %}
