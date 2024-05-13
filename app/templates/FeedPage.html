@@ -6,24 +6,22 @@
   <!-- Content to be refreshed goes here -->
   <div class="container d-flex">
     <div class="row">
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
-            <div class="content">
-                <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
-                    <span class= "fa fa-pen"></span>
-                    Create a Job Post</button>
-                    <br>
-                    <br>
-                    {% for post in job_posts %}
-                     <h1>
-                          {{post.title}}
-                      </h1>
-                      <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-                      <p>Location : {{post.location}}</p>
-                      <p>Job Type : {{post.job_type}}</p>
-                      <p>Salary ($AUD): {{post.salary}}</p>
-                      <p>Description : {{post.description}}</p>
-                    {% endfor %}
-            </div>
+        <div class="content">
+            <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
+                <span class= "fa fa-pen"></span>
+                Create a Job Post</button>
+                <br>
+                <br>
+                {% for post in job_posts %}
+                    <h1>
+                        {{post.title}}
+                    </h1>
+                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
+                    <p>Location : {{post.location}}</p>
+                    <p>Job Type : {{post.job_type}}</p>
+                    <p>Salary ($AUD): {{post.salary}}</p>
+                    <p>Description : {{post.description}}</p>
+                {% endfor %}
         </div>
     </div>
     <!-- Grid for displaying posts -->
