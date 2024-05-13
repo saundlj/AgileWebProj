@@ -28,11 +28,9 @@ def login():
         if not user.check_password(password): # check password for account matches input
             flash(f'Invalid password. Please try again.', 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
-        
         login_user(user, remember=form.remember.data)
         flash(f'Successfully Logged In!', 'success')
         return redirect(url_for('feed'))
-    
     return render_template("LoginPage.html", form = form, title = 'Login')
 
 @flaskApp.route('/createAccount', methods = ['GET','POST'])
@@ -47,8 +45,6 @@ def createAccount():
         db.session.add(user)
         db.session.commit()
         flash(f'Account Successfully Created for {form.username.data}! You are now able to log in', 'success')
-        time.sleep(5)
-        remove_flash()
         return redirect(url_for('login')) # redirect to login page
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
