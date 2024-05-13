@@ -48,8 +48,23 @@
                     <p><strong>Job Type : </strong>{{post.job_type}}</p>
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
+
                     <!-- applying for job button-->
-                    <p><button class = 'btn btn-info btn-sm' onclick="applyBox()"> <span class= "fa fa-pen"></span> Apply </button></p>
+                    <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
+
+                    <!-- application form-->
+                    <div id = "apply_box_{{ loop.index }}" style = "display: none;">
+                        <p><strong>Application</strong></p>
+                        <p>Please write your application in the box below:</p>
+                        <form method = "post">
+                            <!-- text box area -->
+                            <textarea id = "application" name = "application"></textarea>
+                            <br>
+                            <!-- submit and save as draft button -->
+                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-send"></span> Submit</button>
+                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-save"></span> Save as Draft</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,6 +72,24 @@
     </div>
   </div>
 </div>
+
+<script>
+    function applicationExpand(id) {
+        //form id
+        let x = document.getElementById(id);
+
+        // application button ID
+        let y = document.getElementById("apply_btn_" + id.split("_")[2]);
+
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        } else {
+            x.style.display = "none";
+            y.innerHTML = "<i class = 'fa fa-pen'></i> Apply"
+        }
+    }
+</script>
 
 <script>
     function toggleExpand(id) {
