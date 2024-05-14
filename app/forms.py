@@ -47,17 +47,21 @@ class JobForm(FlaskForm):
     jobtitle = StringField('Job Title', validators=[DataRequired()])
     jobdescription = TextAreaField('Job Description', validators=[DataRequired()])
     joblocation = StringField('Job Location', validators=[DataRequired()])
+    #provide choice of job types
     jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
-    salary = IntegerField('Job Salary ($AUD)', validators=[DataRequired()])
+    salary = IntegerField('Hourly Rate ($AUD)', validators=[DataRequired()])
     submit = SubmitField("Create")
 
 
 class ApplyForm(FlaskForm):
-    title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.')]
+    #provide choice of titles to user
+    title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
     title_apl = SelectField('Preferred Title', choices=title_choices, validators=[DataRequired()])
+    #provide choice of health selections
     health_choices = [('Physically Able','Physically Able'), ('Not Physically Able','Not Physically Able'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
     health = SelectField('Health Status', choices=health_choices, validators=[DataRequired()])
+    #default start time to now
     earliest_start_date = DateField('Earliest Start Date', default=datetime.now(timezone.utc))
     personal_bio = TextAreaField('Personal Bio', validators=[DataRequired()])
     submit = SubmitField("Submit")

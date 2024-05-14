@@ -66,7 +66,7 @@
                     <!-- applying for job button-->
                     <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
 
-                    <!-- application form-->
+                        <!-- application form-->
                         <div id = "apply_box_{{ loop.index }}" style = "display: none;">
                             <p><strong>Application</strong></p>
                             <p>What makes you a good candidate?</p>
@@ -103,8 +103,8 @@
                         </div>
 
                     {% else %}   
-                        <p>Applied!</p>    
-
+                        <!-- else show applied -->
+                        <p>Applied!</p>   
                     {% endif %}    
                 </div>
             </div>
