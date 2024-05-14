@@ -1,50 +1,73 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div id="result">
+<br>
+<br>
 
-  <!-- Content to be refreshed goes here -->
-  <div class="container d-flex">
+<!-- creating button redirecting user to create job post page-->
+<button class = 'btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
+    <!-- adding pen picture to button label-->
+    <span class= "fa fa-pen"></span> Create a Job Post
+</button>
+<br>
+
+<div id="result">
+  
+  <!-- creating bootstrap container for job posts -->
+  <div class="container">
+
+    <!-- creating a bootstrap row which every post will sit in -->
     <div class="row">
-        <div class="content">
-            <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
-                <span class= "fa fa-pen"></span>
-                Create a Job Post</button>
-                <br>
-                <br>
-                {% for post in job_posts %}
-                    <h1>
-                        {{post.title}}
-                    </h1>
-                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-                    <p>Location : {{post.location}}</p>
-                    <p>Job Type : {{post.job_type}}</p>
-                    <p>Salary ($AUD): {{post.salary}}</p>
-                    <p>Description : {{post.description}}</p>
-                {% endfor %}
-        </div>
-    </div>
-    <!-- Grid for displaying posts -->
-    <div class="row">
+
         <!-- Loop through each post -->
         {% for post in posts %}
+
+        <!--for each post access all 12 bootstrap columns-->
         <div class="col-md-12">
-            <div class="affix feedBox">
-                <!-- Post title with expand button -->
-                <h1>
-                    {{post.title}}
-                    <span><button onclick="toggleExpand()">
-                        <img src="../static/plusIcon.png" alt="" style="width: 24px; height: 20px;">
-                    </button></span>
+
+            <!-- create a feedbox object -->
+            <div class="feedBox">
+
+                <!-- words for post title -->
+                <h1> {{post.title}}
+
+                    <!-- label for post title and expandable content-->
+                    <span>
+
+                        <!-- stylying button with 3 different selectors -->
+                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
+
+                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
+                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
+                        </button>
+                    </span>
                 </h1>
+
                 <!-- Metadata -->
                 <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
                 <p><strong>Location :</strong> {{post.location}}</p>
                 <!-- Expandable content section -->
-                <div class="expandable-content" id="expandableContent">
+                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
                     <p><strong>Job Type : </strong>{{post.job_type}}</p>
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
+
+                    <!-- applying for job button-->
+                    <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
+
+                    <!-- application form-->
+                    <div id = "apply_box_{{ loop.index }}" style = "display: none;">
+                        <p><strong>Application</strong></p>
+                        <p>Please write your application in the box below:</p>
+                        <form method = "post">
+                            <!-- text box area -->
+                            <textarea id = "application" name = "application"></textarea>
+                            <br>
+                            <!-- submit and save as draft button -->
+                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-send"></span> Submit</button>
+                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-save"></span> Save as Draft</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,5 +75,42 @@
     </div>
   </div>
 </div>
+
+<script>
+    function applicationExpand(id) {
+        //form id
+        let x = document.getElementById(id);
+
+        // application button ID
+        let y = document.getElementById("apply_btn_" + id.split("_")[2]);
+
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        } else {
+            x.style.display = "none";
+            y.innerHTML = "<i class = 'fa fa-pen'></i> Apply"
+        }
+    }
+</script>
+
+<script>
+    function toggleExpand(id) {
+        // ID for the button which will expand the content
+        let x = document.getElementById(id);
+        
+        // ID for the content to be expanded
+        let y = document.getElementById("expandable_content_" + id.split("_")[2]);
+        console.log(y);
+
+        if (y.style.display === "none") {
+            y.style.display = "block";
+            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        } else {
+            y.style.display = "none";
+            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        }
+    }
+</script>
 
 {% endblock content %}
