@@ -65,4 +65,5 @@ class ApplyForm(FlaskForm):
 
 class FeedApplyForm(FlaskForm):
     cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
+    post_id = IntegerField('Post ID')
     submit = SubmitField("Submit")

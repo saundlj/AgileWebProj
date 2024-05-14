@@ -68,19 +68,37 @@
                         <p><strong>Application</strong></p>
                         <p>What makes you a good candidate?</p>
 
+                        <form method="POST" action="">
 
-                        
+                            {{form.hidden_tag()}}
+                            
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
 
-
-
-                        <form method = "post">
-                            <!-- text box area -->
-                            <textarea id = "application" name = "application"></textarea>
+                            <fieldset class="form-group">
+                
+                                <div class = "form-group">  
+                                    {{form.cover_letter.label(class='form-control-label')}}
+                
+                                    {% if form.cover_letter.errors %}
+                                        {{form.cover_letter(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.cover_letter.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.cover_letter(class='form-control')}}
+                                    {% endif %}
+                                </div>
+                
+                            </fieldset>
                             <br>
-                            <!-- submit and save as draft button -->
-                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-send"></span> Submit</button>
-                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-save"></span> Save as Draft</button>
+                            <div class="form-group">
+                                {{form.submit(class="submitButton")}}
+                            </div>
                         </form>
+                        
+                        
                     </div>
                 </div>
             </div>

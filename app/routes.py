@@ -69,8 +69,11 @@ def feed():
     job_posts = Post.query.all()
     form = FeedApplyForm()
     if form.validate_on_submit():
-        application = Application(user_id = current_user.id, post_id = )
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts )
+        application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
+        db.session.add(application)
+        db.session.commit()
+        flash('Successfully Applied') 
+    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form)
 
 
 @flaskApp.route("/about")
