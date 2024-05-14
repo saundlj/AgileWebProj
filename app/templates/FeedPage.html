@@ -60,46 +60,52 @@
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
 
+                    <!-- Checks not already applied for job-->
+                    {% if post.id not in current_applied %}
+
                     <!-- applying for job button-->
                     <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
 
                     <!-- application form-->
-                    <div id = "apply_box_{{ loop.index }}" style = "display: none;">
-                        <p><strong>Application</strong></p>
-                        <p>What makes you a good candidate?</p>
-
-                        <form method="POST" action="">
-
-                            {{form.hidden_tag()}}
+                        <div id = "apply_box_{{ loop.index }}" style = "display: none;">
+                            <p><strong>Application</strong></p>
+                            <p>What makes you a good candidate?</p>
                             
-                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <form method="POST" action="">
 
-                            <fieldset class="form-group">
-                
-                                <div class = "form-group">  
-                                    {{form.cover_letter.label(class='form-control-label')}}
-                
-                                    {% if form.cover_letter.errors %}
-                                        {{form.cover_letter(class="form-control is-invalid")}}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.cover_letter.errors %}
-                                                <span>{{error}}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{form.cover_letter(class='form-control')}}
-                                    {% endif %}
+                                {{form.hidden_tag()}}
+
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                                <fieldset class="form-group">
+                    
+                                    <div class = "form-group">  
+                                        {{form.cover_letter.label(class='form-control-label')}}
+                    
+                                        {% if form.cover_letter.errors %}
+                                            {{form.cover_letter(class="form-control is-invalid")}}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.cover_letter.errors %}
+                                                    <span>{{error}}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{form.cover_letter(class='form-control')}}
+                                        {% endif %}
+                                    </div>
+                    
+                                </fieldset>
+                                <br>
+                                <div class="form-group">
+                                    {{form.submit(class="submitButton")}}
                                 </div>
-                
-                            </fieldset>
-                            <br>
-                            <div class="form-group">
-                                {{form.submit(class="submitButton")}}
-                            </div>
-                        </form>
-                        
-                        
-                    </div>
+                            </form>
+                        </div>
+
+                    {% else %}   
+                        <p>Applied!</p>    
+
+                    {% endif %}    
                 </div>
             </div>
         </div>

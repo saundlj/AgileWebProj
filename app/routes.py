@@ -66,6 +66,12 @@ def posts():
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def feed():
+    
+    current_applied = []
+    for applicant in Application.query.all():
+        if applicant.user_id == current_user.id:
+            current_applied.append(applicant.post_id)
+
     job_posts = Post.query.all()
     form = FeedApplyForm()
     if form.validate_on_submit():
@@ -73,7 +79,8 @@ def feed():
         db.session.add(application)
         db.session.commit()
         flash('Successfully Applied') 
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form)
+        print(current_applied)
+    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied)
 
 
 @flaskApp.route("/about")
