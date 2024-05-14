@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -67,6 +67,9 @@ def posts():
 @login_required # allows only a logged in user to access account page
 def feed():
     job_posts = Post.query.all()
+    form = FeedApplyForm()
+    if form.validate_on_submit():
+        application = Application(user_id = current_user.id, post_id = )
     return render_template("FeedPage.html", title = 'Feed',  posts = job_posts )
 
 

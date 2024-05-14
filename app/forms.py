@@ -61,3 +61,8 @@ class ApplyForm(FlaskForm):
     earliest_start_date = DateField('Earliest Start Date', default=datetime.now(timezone.utc))
     personal_bio = TextAreaField('Personal Bio', validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+
+class FeedApplyForm(FlaskForm):
+    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
+    submit = SubmitField("Submit")

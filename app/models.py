@@ -72,3 +72,9 @@ class Account(db.Model):
     earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc))
     personal_bio = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
+
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    cover_letter = db.Column(db.Text, nullable=True)
