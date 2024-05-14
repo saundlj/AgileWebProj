@@ -1,22 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<br>
-<br>
+<div id="result" style="padding: 50px;">
+    <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
+        <span class= "fa fa-pen"></span>
+        Create a Job Post
+    </button>
+  <!-- Content to be refreshed goes here -->
+  <div class="container d-flex">
+       
+    <div class="row">
+        <div class="content">
+                {% for post in job_posts %}
+                    <h1>
+                        {{post.title}}
+                    </h1>
+                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
+                    <p>Location : {{post.location}}</p>
+                    <p>Job Type : {{post.job_type}}</p>
+                    <p>Salary ($AUD): {{post.salary}}</p>
+                    <p>Description : {{post.description}}</p>
+                {% endfor %}
+        </div>
+    </div>
+    <!-- Grid for displaying posts -->
 
-<!-- creating button redirecting user to create job post page-->
-<button class = 'btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
-    <!-- adding pen picture to button label-->
-    <span class= "fa fa-pen"></span> Create a Job Post
-</button>
-<br>
-
-<div id="result">
-  
-  <!-- creating bootstrap container for job posts -->
-  <div class="container">
-
-    <!-- creating a bootstrap row which every post will sit in -->
     <div class="row">
 
         <!-- Loop through each post -->
