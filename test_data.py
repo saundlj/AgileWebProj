@@ -15,7 +15,7 @@ from app.models import *
 # user.id 
 # User.query.get(1)
 
-user1 = User(username = 'test', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'admin')
+user1 = User(username = 'testing', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'Admin2002')
 
 user1.set_password() # hash password
 
@@ -26,7 +26,7 @@ post1 = Post(title = 'Test Post',
              user_id = 1
              )
 
-user2 = User(username = 'saundlj', first_name = "Luke", last_name = "Saunders", email = "realemail@gmail.com", password_hash = 'admin')
+user2 = User(username = 'saundlj', first_name = "Luke", last_name = "Saunders", email = "realemail@gmail.com", password_hash = 'Admin2002')
 
 user2.set_password() # hash password
 

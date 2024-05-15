@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
     
+    # automatically handles salting
     def set_password(self):
         self.password_hash = generate_password_hash(self.password_hash)
 

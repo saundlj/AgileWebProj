@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Email
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
 from app.models import *
 from sqlalchemy import func
+import string
 
 #write flask forms in python classes below.
 #e.g.
@@ -13,27 +14,48 @@ from sqlalchemy import func
     #submit = SubmitField('Sign In')
 
 class CreateAccountForm(FlaskForm):
+
+    # function to check for the presence of a capital letter
+    def has_capital_letter(form, field):
+        if not any(char.isupper() for char in field.data):
+            raise ValidationError('Password must contain at least one capital letter\n')
+
+    # function to check for the presence of a special character
+    def has_special_character(form, field):
+        special_characters = string.punctuation
+        numbers = string.digits
+        if not any(char in special_characters or char in numbers for char in field.data):
+            raise ValidationError('Password must contain at least one special character or number\n')
+
+
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=50)])
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=50)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=50)])
     email = EmailField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=5, message='Password must be at least 5 characters long'),
+        has_capital_letter,
+        has_special_character
+    ])
     confirm_password = PasswordField('Confirm Password', validators = [DataRequired(), EqualTo('password')]) # repeat password
     submit = SubmitField("Create Account")
 
-    def validate_username(self, username):
+    # Define a function to check for the presence of a capital letter
+   
+    # def validate_username(self, username):
 
-        user = User.query.filter_by(username=username.data).first() #search database for existing user (returns none if no username exists)
-        if user:
-            raise ValidationError('Username is taken. Please choose another!')
+    #     user = User.query.filter_by(username=username.data).first() #search database for existing user (returns none if no username exists)
+    #     if user:
+    #         raise ValidationError('Username is taken. Please choose another!')
         
-    def validate_email(self, email):
+    # def validate_email(self, email):
 
-        user = User.query.filter_by(email = func.lower(email.data)).first() #search database for existing user (returns none if no email exists)
-        if user:
-            raise ValidationError('Email is already registered. Please Login.')
+    #     user = User.query.filter_by(email = func.lower(email.data)).first() #search database for existing user (returns none if no email exists)
+    #     if user:
+    #         raise ValidationError('Email is already registered. Please Login.')
         
-    # Add password validator (make sure enough characters and symbols ect..)
+    # # Add password validator (make sure enough characters and symbols ect..)
     
 
 class LoginForm(FlaskForm):

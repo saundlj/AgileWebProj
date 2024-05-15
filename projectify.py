@@ -1,5 +1,6 @@
-from flask_migrate import Migrate, db
-from app import create_app
+from flask_migrate import Migrate
+from app import create_app, db
+from app.config import DeploymentConfig
 
 if __name__ == '__main__':
     flaskApp = create_app(DeploymentConfig)

@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-md fixed-top navbar-scroll">
           <div class="container">
             <!-- Brand -->
-            <a class="navbar-brand" href="{{url_for('home')}}">
+            <a class="navbar-brand" href="{{url_for('main.home')}}">
               <span><img src="../static/compass.png" alt="Compass Logo" class="img-fluid" style="max-height: 75px;"></span>
             </a>
             <!-- Toggler for mobile -->
@@ -38,18 +38,18 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
               <!-- Left side of navbar -->
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{{url_for('feed')}}">Job Map</a> <!-- Link to Job Map page -->
-                <a class="nav-item nav-link" href="{{url_for('about')}}">About</a> <!-- Link to About page -->
+                <a class="nav-item nav-link" href="{{url_for('main.feed')}}">Job Map</a> <!-- Link to Job Map page -->
+                <a class="nav-item nav-link" href="{{url_for('main.about')}}">About</a> <!-- Link to About page -->
               </div>
               <!-- Right side of navbar -->
             <div class="navbar-nav">
               
               {% if current_user.is_authenticated %}
-              <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
-                <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+              <a class="nav-item nav-link" href="{{url_for('main.account')}}">Account</a>
+                <a class="nav-item nav-link" href="{{url_for('main.logout')}}">Logout</a>
               {% else %}
-                <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
-                <a class="nav-item nav-link" href="{{url_for('createAccount')}}">Create Account</a>
+                <a class="nav-item nav-link" href="{{url_for('main.login')}}">Login</a>
+                <a class="nav-item nav-link" href="{{url_for('main.createAccount')}}">Create Account</a>
               {% endif %}
             </div>
             </div>
@@ -111,9 +111,9 @@
           <div class="col-md-4">
             <h4><strong>Get Started</strong></h4>
             <br>
-            <h5><a style="text-decoration: none; color: black;" href="{{url_for('login')}}">Login</a></h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('main.login')}}">Login</a></h5>
             <br>
-            <h5><a style="text-decoration: none; color: black;" href="{{url_for('createAccount')}}">Create Account</a></h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('main.createAccount')}}">Create Account</a></h5>
           </div>
           <div class="col-md-4">
             <h4><strong>Connect with us</strong></h4>
@@ -129,7 +129,7 @@
           <div class="col-md-4">
             <h4><strong>Our Why</strong></h4>
             <br>
-            <h5><a style="text-decoration: none; color: black;" href="{{url_for('about')}}">About us</a></h5>
+            <h5><a style="text-decoration: none; color: black;" href="{{url_for('main.about')}}">About us</a></h5>
             <br>
             <h5>Blog</h5>
             <br>

@@ -12,10 +12,14 @@ login_manager.login_message_category = 'info'
 def create_app(config):
     flaskApp = Flask(__name__)
     flaskApp.config.from_object(config)
-    
+
+    from app.blueprints import main
+    flaskApp.register_blueprint(main)
+    # db.drop_all()
+    # db.create_all()
     db.init_app(flaskApp) # initalise db 
     login_manager.init_app(flaskApp) # initialise login_manager
     
-
-
-from app import models, routes  
+    return flaskApp
+    
+from app import models

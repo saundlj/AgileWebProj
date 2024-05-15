@@ -1,22 +1,23 @@
-from app import flaskApp
+from app.blueprints import main
 from flask import render_template,redirect, url_for, flash, request
 from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
-from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
 import time
+from app.controllers import NewUserError, new_user
 
-@flaskApp.route("/", methods = ['GET','POST'])
-@flaskApp.route("/home", methods = ['GET'])
+# attatch routes to blueprints and not to flaskApp
+# blueprints can be created ahead of time (no configuration needed) 
+@main.route("/", methods = ['GET','POST'])
+@main.route("/home", methods = ['GET'])
 def home():
     return render_template("home.html", title = "Home")
 
-@flaskApp.route('/login', methods = ['GET','POST'])
+@main.route('/login', methods = ['GET','POST'])
 def login():
 
     if current_user.is_authenticated: #if user is remembered 
-        return redirect(url_for('feed'))
-    
+        return redirect(url_for('main.feed'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first() # check email exists 
@@ -30,26 +31,35 @@ def login():
             return render_template("LoginPage.html", form = form, title = 'Login')
         login_user(user, remember=form.remember.data)
         flash(f'Successfully Logged In!', 'success')
-        return redirect(url_for('feed'))
+        return redirect(url_for('main.feed'))
     return render_template("LoginPage.html", form = form, title = 'Login')
 
-@flaskApp.route('/createAccount', methods = ['GET','POST'])
+@main.route('/createAccount', methods = ['GET','POST'])
 def createAccount():
     if current_user.is_authenticated:
-        return redirect(url_for('feed'))
+        return redirect(url_for('main.feed'))
     
     form = CreateAccountForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password_hash=form.password.data)
+        
+        # error checking and santising of form data
+        try:
+            user = new_user(user)
+        
+        except NewUserError as e:
+            flash(e, 'danger')
+            return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
+        
         user.set_password() # hash password
         db.session.add(user)
         db.session.commit()
-        flash(f'Account Successfully Created for {form.username.data}! You are now able to log in', 'success')
-        return redirect(url_for('login')) # redirect to login page
+        flash(f'Account Successfully Created for {user.username}! You are now able to log in', 'success')
+        return redirect(url_for('main.login')) # redirect to login page
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
-@flaskApp.route('/JobPost', methods = ['GET','POST'])
+@main.route('/JobPost', methods = ['GET','POST'])
 def JobPost():
     form = JobForm()
     if form.validate_on_submit():
@@ -59,28 +69,28 @@ def JobPost():
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
 
-@flaskApp.route("/posts")
+@main.route("/posts")
 def posts():
     return render_template("posts.html")
 
-@flaskApp.route("/feed", methods = ['GET', 'POST'])
+@main.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def feed():
     job_posts = Post.query.all()
     return render_template("FeedPage.html", title = 'Feed',  posts = job_posts )
 
 
-@flaskApp.route("/about")
+@main.route("/about")
 def about():
     return render_template("AboutPage.html")
 
 
-@flaskApp.route("/logout")
+@main.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('about'))
+    return redirect(url_for('main.about'))
 
-@flaskApp.route("/account", methods = ['GET', 'POST'])
+@main.route("/account", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
