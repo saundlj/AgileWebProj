@@ -200,3 +200,8 @@ footer{
 .LoginPageFields{
   margin-bottom: 7px;
 }
+
+#randomText {
+  transition: opacity 3s ease-in-out;
+  opacity: 1; /* Start invisible to fade in on load */
+}
