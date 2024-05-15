@@ -228,3 +228,8 @@ footer{
   color: rgb(21, 0, 255)
 }
 
+.feedBoxSubHeader{
+  font-size: 1.5rem;
+  padding-left: 0px;
+  margin-bottom: 5px;
+}
