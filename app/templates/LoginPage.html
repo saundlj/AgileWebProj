@@ -26,8 +26,8 @@
                     <fieldset class="form-group">
 
                         <!-- form field for email-->
-                        <div class = "form-group">  
-                            {{form.email.label(class='form-control-label')}}
+                        <div class = "form-group LoginPageFields">  
+                            {{form.email.label(class='form-control-label loginPageFieldHeadings')}}
                             {% if form.email.errors %}
                                 {{form.email(class="form-control is-invalid")}}
                                 <div class="invalid-feedback">
@@ -41,8 +41,8 @@
                         </div>
 
                         <!-- form field for password-->
-                        <div class = "form-group">  
-                            {{form.password.label(class='form-control-label')}}
+                        <div class = "form-group LoginPageFields">  
+                            {{form.password.label(class='form-control-label loginPageFieldHeadings')}}
                             {% if form.password.errors %}
                                 {{form.password(class="form-control is-invalid")}}
                                 <div class="invalid-feedback">
@@ -58,7 +58,7 @@
                         <!-- form field for rember password check-->
                         <div class="form-check">
                             {{form.remember(class="form-check-input")}}
-                            {{form.remember.label(class="form-check-input-label")}}
+                            {{form.remember.label(class="form-check-input-label loginPageFieldHeadings")}}
                             <span style="align-content: right;"><small class="text-muted">
                                 <a href="#"> Forgot Password?</a>
                             </small></span>
