@@ -3,69 +3,78 @@
 {% block content %}
 <div class="container d-flex align-items-center justify-content-center" style="height: 100vh">
     <div class="row">
-        <!-- Login Box -->
+        <!-- Login Page Box  rendered on left side fo page-->
         <div class="col-md-6">
             <div class="feedBox feedBoxSwell">
-              <h1>Login Page</h1>
+                <!--Login Page Title-->
+                <h1>Login Page</h1>
 
-              <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-sm">
-        <span class= "fa fa-pen"></span>    
-        Create an Account</button>
-        <br>    
-        <br>
+                <!-- Button redirecting user to login pages-->
+                <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-sm"><span class= "fa fa-pen"></span> Create an Account</button>
 
-        <p id = 'sub-header'>Please enter your account details</p>
+                <br>    
+                <br>
 
-        <form method="POST" action="">
+                <!-- Sub-header -->
+                <p id = 'sub-header'>Please enter your account details</p>
 
-            {{form.hidden_tag()}}
+                <!-- new form which user types login details into-->
+                <form method="POST" action="">
 
-            <fieldset class="form-group">
-                <div class = "form-group">  
-                    {{form.email.label(class='form-control-label')}}
-                    {% if form.email.errors %}
-                        {{form.email(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                    <!-- wtfForms tag to prevent cross site request forgery-->
+                    {{form.hidden_tag()}}
+
+                    <fieldset class="form-group">
+
+                        <!-- form field for email-->
+                        <div class = "form-group">  
+                            {{form.email.label(class='form-control-label')}}
+                            {% if form.email.errors %}
+                                {{form.email(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.email(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.email(class='form-control')}}
-                    {% endif %}
-                </div>
 
-                <div class = "form-group">  
-                    {{form.password.label(class='form-control-label')}}
-                    {% if form.password.errors %}
-                        {{form.password(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                        <!-- form field for password-->
+                        <div class = "form-group">  
+                            {{form.password.label(class='form-control-label')}}
+                            {% if form.password.errors %}
+                                {{form.password(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.password(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.password(class='form-control')}}
-                    {% endif %}
-                </div>
 
-                <div class="form-check">
-                    {{form.remember(class="form-check-input")}}
-                    {{form.remember.label(class="form-check-input-label")}}
-                    <span style="align-content: right;"><small class="text-muted">
-                        <a href="#"> Forgot Password?</a>
-                    </small></span>
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{form.submit(class="submitButton")}}
-            </div>
-            
-        </form>
-    
+                        <!-- form field for rember password check-->
+                        <div class="form-check">
+                            {{form.remember(class="form-check-input")}}
+                            {{form.remember.label(class="form-check-input-label")}}
+                            <span style="align-content: right;"><small class="text-muted">
+                                <a href="#"> Forgot Password?</a>
+                            </small></span>
+                        </div>
+                    </fieldset>
+
+                    <!-- submit login details button-->
+                    <div class="form-group">
+                        {{form.submit(class="submitButton")}}
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- Job Seeking Info -->
+
+        <!-- Job Seeking Info rendered on right side of page  -->
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <!-- Job Seeking Info Title -->
             <h1 id="randomText">
