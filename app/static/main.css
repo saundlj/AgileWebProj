@@ -65,12 +65,19 @@
     font-size: 2.5rem;
   }
 
-  #redirect-btn {
-  border: 1px solid blue; 
+  #LoginPageCreateAccountBtn {
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 
-  #sub-header {
+  #LoginPageSubmitBtn{
+    margin-top: 15px;
+  }
+
+  #LoginPageSubHeader {
     font-size: 1.5rem;
+    padding-left: 0px;
+    margin-bottom: 5px;
     }
   
   #about-list {
@@ -90,11 +97,11 @@
   transition: height 0.3s ease; /* Add smooth transition */
 }
 
-.feedBox.feedPageBox {
+.feedBoxSwell {
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.feedBox.feedPageBox:hover {
+.feedBoxSwell:hover {
   margin: 10px;
   opacity: 0.9;
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
@@ -173,4 +180,28 @@ footer{
   width: 200px;
   font-family: sans-serif;
   font-weight: bold;
+}
+
+.submitButtonSwell{
+  transition: filter 0.5s ease-in-out;
+}
+
+.submitButtonSwell:hover{
+  filter: brightness(170%);
+  transition: filter 0.5s ease-in-out;
+}
+
+.loginPageFieldHeadings{
+  font-size: 1rem;
+  padding-left: 0px;
+  font-weight: 550;
+}
+
+.LoginPageFields{
+  margin-bottom: 7px;
+}
+
+#randomText {
+  transition: opacity 3s ease-in-out;
+  opacity: 1; /* Start invisible to fade in on load */
 }

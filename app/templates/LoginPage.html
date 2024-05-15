@@ -3,69 +3,77 @@
 {% block content %}
 <div class="container d-flex align-items-center justify-content-center" style="height: 100vh">
     <div class="row">
-        <!-- Login Box -->
+        <!-- Login Page Box  rendered on left side fo page-->
         <div class="col-md-6">
-            <div class="feedBox">
-              <h1>Login Page</h1>
+            <div class="feedBox feedBoxSwell">
+                <!--Login Page Title-->
+                <h1>Login Page</h1>
 
-              <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-sm">
-        <span class= "fa fa-pen"></span>    
-        Create an Account</button>
-        <br>    
-        <br>
+                <!-- Button redirecting user to login pages-->
+                <button id="LoginPageCreateAccountBtn" onclick="location.href='createAccount'" class="btn btn-sm submitButton submitButtonSwell">
+                    <span class= "fa fa-pen"></span> Create an Account
+                </button>
 
-        <p id = 'sub-header'>Please enter your account details</p>
+                <!-- Sub-header -->
+                <p id = 'LoginPageSubHeader'>Please enter your account details</p>
 
-        <form method="POST" action="">
+                <!-- new form which user types login details into-->
+                <form method="POST" action="">
 
-            {{form.hidden_tag()}}
+                    <!-- wtfForms tag to prevent cross site request forgery-->
+                    {{form.hidden_tag()}}
 
-            <fieldset class="form-group">
-                <div class = "form-group">  
-                    {{form.email.label(class='form-control-label')}}
-                    {% if form.email.errors %}
-                        {{form.email(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                    <fieldset class="form-group">
+
+                        <!-- form field for email-->
+                        <div class = "form-group LoginPageFields">  
+                            {{form.email.label(class='form-control-label loginPageFieldHeadings')}}
+                            {% if form.email.errors %}
+                                {{form.email(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.email(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.email(class='form-control')}}
-                    {% endif %}
-                </div>
 
-                <div class = "form-group">  
-                    {{form.password.label(class='form-control-label')}}
-                    {% if form.password.errors %}
-                        {{form.password(class="form-control is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                        <!-- form field for password-->
+                        <div class = "form-group LoginPageFields">  
+                            {{form.password.label(class='form-control-label loginPageFieldHeadings')}}
+                            {% if form.password.errors %}
+                                {{form.password(class="form-control is-invalid")}}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password.errors %}
+                                        <span>{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.password(class='form-control')}}
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {{form.password(class='form-control')}}
-                    {% endif %}
-                </div>
 
-                <div class="form-check">
-                    {{form.remember(class="form-check-input")}}
-                    {{form.remember.label(class="form-check-input-label")}}
-                    <span style="align-content: right;"><small class="text-muted">
-                        <a href="#"> Forgot Password?</a>
-                    </small></span>
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{form.submit(class="submitButton")}}
-            </div>
-            
-        </form>
-    
+                        <!-- form field for rember password check-->
+                        <div class="form-check">
+                            {{form.remember(class="form-check-input")}}
+                            {{form.remember.label(class="form-check-input-label loginPageFieldHeadings")}}
+                            <span style="align-content: right;"><small class="text-muted">
+                                <a href="#"> Forgot Password?</a>
+                            </small></span>
+                        </div>
+                    </fieldset>
+
+                    <!-- submit login details button-->
+                    <div class="form-group submitButton submitButtonSwell" id="LoginPageSubmitBtn">
+                        {{form.submit(class="submitButton")}}
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- Job Seeking Info -->
+
+        <!-- Job Seeking Info rendered on right side of page  -->
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <!-- Job Seeking Info Title -->
             <h1 id="randomText">
@@ -74,7 +82,7 @@
                         "Job Seeking got you feeling lost?...Let us be your compass",
                         "Your compass is pointing toward a bright future.",
                         "Chart your path to success with Career Compass.",
-                        "Find your True North in in your Career Journey.",
+                        "Find your True North in your Career Journey.",
                         "Let us help you navigate the paths to professional success!",
                         "Empower yourself with informed career choices through our platform!",
                         "Chart your course to success today and let your career destiny unfold",
@@ -88,22 +96,30 @@
                         "Forge Your Own Path to Success and Let Us Provide the Tools and Guidance!",
                         "Empower Your Job Search with Our Platform and Find the Perfect Fit for You!"
                     ];
-                    // Function to get a random element from the array
+                    
                     function getRandomText() {
                         return textOptions[Math.floor(Math.random() * textOptions.length)];
                     }
-
-                    // Function to display random text on refresh
+                    
                     function displayRandomText() {
-                        var randomText = getRandomText();
-                        document.getElementById("randomText").innerText = randomText;
+                        var textContainer = document.getElementById("randomText");
+                        // Fade out
+                        textContainer.style.opacity = 0;
+                        
+                        // Change text after fade-out is complete, then fade in
+                        setTimeout(function() {
+                            textContainer.innerText = getRandomText();
+                            // Fade in
+                            textContainer.style.opacity = 1;
+                        }, 3000); // 3000 ms for fade-out duration
                     }
-
-                    // Call the function when the page loads
-                    displayRandomText();
+                    
+                    // Initial display and setup interval
+                    document.getElementById("randomText").innerText = getRandomText(); // Initial text without delay
+                    setTimeout(displayRandomText, 8500); // Start the interval after initial display
+                    setInterval(displayRandomText, 8500); // Change text every 8.5 seconds
                 </script>
             </h1>
-            
         </div>
     </div>
 </div>
