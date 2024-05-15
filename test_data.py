@@ -27,37 +27,26 @@ user3.set_password() # hash password
 user4.set_password() # hash password
 user5.set_password() # hash password
 
-[('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
-title = db.Column(db.String(100), nullable=True)
-    date_posted = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc)) # all in one UTC
-    location = db.Column(db.String(100), nullable=True)
-    job_type = db.Column(db.String(100), nullable=True)
-    description = db.Column(db.Text, nullable=True)
-    salary = db.Column(db.Integer, nullable=True)
-    user_id
-
-
-
 post1 = Post(title = 'Gardener',
-             date_posted = datetime.datetime(2024, 5, 13, 7, 47, 48, 223252),
+             date_posted = datetime(2024, 5, 13, 7, 47, 48, 223252),
              location = 'Crawley',
              job_type = 'Casual',
              description = 'Please help me do my gardening',
-             salary = 40
+             salary = 40,
              user_id = 1
              )
 
 post2 = Post(title = 'Carer',
-             date_posted = datetime.datetime(2024, 5, 12, 7, 47, 48, 223252),
+             date_posted = datetime(2024, 5, 12, 7, 47, 48, 223252),
              location = 'Mount Lawley',
              job_type = 'Contract',
              description = 'My elderly mother (80yo) is is need of a carer for the next 2 weeks. No prior experience required. Ideal job for someone studying nursing.',
-             salary = 40
+             salary = 40,
              user_id = 2
              )
 
 post3 = Post(title='Childcare Assistant',
-            date_posted=datetime.datetime(2024, 5, 14, 9, 0, 0),
+            date_posted=datetime(2024, 5, 14, 9, 0, 0),
             location='Fremantle',
             job_type='Casual',
             description='Looking for a responsible individual to assist with childcare at a local daycare center. Must enjoy working with children and have a friendly demeanor.',
@@ -66,7 +55,7 @@ post3 = Post(title='Childcare Assistant',
             )
 
 post4 = Post(title='Community Clean-Up Volunteer',
-            date_posted=datetime.datetime(2024, 5, 15, 14, 15, 0),
+            date_posted=datetime(2024, 5, 15, 14, 15, 0),
             location='Perth CBD',
             job_type='Volunteer',
             description='Join us in our efforts to clean up litter and beautify public spaces in the city. Help make a positive impact on the environment and community!',
@@ -75,7 +64,7 @@ post4 = Post(title='Community Clean-Up Volunteer',
             )
 
 post5 = Post(title='Food Bank Assistant',
-            date_posted=datetime.datetime(2024, 5, 16, 11, 45, 0),
+            date_posted=datetime(2024, 5, 16, 11, 45, 0),
             location='Midland',
             job_type='Volunteer',
             description='Assist with sorting and distributing food donations at a local food bank. Help provide essential support to individuals and families in need.',
@@ -84,7 +73,7 @@ post5 = Post(title='Food Bank Assistant',
             )
 
 post6 = Post(title='Tutoring Opportunity',
-            date_posted=datetime.datetime(2024, 5, 17, 13, 0, 0),
+            date_posted=datetime(2024, 5, 17, 13, 0, 0),
             location='Joondalup',
             job_type='Part-Time',
             description='Seeking a tutor to help high school students with math and science subjects. Must have strong knowledge in the respective subjects and excellent communication skills.',
@@ -93,7 +82,7 @@ post6 = Post(title='Tutoring Opportunity',
             )
 
 post7 = Post(title='Community Event Coordinator',
-            date_posted=datetime.datetime(2024, 5, 18, 16, 30, 0),
+            date_posted=datetime(2024, 5, 18, 16, 30, 0),
             location='Rockingham',
             job_type='Contract',
             description='Coordinate and plan community events and activities for a local neighborhood association. Must be creative, organized, and have experience in event planning.',
@@ -102,7 +91,7 @@ post7 = Post(title='Community Event Coordinator',
             )
 
 post8 = Post(title='Animal Shelter Volunteer',
-            date_posted=datetime.datetime(2024, 5, 19, 10, 0, 0),
+            date_posted=datetime(2024, 5, 19, 10, 0, 0),
             location='Armadale',
             job_type='Volunteer',
             description='Join our team at the local animal shelter and assist with caring for animals, cleaning enclosures, and interacting with visitors. Animal lovers welcome!',
@@ -111,7 +100,7 @@ post8 = Post(title='Animal Shelter Volunteer',
             )
 
 post9 = Post(title='Youth Mentor',
-            date_posted=datetime.datetime(2024, 5, 20, 12, 0, 0),
+            date_posted=datetime(2024, 5, 20, 12, 0, 0),
             location='Canning Vale',
             job_type='Part-Time',
             description='Become a mentor for at-risk youth in the community. Provide guidance, support, and positive role modeling to help young people reach their full potential.',
@@ -120,7 +109,7 @@ post9 = Post(title='Youth Mentor',
             )
 
 post10 = Post(title='Community Garden Coordinator',
-            date_posted=datetime.datetime(2024, 5, 21, 9, 30, 0),
+            date_posted=datetime(2024, 5, 21, 9, 30, 0),
             location='Victoria Park',
             job_type='Part-Time',
             description='Manage and coordinate activities at a local community garden, including planting, maintenance, and organizing workshops. Passion for gardening and community engagement required.',
@@ -129,7 +118,7 @@ post10 = Post(title='Community Garden Coordinator',
             )
 
 post11 = Post(title='Homeless Shelter Volunteer',
-            date_posted=datetime.datetime(2024, 5, 22, 14, 0, 0),
+            date_posted=datetime(2024, 5, 22, 14, 0, 0),
             location='Mandurah',
             job_type='Volunteer',
             description='Volunteer at a homeless shelter and assist with meal preparation, distribution, and providing a supportive environment for shelter residents. Make a difference in the lives of those in need.',
@@ -138,7 +127,7 @@ post11 = Post(title='Homeless Shelter Volunteer',
             )
 
 post12 = Post(title='Environmental Cleanup Crew Member',
-            date_posted=datetime.datetime(2024, 5, 23, 11, 0, 0),
+            date_posted=datetime(2024, 5, 23, 11, 0, 0),
             location='Bunbury',
             job_type='Part-Time',
             description='Join a team dedicated to preserving the environment by participating in clean-up efforts along beaches, parks, and waterways. Help protect natural habitats and wildlife.',

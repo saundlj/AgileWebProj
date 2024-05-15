@@ -48,7 +48,7 @@ class JobForm(FlaskForm):
     jobdescription = TextAreaField('Job Description', validators=[DataRequired()])
     joblocation = StringField('Job Location', validators=[DataRequired()])
     #provide choice of job types
-    jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
+    jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract'), ('Volunteer', 'Volunteer')]
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
     salary = IntegerField('Hourly Rate ($AUD)', validators=[DataRequired()])
     submit = SubmitField("Create")
