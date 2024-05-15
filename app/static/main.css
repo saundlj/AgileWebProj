@@ -221,5 +221,8 @@ footer{
   opacity: 1; /* Start invisible to fade in on load */
 }
 
-
+.colour_change{
+  transition: color 1s ease;
+  color: rgb(21, 0, 255)
+}
 

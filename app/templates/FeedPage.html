@@ -118,7 +118,7 @@
 
                     {% else %}   
                         <!-- else show applied -->
-                        <p id = "application_response_{{loop.index}}" class = application_response></p>   
+                        <p id = "application_response_{{loop.index}}" class = "application_response colour_change"></p>
                     {% endif %}    
                 </div>
             </div>
@@ -178,6 +178,8 @@
             y.style.display = "block";
             x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
             z.innerHTML = getRandomText(textOptions);
+            z.style.fontWeight = "bold";
+            z.style.fontSize = "1.2em";
         } else {
             y.style.display = "none";
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
@@ -193,14 +195,30 @@
 
         // event handler function for each expand button
         expandButtons.forEach(button => {
-            button.addEventListener('click', () => toggleExpand(button.id));
+            button.addEventListener('click', (event) => toggleExpand(button.id));
         });
 
         // event handler function for each application button
         applyButtons.forEach(button => {
-            button.addEventListener('click', () => applicationExpand(button.id));
+            button.addEventListener('click', (event) => applicationExpand(button.id));
         });
     });
+
+    // changing colour of application messages 
+    let textElements = document.querySelectorAll('.application_response');
+
+    textElements.forEach(textElement => {
+        startColorChange(textElement);
+    });
+
+    function startColorChange(textElement) {
+        let colors = ['rgba(63,94,251, 0.8)', 'rgb(132, 31, 255)', 'rgb(21, 0, 255)','rgb(255, 0, 0)'];
+        let index = 0;
+        setInterval(function() {
+            textElement.style.color = colors[index];
+            index = (index + 1) % colors.length;  // Move to the next color
+        }, 3000); 
+    }
 </script>
 
 {% endblock content %}
