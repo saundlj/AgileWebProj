@@ -62,16 +62,6 @@
         </button>
       </div>
      
-        <!-- Display Flash messages above content -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="alert alert-{{category}}">
-                {{message}}
-              </div>
-            {% endfor%}
-          {% endif %}
-        {% endwith %}
 
         {% block content %}{% endblock %} <!-- Placeholder for main content, to be filled by child templates -->
     </div>
