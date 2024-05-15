@@ -90,11 +90,11 @@
   transition: height 0.3s ease; /* Add smooth transition */
 }
 
-.feedBox.feedPageBox {
+.feedBoxSwell {
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.feedBox.feedPageBox:hover {
+.feedBoxSwell:hover {
   margin: 10px;
   opacity: 0.9;
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
