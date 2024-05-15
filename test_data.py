@@ -65,13 +65,14 @@ post4 = Post(
     user_id = 1
 )
 
-db.session.add_all([user1, post1, user2, post2, post3, post4])
-db.session.commit()
 
-def add_test_user_to_db():
+# db.session.add_all([user1, post1, user2, post2, post3, post4])
+# db.session.commit()
+
+def add_test_users_to_db():
     db.session.add_all([user1, post1, user2, post2, post3, post4])
     db.session.commit()
 
-def add_test_post_to_db():
-    db.session.add_all([user1, post1, user2, post2, post3, post4])
-    db.session.commit()
+# def add_test_post_to_db():
+#     db.session.add_all([user1, post1, user2, post2, post3, post4])
+#     db.session.commit()

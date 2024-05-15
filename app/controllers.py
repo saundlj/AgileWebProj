@@ -12,32 +12,34 @@ from app import db
 class NewUserError(Exception):
     pass
 
-def sanitize_input(input_string, name=False):
+def sanitize_input(input_string, name=False, email=False, username=False):
     
     # Remove leading and trailing whitespaces
     sanitized_string = input_string.strip()
     
-    # Remove any potentially harmful characters for usernames
-    sanitized_string = re.sub(r'[^\w\s.-]', '', sanitized_string)
-    
-    # Remove any potentially harmful characters for email addresses
-    sanitized_string = re.sub(r'[^\w\s@.-]', '', sanitized_string)
+    if email:
+        # Remove any potentially harmful characters for email addresses
+        sanitized_string = re.sub(r'[^\w\s@.-]', '', sanitized_string)
 
     if name:
+        # Remove any potentially harmful characters for names
         sanitized_string = re.sub(r'[^a-zA-Z\s-]', '', sanitized_string)
         invalid_characters_found = sanitized_string != input_string
-        sanitized_name = ' '.join(word.capitalize() for word in sanitized_string.split())
+        sanitized_name = ' '.join(word.capitalize() for word in sanitized_string.split()) # capitilise first letter of name 
         return sanitized_name, invalid_characters_found
     
-    else:
-        # Check if the sanitized string is different from the original input
-        invalid_characters_found = sanitized_string != input_string
-        return sanitized_string, invalid_characters_found
+    if username:
+        # Remove any potentially harmful characters for usernames
+        sanitized_string = re.sub(r'[^\w\s.-]', '', sanitized_string)
+
+    # Check if the sanitized string is different from the original input
+    invalid_characters_found = sanitized_string != input_string
+    return sanitized_string, invalid_characters_found
 
 def new_user(new_user):
 
     # username errors
-    new_user.username, invalid_string = sanitize_input(new_user.username)
+    new_user.username, invalid_string = sanitize_input(new_user.username, username=True)
     if invalid_string:
         raise NewUserError("Username contains at least one invalid character. Please remove and try again.")
     
@@ -55,7 +57,7 @@ def new_user(new_user):
         raise NewUserError("Last Name contains at least one invalid character. Please remove and try again.")
     
     # email errors
-    new_user.email, invalid_string = sanitize_input(new_user.email)
+    new_user.email, invalid_string = sanitize_input(new_user.email, email=True)
     if invalid_string:
         raise NewUserError("Email contains at least one invalid character. Please remove and try again.")
     

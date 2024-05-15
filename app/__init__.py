@@ -15,8 +15,8 @@ def create_app(config):
 
     from app.blueprints import main
     flaskApp.register_blueprint(main)
-    # db.drop_all()
-    # db.create_all()
+    # db.drop_all(flaskApp)
+    # db.create_all(flaskApp)
     db.init_app(flaskApp) # initalise db 
     login_manager.init_app(flaskApp) # initialise login_manager
     
