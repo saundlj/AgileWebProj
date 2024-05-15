@@ -23,7 +23,6 @@ def login():
         if not user:
             flash(f"Email entered is not registered. Try creating an account!", 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
-
         password = form.password.data
         if not user.check_password(password): # check password for account matches input
             flash(f'Invalid password. Please try again.', 'danger')
@@ -98,6 +97,7 @@ def logout():
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     form = ApplyForm()
+
     if form.validate_on_submit(): #if from validates
         info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
         db.session.add(info)
@@ -105,7 +105,7 @@ def account():
         flash('Person biography created successfully')  
     #get account info of current user, order descending on id to select most recent addtion to db
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, timezone = timezone)
 
 
 
