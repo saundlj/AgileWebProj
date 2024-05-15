@@ -72,7 +72,7 @@ def feed():
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
         db.session.add(application) #add to db
         db.session.commit()
-        flash('Successfully Applied') 
+        flash('Successfully Applied', 'success') 
         
     current_applied = [] #check applications user has made so far
     for applicant in Application.query.all():
@@ -95,7 +95,7 @@ def logout():
 @flaskApp.route("/account", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def account():
-    profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
+    profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file) # capability for user to edit profile photo 
     form = ApplyForm()
 
     if form.validate_on_submit(): #if from validates
@@ -103,9 +103,14 @@ def account():
         db.session.add(info)
         db.session.commit() #add to db
         flash('Person biography created successfully')  
+
+    num_jobs_applied = Application.query.filter_by(user_id=current_user.id).count()
+    num_jobs_posted = Post.query.filter_by(user_id=current_user.id).count()
+
     #get account info of current user, order descending on id to select most recent addtion to db
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, timezone = timezone)
+
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, num_jobs_applied = num_jobs_applied, num_jobs_posted = num_jobs_posted)
 
 
 
