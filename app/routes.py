@@ -102,7 +102,7 @@ def account():
         info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
         db.session.add(info)
         db.session.commit() #add to db
-        flash('Person biography created successfully')  
+        flash('Person biography created successfully', 'success')  
 
     num_jobs_applied = Application.query.filter_by(user_id=current_user.id).count()
     num_jobs_posted = Post.query.filter_by(user_id=current_user.id).count()
