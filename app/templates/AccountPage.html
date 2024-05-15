@@ -9,7 +9,9 @@
                     <h3>Hi There,</h3>
                     <h1>{{current_user.first_name}} {{current_user.last_name}}</h1>
                     <h3>welcome back,</h3>
-                    <h4>you have applied for <span><em><u>10</u></em></span> jobs</h4>
+                    <h4>you have applied for <span><em><u>{{num_jobs_applied}}</u></em></span> jobs</h4>
+                    <h4>you have posted <span><em><u>{{num_jobs_posted}}</u></em></span> jobs</h4>
+
                 </div>
                 <!-- Div for the profile pic -->
                 <div class="col-md-6">
