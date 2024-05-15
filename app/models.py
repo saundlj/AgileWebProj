@@ -69,6 +69,12 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title_apl = db.Column(db.String(6), nullable=True)
     health = db.Column(db.String(30), nullable=True)
-    earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc))
-    personal_bio = db.Column(db.Text, nullable=True)
+    earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc)) #default to current time
+    personal_bio = db.Column(db.Text, nullable=True) #text field
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
+
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #refrences user table
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False) #references post table
+    cover_letter = db.Column(db.Text, nullable=True) #text field

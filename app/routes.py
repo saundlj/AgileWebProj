@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -23,7 +23,6 @@ def login():
         if not user:
             flash(f"Email entered is not registered. Try creating an account!", 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
-
         password = form.password.data
         if not user.check_password(password): # check password for account matches input
             flash(f'Invalid password. Please try again.', 'danger')
@@ -52,10 +51,10 @@ def createAccount():
 @flaskApp.route('/JobPost', methods = ['GET','POST'])
 def JobPost():
     form = JobForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit(): #validated form
         job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data)
         db.session.add(job)
-        db.session.commit()
+        db.session.commit() #add to db
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
 
@@ -64,10 +63,23 @@ def posts():
     return render_template("posts.html")
 
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
-@login_required # allows only a logged in user to access account page
+@login_required # allows only a logged in user to access feed page
 def feed():
+    
     job_posts = Post.query.all()
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts )
+    form = FeedApplyForm()
+    if form.validate_on_submit(): #validated form
+        application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
+        db.session.add(application) #add to db
+        db.session.commit()
+        flash('Successfully Applied') 
+        
+    current_applied = [] #check applications user has made so far
+    for applicant in Application.query.all():
+        if applicant.user_id == current_user.id:
+            current_applied.append(applicant.post_id)
+
+    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied)
 
 
 @flaskApp.route("/about")
@@ -85,13 +97,15 @@ def logout():
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
     form = ApplyForm()
-    if form.validate_on_submit():
+
+    if form.validate_on_submit(): #if from validates
         info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
         db.session.add(info)
-        db.session.commit()
+        db.session.commit() #add to db
         flash('Person biography created successfully')  
+    #get account info of current user, order descending on id to select most recent addtion to db
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, timezone = timezone)
 
 
 

@@ -1,14 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div id="result" style="padding: 50px;">
-    <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
-        <span class= "fa fa-pen"></span>
-        Create a Job Post
-    </button>
+<div id="container" style="padding-top: 50px;">
+    <div class="row">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+    </div>
+    <div class="row d-flex justify-content-left align-items-left">
+        <div class="col-md-6">
+            <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
+                <span class= "fa fa-pen"></span>
+                Create a Job Post
+            </button>
+        </div>
+        
+    </div>
+</div>
   <!-- Content to be refreshed goes here -->
+  
   <div class="container d-flex">
-       
+    
     <div class="row">
         <div class="content">
                 {% for post in job_posts %}
@@ -34,7 +55,7 @@
         <div class="col-md-12">
 
             <!-- create a feedbox object -->
-            <div class="feedBox">
+            <div class="feedBox feedPageBox">
 
                 <!-- words for post title -->
                 <h1> {{post.title}}
@@ -60,22 +81,52 @@
                     <p><strong>Salary : </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
 
+                    <!-- Checks not already applied for job-->
+                    {% if post.id not in current_applied %}
+
                     <!-- applying for job button-->
                     <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
 
-                    <!-- application form-->
-                    <div id = "apply_box_{{ loop.index }}" style = "display: none;">
-                        <p><strong>Application</strong></p>
-                        <p>Please write your application in the box below:</p>
-                        <form method = "post">
-                            <!-- text box area -->
-                            <textarea id = "application" name = "application"></textarea>
-                            <br>
-                            <!-- submit and save as draft button -->
-                            <button type = "submit" class = "post submitButton" id = apply_submit_btn_{{loop.index}}> <span class = "bi bi-send"></span> Submit</button>
-                            <p id = "application_response_{{ loop.index }}" class = "application_response" style = "display: none;"></p>
-                        </form>
-                    </div>
+                        <!-- application form-->
+                        <div id = "apply_box_{{ loop.index }}" style = "display: none;">
+                            <p><strong>Application</strong></p>
+                            <p>What makes you a good candidate?</p>
+                            
+                            <form method="POST" action="">
+
+                                {{form.hidden_tag()}}
+
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                                <fieldset class="form-group">
+                    
+                                    <div class = "form-group">  
+                                        {{form.cover_letter.label(class='form-control-label')}}
+                    
+                                        {% if form.cover_letter.errors %}
+                                            {{form.cover_letter(class="form-control is-invalid")}}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.cover_letter.errors %}
+                                                    <span>{{error}}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{form.cover_letter(class='form-control')}}
+                                        {% endif %}
+                                    </div>
+                    
+                                </fieldset>
+                                <br>
+                                <div class="form-group">
+                                    {{form.submit(class="submitButton")}}
+                                </div>
+                            </form>
+                        </div>
+
+                    {% else %}   
+                        <!-- else show applied -->
+                        <p>Applied!</p>   
+                    {% endif %}    
                 </div>
             </div>
         </div>
