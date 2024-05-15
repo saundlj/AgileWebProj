@@ -177,9 +177,11 @@ footer{
   background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
   border: #000000;
   height: 40px;
-  width: 200px;
+  width: auto;
   font-family: sans-serif;
   font-weight: bold;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .feed_post_btn{
