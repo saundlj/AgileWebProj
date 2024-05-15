@@ -10,13 +10,12 @@
                 <h1>Login Page</h1>
 
                 <!-- Button redirecting user to login pages-->
-                <button id="redirect-btn" onclick="location.href='createAccount'" class="btn btn-sm"><span class= "fa fa-pen"></span> Create an Account</button>
-
-                <br>    
-                <br>
+                <button id="LoginPageCreateAccountBtn" onclick="location.href='createAccount'" class="btn btn-sm submitButton submitButtonSwell">
+                    <span class= "fa fa-pen"></span> Create an Account
+                </button>
 
                 <!-- Sub-header -->
-                <p id = 'sub-header'>Please enter your account details</p>
+                <p id = 'LoginPageSubHeader'>Please enter your account details</p>
 
                 <!-- new form which user types login details into-->
                 <form method="POST" action="">
@@ -67,7 +66,7 @@
                     </fieldset>
 
                     <!-- submit login details button-->
-                    <div class="form-group">
+                    <div class="form-group submitButton submitButtonSwell" id="LoginPageSubmitBtn">
                         {{form.submit(class="submitButton")}}
                     </div>
                 </form>
