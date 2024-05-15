@@ -73,12 +73,6 @@
   #LoginPageSubmitBtn{
     margin-top: 15px;
   }
-
-  #LoginPageSubHeader {
-    font-size: 1.5rem;
-    padding-left: 0px;
-    margin-bottom: 5px;
-    }
   
   #about-list {
     list-style-type: circle;
@@ -228,7 +222,7 @@ footer{
   color: rgb(21, 0, 255)
 }
 
-.feedBoxSubHeader{
+.feedBox p.feedBoxSubHeader{
   font-size: 1.5rem;
   padding-left: 0px;
   margin-bottom: 5px;
