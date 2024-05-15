@@ -206,7 +206,7 @@ footer{
   transition: filter 0.5s ease-in-out;
 }
 
-.loginPageFieldHeadings{
+.formTextLabel{
   font-size: 1rem;
   padding-left: 0px;
   font-weight: 550;
