@@ -56,19 +56,12 @@
 
             <!-- create a feedbox object -->
             <div class="feedBox feedBoxSwell">
-
                 <!-- words for post title -->
                 <h1> {{post.title}}
-
                     <!-- label for post title and expandable content-->
                     <span>
-
-                        <!-- stylying button with 3 different selectors onclick="toggleExpand('expand_btn_{{ loop.index }}')"-->
-                        <button  class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
-
-                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
-                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
-                        </button>
+                        <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}"> <i class="fas fa-plus fa-xs"></i></button>
                     </span>
                 </h1>
 
@@ -84,15 +77,15 @@
                     <!-- Checks not already applied for job-->
                     {% if post.id not in current_applied %}
 
-                    <!-- applying for job button onclick="applicationExpand('apply_box_{{ loop.index }}')"-->
-                    <p><button class = 'btn btn-info btn-sm apply_btn'  id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
+                    <!-- applying for job button -->
+                    <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> <span> <i class= "fa fa-pen"> </i> Apply </span> </button>
 
                         <!-- application form-->
                         <div id = "apply_box_{{ loop.index }}" style = "display: none;">
                             <p><strong>Application</strong></p>
                             <p>What makes you a good candidate?</p>
                             
-                            <form method="POST" action="">
+                            <form method="POST" action="" class="feedApplyForm">
 
                                 {{form.hidden_tag()}}
 
@@ -118,7 +111,7 @@
                                 </fieldset>
                                 <br>
                                 <div class="form-group">
-                                    {{form.submit(class="submitButton")}}
+                                    {{form.submit(class="submitButton btnSwell")}}
                                 </div>
                             </form>
                         </div>
@@ -156,9 +149,6 @@
     }
 
     function applicationExpand(id) {
-        // Prevent the form from submitting
-        event.preventDefault();
-
         //form id
         let x = document.getElementById("apply_box_" +id.split("_")[2]);
 
@@ -167,17 +157,14 @@
 
         if (x.style.display === "none") {
             x.style.display = "block";
-            y.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
         } else {
             x.style.display = "none";
-            y.innerHTML = "<i class = 'fa fa-pen'></i> Apply"
+            y.innerHTML = '<span> <i class= "fa fa-pen"> </i> Apply </span>';
         }
     }
 
     function toggleExpand(id) {
-        // Prevent the form from submitting
-        event.preventDefault();
-
         // ID for the button which will expand the content
         let x = document.getElementById(id);
         
@@ -189,11 +176,11 @@
 
         if (y.style.display === "none") {
             y.style.display = "block";
-            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
             z.innerHTML = getRandomText(textOptions);
         } else {
             y.style.display = "none";
-            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
 
@@ -202,16 +189,16 @@
         // Select all submit buttons correctly
         const expandButtons = document.querySelectorAll('.feed_expand_btn');
         // selecting all application buttons
-        const applyButtons = document.querySelectorAll('.apply_btn');
+        const applyButtons = document.querySelectorAll('.feed_apply_btn');
 
         // event handler function for each expand button
         expandButtons.forEach(button => {
-            button.addEventListener('click', (event) => toggleExpand(button.id));
+            button.addEventListener('click', () => toggleExpand(button.id));
         });
 
         // event handler function for each application button
         applyButtons.forEach(button => {
-            button.addEventListener('click', (event) => applicationExpand(button.id));
+            button.addEventListener('click', () => applicationExpand(button.id));
         });
     });
 </script>

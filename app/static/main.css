@@ -182,11 +182,26 @@ footer{
   font-weight: bold;
 }
 
-.submitButtonSwell{
+.feed_post_btn{
+  border-radius: 10px;
+  background: rgba(63,94,251, 0.8);
+  background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
+  border: #000000;
+  height: 36px;
+  width: auto;
+  margin-bottom: +7px;
+  margin-left: +16px;
+}
+
+.feedApplyForm{
+  margin-left: +17px;
+}
+
+.btnSwell{
   transition: filter 0.5s ease-in-out;
 }
 
-.submitButtonSwell:hover{
+.btnSwell:hover{
   filter: brightness(170%);
   transition: filter 0.5s ease-in-out;
 }
@@ -205,3 +220,6 @@ footer{
   transition: opacity 3s ease-in-out;
   opacity: 1; /* Start invisible to fade in on load */
 }
+
+
+
