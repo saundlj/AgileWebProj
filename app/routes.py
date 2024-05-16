@@ -130,3 +130,4 @@ def myposts():
         applicant_info.append([applicant, account_info, user_info]) 
         #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info)
+

@@ -1,86 +1,85 @@
+/* Set color for heading elements */
+h1, h2, h3, h4, h5, h6 {
+  color: #131313;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    color: #131313;
-  }
+/* Style for navbar links */
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+  font-size: 23px;
+  font-weight: bold;
+}
 
-  
-  .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
-    font-size: 23px;
-    font-weight: bold;
-  }
-  
+/* Style for active navbar link */
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
 
-  .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-  }
-  
-  /* .content-section {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  } */
-  
-  .article-title {
-    color: #444444;
-  }
-  
-  a.article-title:hover {
-    color: #428bca;
-    text-decoration: none;
-  }
-  
-  .article-content {
-    white-space: pre-line;
-  }
-  
-  .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-  
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-  
+/* Style for article titles */
+.article-title {
+  color: #444444;
+}
 
-  
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
-  }
+/* Style for article title on hover */
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
 
-  .CreateAccountLoginSwitchBtn{
+/* Style for article content */
+.article-content {
+  white-space: pre-line;
+}
+
+/* Style for article image */
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+/* Style for article metadata */
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+/* Style for SVG icons in articles */
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+
+.CreateAccountLoginSwitchBtn{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.CreateAccountLoginSubmitBtn{
     margin-top: 15px;
-    margin-bottom: 15px;
-  }
+}
+/* Style for user account image */
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
 
-  .CreateAccountLoginSubmitBtn{
-    margin-top: 15px;
-  }
-  
-  #about-list {
-    list-style-type: circle;
-  }
-/* To highlight content, i've created a feedBox to seperate that content */
-.feedBox{
+/* Style for account heading */
+.account-heading {
+  font-size: 2.5rem;
+}
+/* Style for unordered list */
+#about-list {
+  list-style-type: circle;
+}
+
+/* Style for feed box */
+.feedBox {
   background: rgba(255, 255, 255, 0.6);
   padding: 50px;
   border-radius: 10px;
@@ -93,6 +92,7 @@
   transition: height 0.3s ease; /* Add smooth transition */
 }
 
+/* Style for expanding feed box on hover */
 .feedBoxSwell {
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
@@ -103,13 +103,15 @@
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.feedbox h1{
+/* Style for heading in feed box */
+.feedbox h1 {
   padding-bottom: 2px;
   padding-left: 20px;
   margin-left: 10px;
 }
 
-.feedBox p{
+/* Style for paragraph in feed box */
+.feedBox p {
   margin-top: 0;
   font-size: 16px;
   font-weight: 550;
@@ -117,15 +119,17 @@
   padding-left: 20px;
 }
 
-
-.expandable-content{
-  display:none;
+/* Style for expandable content */
+.expandable-content {
+  display: none;
 }
-.expandable-content.active{
+
+.expandable-content.active {
   display: block;
 }
 
-footer{
+/* Style for footer */
+footer {
   padding: 20px 0;
   text-align: center;
   justify-content: center;
@@ -133,7 +137,7 @@ footer{
   align-items: center;
 }
 
-/* Custom CSS for scroll-to-top button */
+/* Style for scroll-to-top button */
 #scroll-to-top {
   position: fixed;
   bottom: 20px;
@@ -157,6 +161,7 @@ footer{
   opacity: 0.8;
 }
 
+/* Style for flash messages */
 .flash-messages {
   position: fixed;
   top: 20px;
@@ -167,9 +172,10 @@ footer{
   padding: 10px;
 }
 
-.submitButton{
+/* Style for submit button */
+.submitButton {
   border-radius: 30px;
-  background: rgba(63,94,251, 0.8);
+  background: rgba(63, 94, 251, 0.8);
   background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
   border: #000000;
   height: 40px;
@@ -180,9 +186,10 @@ footer{
   padding-right: 20px;
 }
 
-.feed_post_btn{
+/* Style for post button in feed */
+.feed_post_btn {
   border-radius: 10px;
-  background: rgba(63,94,251, 0.8);
+  background: rgba(63, 94, 251, 0.8);
   background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
   border: #000000;
   height: 36px;
@@ -191,15 +198,17 @@ footer{
   margin-left: +16px;
 }
 
-.feedApplyForm{
+/* Style for apply form in feed */
+.feedApplyForm {
   margin-left: +17px;
 }
 
-.btnSwell{
+/* Style for button hover effect */
+.btnSwell {
   transition: filter 0.5s ease-in-out;
 }
 
-.btnSwell:hover{
+.btnSwell:hover {
   filter: brightness(170%);
   transition: filter 0.5s ease-in-out;
 }
@@ -210,20 +219,23 @@ footer{
   font-weight: 550;
 }
 
-.LoginPageFields{
+/* Style for login page fields */
+.LoginPageFields {
   margin-bottom: 7px;
 }
 
+/* Animation for opacity change */
 #randomText {
   transition: opacity 3s ease-in-out;
   opacity: 1; /* Start invisible to fade in on load */
 }
 
-.colour_change{
+/* Color change transition */
+.colour_change {
   transition: color 1s ease;
-  color: rgb(21, 0, 255)
+  color: rgb(21, 0, 255);
 }
-
+  
 .feedBox p.feedBoxSubHeader{
   font-size: 1.5rem;
   padding-left: 0px;
