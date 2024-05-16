@@ -2,22 +2,20 @@
 {% block content %}
 
   <!-- Content to be refreshed goes here -->
-  
-  <div class="container d-flex justify-content-center align-items-center" style="height:60vh">
-    <div class="row d-flex justify-content-left align-items-left">
-        <div class="col-md-12">
-            <h1> My Job Posts </h1>
-        </div>
-        <div class="col-md-12">
-            <button class='btn btn-info btn-sm submitButton' onclick="location.href='/JobPost'">
-                <span class= "fa fa-pen"></span>
-                Create a Job Post
-            </button>
-        </div>  
-        
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col-md-12">
+        <h1> My Job Posts </h1>
     </div>
-    <div class="row">
-
+    <div class="col-md-12">
+        <button class='btn btn-info btn-sm submitButton' onclick="location.href='/JobPost'">
+            <span class= "fa fa-pen"></span>
+            Create a Job Post
+        </button>
+    </div>  
+</div>
+  <div class="container d-flex justify-content-center align-items-center">
+    
+    <div class="row" style="overflow-wrap: normal;">
         <!-- Loop through each post -->
         {% for post in user_posts %}
 
