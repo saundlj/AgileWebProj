@@ -90,6 +90,7 @@ a.article-title:hover {
   border-width: 10;
   display: flexbox;
   transition: height 0.3s ease; /* Add smooth transition */
+  overflow-wrap: normal;
 }
 
 /* Style for expanding feed box on hover */
