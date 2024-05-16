@@ -48,6 +48,7 @@
                 <p><strong> {{ post.date_posted }}</strong> </p>
                 <!-- Expandable content section -->
                 <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
+                    <p><strong> Applicants:</strong> </p>
                     {% for applicant in applicant_info %}
                         {% if applicant[0].post_id == post.id %}
                             <div style="display: inline-flex;">
