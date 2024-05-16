@@ -3,15 +3,12 @@
     <div class="content d-flex align-items-center justify-content-center" style="height: 100vh;">
         <div class="row">
             <div class="col-md-6">
-                <div class="feedBox">
+                <div class="feedBox feedBoxSwell">
                     <h1>Create your account</h1>
-                    <button id="redirect-btn" onclick="location.href='{{LoginPage}}'" class="btn btn-sm">
-                    <span class= "fa fa-pen"></span>
-                    Already have an account?</button>
-                    <br>    
-                    <br>
-                    
-                    <p id = 'sub-header'>Please enter your account details</p>
+                    <button id="redirect-btn" onclick="location.href='{{ url_for('login') }}'" class="btn btn-sm submitButton btnSwell CreateAccountLoginSwitchBtn">
+                        <span class= "fa fa-pen"></span> Already have an account?
+                    </button>
+                    <p class = 'feedBoxSubHeader'>Please enter your account details</p>
             
                     <form method="POST" action="">
             
@@ -19,7 +16,7 @@
             
                         <fieldset class="form-group">
                             <div class = "form-group">  
-                                {{form.username.label(class='form-control-label')}}
+                                {{form.username.label(class='form-control-label formTextLabel')}}
             
                                 {% if form.username.errors %}
                                     {{form.username(class="form-control is-invalid")}}
@@ -34,7 +31,7 @@
                             </div>
             
                             <div class = "form-group">  
-                                {{form.first_name.label(class='form-control-label')}}
+                                {{form.first_name.label(class='form-control-label formTextLabel')}}
             
                                 {% if form.first_name.errors %}
                                     {{form.first_name(class="form-control is-invalid")}}
@@ -49,7 +46,7 @@
                             </div>
                             
                             <div class = "form-group">  
-                                {{form.last_name.label(class='form-control-label')}}
+                                {{form.last_name.label(class='form-control-label formTextLabel')}}
                                 {% if form.last_name.errors %}
                                     {{form.last_name(class="form-control is-invalid")}}
                                     <div class="invalid-feedback">
@@ -63,7 +60,7 @@
                             </div>
             
                             <div class = "form-group">  
-                                {{form.email.label(class='form-control-label')}}
+                                {{form.email.label(class='form-control-label formTextLabel')}}
                                 {% if form.email.errors %}
                                     {{form.email(class="form-control is-invalid")}}
                                     <div class="invalid-feedback">
@@ -77,7 +74,7 @@
                             </div>
             
                             <div class = "form-group">  
-                                {{form.password.label(class='form-control-label')}}
+                                {{form.password.label(class='form-control-label formTextLabel')}}
                                 {% if form.password.errors %}
                                     {{form.password(class="form-control is-invalid")}}
                                     <div class="invalid-feedback">
@@ -91,7 +88,7 @@
                             </div>
             
                             <div class = "form-group">  
-                                {{form.confirm_password.label(class='form-control-label')}}
+                                {{form.confirm_password.label(class='form-control-label formTextLabel')}}
                                 {% if form.confirm_password.errors %}
                                     {{form.confirm_password(class="form-control is-invalid")}}
                                     <div class="invalid-feedback">
@@ -105,7 +102,7 @@
                             </div>
                         </fieldset>
                         <div class="form-group">
-                            {{form.submit(class="submitButton")}}
+                            {{form.submit(class="btn btn-sm submitButton btnSwell CreateAccountLoginSubmitBtn")}}
                         </div>
                     </form>
                     </div>

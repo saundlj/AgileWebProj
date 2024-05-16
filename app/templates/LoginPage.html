@@ -9,14 +9,12 @@
                 <!--Login Page Title-->
                 <h1>Login Page</h1>
 
-              <button id="redirect-btn" onclick="location.href='{{CreateAccount}}'" class="btn btn-sm submitButton btnSwell">
-        <span class= "fa fa-pen"></span>    
-        Create an Account</button>
-        <br>    
-        <br>
+                <button id="redirect-btn" onclick="location.href='{{ url_for('createAccount') }}'" class="btn btn-sm submitButton btnSwell CreateAccountLoginSwitchBtn">
+                    <span class= "fa fa-pen"></span> Create an Account
+                </button>
 
                 <!-- Sub-header -->
-                <p id = 'LoginPageSubHeader'>Please enter your account details</p>
+                <p class = 'feedBoxSubHeader'>Please enter your account details</p>
 
                 <!-- new form which user types login details into-->
                 <form method="POST" action="">
@@ -28,7 +26,7 @@
 
                         <!-- form field for email-->
                         <div class = "form-group LoginPageFields">  
-                            {{form.email.label(class='form-control-label loginPageFieldHeadings')}}
+                            {{form.email.label(class='form-control-label formTextLabel')}}
                             {% if form.email.errors %}
                                 {{form.email(class="form-control is-invalid")}}
                                 <div class="invalid-feedback">
@@ -43,7 +41,7 @@
 
                         <!-- form field for password-->
                         <div class = "form-group LoginPageFields">  
-                            {{form.password.label(class='form-control-label loginPageFieldHeadings')}}
+                            {{form.password.label(class='form-control-label formTextLabel')}}
                             {% if form.password.errors %}
                                 {{form.password(class="form-control is-invalid")}}
                                 <div class="invalid-feedback">
@@ -59,7 +57,7 @@
                         <!-- form field for rember password check-->
                         <div class="form-check">
                             {{form.remember(class="form-check-input")}}
-                            {{form.remember.label(class="form-check-input-label loginPageFieldHeadings")}}
+                            {{form.remember.label(class="form-check-input-label formTextLabel")}}
                             <span style="align-content: right;"><small class="text-muted">
                                 <a href="#"> Forgot Password?</a>
                             </small></span>
@@ -67,8 +65,8 @@
                     </fieldset>
 
                     <!-- submit login details button-->
-                    <div class="form-group submitButton btnSwell" id="LoginPageSubmitBtn">
-                        {{form.submit(class="submitButton")}}
+                    <div class="form-group" id="LoginPageSubmitBtn">
+                        {{form.submit(class="btn btn-sm submitButton btnSwell CreateAccountLoginSubmitBtn")}}
                     </div>
                 </form>
             </div>
