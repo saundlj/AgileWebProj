@@ -18,9 +18,9 @@
     </div>
     <div class="row d-flex justify-content-left align-items-left">
         <div class="col-md-6">
-            <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
+            <button class='btn btn-info btn-sm' onclick="location.href='{{ url_for('myposts') }}'">
                 <span class= "fa fa-pen"></span>
-                Create a Job Post
+                View My Job Posts
             </button>
         </div>
         
@@ -29,21 +29,7 @@
   <!-- Content to be refreshed goes here -->
   
   <div class="container d-flex">
-    
-    <div class="row">
-        <div class="content">
-                {% for post in job_posts %}
-                    <h1>
-                        {{post.title}}
-                    </h1>
-                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-                    <p>Location : {{post.location}}</p>
-                    <p>Job Type : {{post.job_type}}</p>
-                    <p>Salary ($AUD): {{post.salary}}</p>
-                    <p>Description : {{post.description}}</p>
-                {% endfor %}
-        </div>
-    </div>
+
     <!-- Grid for displaying posts -->
 
     <div class="row">
