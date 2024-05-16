@@ -114,3 +114,19 @@ def account():
 
 
 
+@flaskApp.route("/MyJobPosts", methods = ['GET', 'POST'])
+@login_required # allows only a logged in user to access account page
+def myposts():
+    applicant_info = []
+    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
+    all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
+    user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
+    #joins with Post on FK then filters by user's post ids
+    for applicant in user_applications:
+        account_info = Account.query.filter(Account.user_id == applicant.user_id).order_by(Account.id.desc()).first() 
+        #get account info from account db, get most recent version of their account info
+        user_info = User.query.filter(User.id == applicant.user_id).with_entities(User.email, User.first_name, User.last_name).first()
+        #get user information, ONLY email, first name and last_name to not compromise users data to other users!
+        applicant_info.append([applicant, account_info, user_info]) 
+        #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
+    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info)
