@@ -65,12 +65,19 @@
     font-size: 2.5rem;
   }
 
-  #redirect-btn {
-  border: 1px solid blue; 
+  #LoginPageCreateAccountBtn {
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 
-  #sub-header {
+  #LoginPageSubmitBtn{
+    margin-top: 15px;
+  }
+
+  #LoginPageSubHeader {
     font-size: 1.5rem;
+    padding-left: 0px;
+    margin-bottom: 5px;
     }
   
   #about-list {
@@ -90,11 +97,11 @@
   transition: height 0.3s ease; /* Add smooth transition */
 }
 
-.feedBox.feedPageBox {
+.feedBoxSwell {
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.feedBox.feedPageBox:hover {
+.feedBoxSwell:hover {
   margin: 10px;
   opacity: 0.9;
   transition: margin 0.5s ease-in-out, opacity 0.5s ease-in-out;
@@ -174,3 +181,48 @@ footer{
   font-family: sans-serif;
   font-weight: bold;
 }
+
+.feed_post_btn{
+  border-radius: 10px;
+  background: rgba(63,94,251, 0.8);
+  background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
+  border: #000000;
+  height: 36px;
+  width: auto;
+  margin-bottom: +7px;
+  margin-left: +16px;
+}
+
+.feedApplyForm{
+  margin-left: +17px;
+}
+
+.btnSwell{
+  transition: filter 0.5s ease-in-out;
+}
+
+.btnSwell:hover{
+  filter: brightness(170%);
+  transition: filter 0.5s ease-in-out;
+}
+
+.loginPageFieldHeadings{
+  font-size: 1rem;
+  padding-left: 0px;
+  font-weight: 550;
+}
+
+.LoginPageFields{
+  margin-bottom: 7px;
+}
+
+#randomText {
+  transition: opacity 3s ease-in-out;
+  opacity: 1; /* Start invisible to fade in on load */
+}
+
+.colour_change{
+  transition: color 1s ease;
+  color: rgb(21, 0, 255)
+}
+

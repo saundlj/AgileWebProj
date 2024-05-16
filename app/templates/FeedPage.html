@@ -1,21 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div id="container" style="padding-top: 50px;">
-    <div class="row">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                <div class="flashes">
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            {% endwith %}
-    </div>
     <div class="row d-flex justify-content-left align-items-left">
         <div class="col-md-6">
             <button class='btn btn-info btn-sm' onclick="location.href='{{ url_for('myposts') }}'">
@@ -25,7 +9,6 @@
         </div>
         
     </div>
-</div>
   <!-- Content to be refreshed goes here -->
   
   <div class="container d-flex">
@@ -41,20 +24,13 @@
         <div class="col-md-12">
 
             <!-- create a feedbox object -->
-            <div class="feedBox feedPageBox">
-
+            <div class="feedBox feedBoxSwell">
                 <!-- words for post title -->
                 <h1> {{post.title}}
-
                     <!-- label for post title and expandable content-->
                     <span>
-
-                        <!-- stylying button with 3 different selectors -->
-                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
-
-                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
-                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
-                        </button>
+                        <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}"> <i class="fas fa-plus fa-xs"></i></button>
                     </span>
                 </h1>
 
@@ -70,15 +46,15 @@
                     <!-- Checks not already applied for job-->
                     {% if post.id not in current_applied %}
 
-                    <!-- applying for job button-->
-                    <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
+                    <!-- applying for job button -->
+                    <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> <span> <i class= "fa fa-pen"> </i> Apply </span> </button>
 
                         <!-- application form-->
                         <div id = "apply_box_{{ loop.index }}" style = "display: none;">
                             <p><strong>Application</strong></p>
                             <p>What makes you a good candidate?</p>
                             
-                            <form method="POST" action="">
+                            <form method="POST" action="" class="feedApplyForm">
 
                                 {{form.hidden_tag()}}
 
@@ -104,14 +80,14 @@
                                 </fieldset>
                                 <br>
                                 <div class="form-group">
-                                    {{form.submit(class="submitButton")}}
+                                    {{form.submit(class="submitButton btnSwell")}}
                                 </div>
                             </form>
                         </div>
 
                     {% else %}   
                         <!-- else show applied -->
-                        <p>Applied!</p>   
+                        <p id = "application_response_{{loop.index}}" class = "application_response colour_change"></p>
                     {% endif %}    
                 </div>
             </div>
@@ -122,39 +98,95 @@
 </div>
 
 <script>
+    // set of possible messages that can be displayed
+    const textOptions = [
+            "Thank you for submitting your application! We'll be in touch soon.",
+            "Your application has been received. We appreciate your interest!",
+            "Success! Your application is in the queue for review.",
+            "All set! We've received your application and will review it shortly.",
+            "Application submitted successfully. Check your email for confirmation.",
+            "Great! We have your application. Please allow some time for processing.",
+            "Thanks! We’re thrilled to review your application soon.",
+            "Your application is on its way to our team. Stay tuned for updates!",
+            "You’ve successfully applied. We’ll notify you with the next steps.",
+            "Excellent! We look forward to exploring your application further."
+        ];
+
+    // Function to get a random element from the array
+    function getRandomText(textOptions) {
+        return textOptions[Math.floor(Math.random() * textOptions.length)];
+    }
+
     function applicationExpand(id) {
         //form id
-        let x = document.getElementById(id);
+        let x = document.getElementById("apply_box_" +id.split("_")[2]);
 
         // application button ID
         let y = document.getElementById("apply_btn_" + id.split("_")[2]);
 
         if (x.style.display === "none") {
             x.style.display = "block";
-            y.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
         } else {
             x.style.display = "none";
-            y.innerHTML = "<i class = 'fa fa-pen'></i> Apply"
+            y.innerHTML = '<span> <i class= "fa fa-pen"> </i> Apply </span>';
         }
     }
-</script>
 
-<script>
     function toggleExpand(id) {
         // ID for the button which will expand the content
         let x = document.getElementById(id);
         
         // ID for the content to be expanded
         let y = document.getElementById("expandable_content_" + id.split("_")[2]);
-        console.log(y);
+
+        // ID for application message
+        let z = document.getElementById("application_response_" + id.split("_")[2]);
 
         if (y.style.display === "none") {
             y.style.display = "block";
-            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
+            z.innerHTML = getRandomText(textOptions);
+            z.style.fontWeight = "bold";
+            z.style.fontSize = "1.2em";
         } else {
             y.style.display = "none";
-            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
+    }
+
+    // event listener to exper expand post button
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all submit buttons correctly
+        const expandButtons = document.querySelectorAll('.feed_expand_btn');
+        // selecting all application buttons
+        const applyButtons = document.querySelectorAll('.feed_apply_btn');
+
+        // event handler function for each expand button
+        expandButtons.forEach(button => {
+            button.addEventListener('click', (event) => toggleExpand(button.id));
+        });
+
+        // event handler function for each application button
+        applyButtons.forEach(button => {
+            button.addEventListener('click', (event) => applicationExpand(button.id));
+        });
+    });
+
+    // changing colour of application messages 
+    let textElements = document.querySelectorAll('.application_response');
+
+    textElements.forEach(textElement => {
+        startColorChange(textElement);
+    });
+
+    function startColorChange(textElement) {
+        let colors = ['rgba(63,94,251, 0.8)', 'rgb(132, 31, 255)', 'rgb(21, 0, 255)','rgb(255, 0, 0)'];
+        let index = 0;
+        setInterval(function() {
+            textElement.style.color = colors[index];
+            index = (index + 1) % colors.length;  // Move to the next color
+        }, 3000); 
     }
 </script>
 
