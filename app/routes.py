@@ -53,7 +53,7 @@ def createAccount():
 def JobPost():
     form = JobForm()
     if form.validate_on_submit(): #validated form
-        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data)
+        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data, user_id = current_user.id)
         db.session.add(job)
         db.session.commit() #add to db
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
@@ -144,6 +144,7 @@ def myposts():
     user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
     all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
     user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
+
     #joins with Post on FK then filters by user's post ids
     for applicant in user_applications:
         account_info = Account.query.filter(Account.user_id == applicant.user_id).order_by(Account.id.desc()).first() 
