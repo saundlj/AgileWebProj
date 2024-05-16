@@ -1,11 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<!--
-applicant_info.append([applicant, account_info, user_info])
-applicant contains Application (user_id, post_id, cover_letter)
-account_info contains title_apl, health, earliest_start_date, personal_bio, user_id
-user_info contains email, first_name, last_name
--->
+<br>
+<br>
+<h1> My Job Posts </h1>
+<br>
+    <div class="row d-flex justify-content-left align-items-left">
+        <div class="col-md-6">
+            <button class='btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
+                <span class= "fa fa-pen"></span>
+                Create a Job Post
+            </button>
+        </div>
+        
+    </div>
 
   <!-- Content to be refreshed goes here -->
   
@@ -69,41 +76,41 @@ user_info contains email, first_name, last_name
   </div>
 </div>
 
-<script>
-    function applicationExpand(id) {
-        //form id
-        let x = document.getElementById(id);
+    <script>
+        function applicationExpand(id) {
+            //form id
+            let x = document.getElementById(id);
 
-        // application button ID
-        let y = document.getElementById("applicant_btn_" + id.split("_")[2]);
+            // application button ID
+            let y = document.getElementById("applicant_btn_" + id.split("_")[2]);
 
-        if (x.style.display === "none") {
-            x.style.display = "block";
-            y.innerHTML = '-';
-        } else {
-            x.style.display = "none";
-            y.innerHTML = '+'
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = '-';
+            } else {
+                x.style.display = "none";
+                y.innerHTML = '+'
+            }
         }
-    }
-</script>
+    </script>
 
-<script>
-    function toggleExpand(id) {
-        // ID for the button which will expand the content
-        let x = document.getElementById(id);
-        
-        // ID for the content to be expanded
-        let y = document.getElementById("expandable_content_" + id.split("_")[2]);
-        console.log(y);
+    <script>
+        function toggleExpand(id) {
+            // ID for the button which will expand the content
+            let x = document.getElementById(id);
+            
+            // ID for the content to be expanded
+            let y = document.getElementById("expandable_content_" + id.split("_")[2]);
+            console.log(y);
 
-        if (y.style.display === "none") {
-            y.style.display = "block";
-            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
-        } else {
-            y.style.display = "none";
-            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            if (y.style.display === "none") {
+                y.style.display = "block";
+                x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            } else {
+                y.style.display = "none";
+                x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            }
         }
-    }
-</script>
+    </script>
 
 {% endblock %}
