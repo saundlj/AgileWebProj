@@ -130,3 +130,12 @@ def myposts():
         applicant_info.append([applicant, account_info, user_info]) 
         #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info)
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            filename = file.filename
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return 'File uploaded successfully'
