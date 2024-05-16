@@ -49,6 +49,7 @@ def createAccount():
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
 @flaskApp.route('/JobPost', methods = ['GET','POST'])
+@login_required
 def JobPost():
     form = JobForm()
     if form.validate_on_submit(): #validated form
@@ -109,6 +110,7 @@ def about():
 
 
 @flaskApp.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('about'))
