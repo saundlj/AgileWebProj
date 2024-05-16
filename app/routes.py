@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm, FilterForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -61,8 +61,28 @@ def JobPost():
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access feed page
 def feed():
-    
-    job_posts = Post.query.all()
+    filter_form =  FilterForm()
+    if filter_form.validate_on_submit():
+        location = filter_form.location.data
+        job_type = filter_form.job_type.data
+        min_salary = filter_form.min_rate.data
+        max_salary = filter_form.max_rate.data
+
+        query = Post.query
+        if location:
+            query = query.filter(Post.location.ilike(f'%{location}%'))
+        if job_type:
+            query = query.filter(Post.job_type.in_(job_type))
+        if min_salary is not None:
+            query = query.filter(Post.salary >= min_salary)
+        if max_salary is not None:
+            query = query.filter(Post.salary <= max_salary)
+
+        job_posts = query.all()
+
+    else:
+        job_posts = Post.query.all()
+
     for post in job_posts:
         username = User.query.get(post.user_id).username
         post.username = username 
@@ -73,14 +93,14 @@ def feed():
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
         db.session.add(application) #add to db
         db.session.commit()
-        flash('Successfully Applied', 'success') 
+        flash('Successfully Applied', 'success')
         
     current_applied = [] #check applications user has made so far
     for applicant in Application.query.all():
         if applicant.user_id == current_user.id:
             current_applied.append(applicant.post_id)
 
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied)
+    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied, filter_form=filter_form)
 
 
 @flaskApp.route("/about")

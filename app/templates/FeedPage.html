@@ -14,6 +14,15 @@
   
   <div class="container d-flex">
 
+    <form method="post">
+        {{ filter_form.hidden_tag() }}
+        {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
+        {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+        {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
+        {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+        {{ filter_form.submit() }}
+    </form>
+
     <!-- Grid for displaying posts -->
 
     <div class="row">
