@@ -34,7 +34,7 @@
                     <span>
 
                         <!-- stylying button with 3 different selectors -->
-                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
 
                             <!-- image of plus icon as defualt "+" rendering inappropriate-->
                             <i class="fas fa-plus fa-xs"></i>
@@ -51,7 +51,7 @@
                         {% if applicant[0].post_id == post.id %}
                             <div style="display: inline-flex;">
                                 <p><b>{{applicant[2].first_name}} {{applicant[2].last_name}}</b></p> 
-                                <p><button class = 'btn feed_expand_btn feed_post_btn btnSwell' onclick="applicationExpand('applicant_box_{{ loop.index }}')" id = "applicant_btn_{{loop.index}}">
+                                <p><button class = 'btn feed_post_btn btnSwell feed_expand_btn applicant_btn' id = "applicant_btn_{{loop.index}}">
                                     <i class="fas fa-plus fa-xs"></i>
                                 </button></p>
                             </div>
@@ -77,27 +77,13 @@
   </div>
 </div>
 
-    <script>
-        function applicationExpand(id) {
-            //form id
-            let x = document.getElementById(id);
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const expandButtons = document.querySelectorAll('.feed_expand_btn')
+        const applicantButtons = document.querySelectorAll('.feed_expand_btn.applicant_btn')
 
-            // application button ID
-            let y = document.getElementById("applicant_btn_" + id.split("_")[2]);
-
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.innerHTML = '-';
-            } else {
-                x.style.display = "none";
-                y.innerHTML = '+'
-            }
-        }
-    </script>
-
-    <script>
         function toggleExpand(id) {
-            // ID for the button which will expand the content
+        // ID for the button which will expand the content
             let x = document.getElementById(id);
             
             // ID for the content to be expanded
@@ -106,12 +92,35 @@
 
             if (y.style.display === "none") {
                 y.style.display = "block";
-                x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+                x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
             } else {
                 y.style.display = "none";
-                x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
-            }
-        }
-    </script>
+                x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
+        }}
+
+        function applicationExpand(id) {
+            //form id
+            let x = document.getElementById("applicant_box_" + id.split("_")[2]);
+
+            // application button ID
+            let y = document.getElementById(id);
+
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
+            } else {
+                x.style.display = "none";
+                y.innerHTML = '<i class="fas fa-plus fa-xs"></i>'
+        }}
+
+        expandButtons.forEach(button => {
+            button.addEventListener('click', (event) => toggleExpand(button.id))
+        })
+
+        applicantButtons.forEach(button => {
+            button.addEventListener('click', (event) => applicationExpand(button.id))
+        })
+    })
+</script>
 
 {% endblock %}
