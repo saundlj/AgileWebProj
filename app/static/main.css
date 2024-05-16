@@ -6,6 +6,8 @@
   
   .site-header .navbar-nav .nav-link {
     color: #cbd5db;
+    font-size: 23px;
+    font-weight: bold;
   }
   
 
@@ -13,13 +15,13 @@
     font-weight: 500;
   }
   
-  .content-section {
+  /* .content-section {
     background: #ffffff;
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
-  }
+  } */
   
   .article-title {
     color: #444444;

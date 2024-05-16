@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<br>
+<h1> My Job Posts </h1>
+<br>
+    <div class="row d-flex justify-content-left align-items-left">
+        <div class="col-md-6">
+            <button class='btn btn-info btn-sm' onclick="location.href='{{ url_for('JobPost') }}'">
+                <span class= "fa fa-pen"></span>
+                Create a Job Post
+            </button>
+        </div>
+        
+    </div>
+
+  <!-- Content to be refreshed goes here -->
+  
+  <div class="container d-flex">
+    
+    <div class="row">
+
+        <!-- Loop through each post -->
+        {% for post in user_posts %}
+
+        <!--for each post access all 12 bootstrap columns-->
+        <div class="col-md-12">
+
+            <!-- create a feedbox object -->
+            <div class="feedBox feedPageBox">
+
+                <!-- words for post title -->
+                <h1> {{post.title}}
+
+                    <!-- label for post title and expandable content-->
+                    <span>
+
+                        <!-- stylying button with 3 different selectors -->
+                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
+
+                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
+                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
+                        </button>
+                    </span>
+                </h1>
+
+                <!-- Metadata -->
+                <p><strong> {{ post.date_posted }}</strong> </p>
+                <!-- Expandable content section -->
+                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
+                    <p><strong> Applicants:</strong> </p>
+                    {% for applicant in applicant_info %}
+                        {% if applicant[0].post_id == post.id %}
+                            <div style="display: inline-flex;">
+                                <p><b>{{applicant[2].first_name}} {{applicant[2].last_name}}</b></p> 
+                                <p><button class = 'btn-sm' onclick="applicationExpand('applicant_box_{{ loop.index }}')" id = "applicant_btn_{{loop.index}}">+</button></p>
+                            </div>
+                            <div id = "applicant_box_{{ loop.index }}" style = "display: none;">
+                                <p>Title: {{ applicant[1].title_apl }}</p>
+                                <p>Contact at: {{ applicant[2].email }}</p>
+                                <p>Earliest Start Date: {{ applicant[1].earliest_start_date }}</p>
+                                <p>Personal Bio: {{ applicant[1].personal_bio }}</p>
+                                <p>Health Status: {{ applicant[1].health }}</p>
+                                <p>Cover Letter: {{ applicant[0].cover_letter }}</p>
+                            </div>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- applying for job button-->
+                        <!-- application form-->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+    <script>
+        function applicationExpand(id) {
+            //form id
+            let x = document.getElementById(id);
+
+            // application button ID
+            let y = document.getElementById("applicant_btn_" + id.split("_")[2]);
+
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = '-';
+            } else {
+                x.style.display = "none";
+                y.innerHTML = '+'
+            }
+        }
+    </script>
+
+    <script>
+        function toggleExpand(id) {
+            // ID for the button which will expand the content
+            let x = document.getElementById(id);
+            
+            // ID for the content to be expanded
+            let y = document.getElementById("expandable_content_" + id.split("_")[2]);
+            console.log(y);
+
+            if (y.style.display === "none") {
+                y.style.display = "block";
+                x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            } else {
+                y.style.display = "none";
+                x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            }
+        }
+    </script>
+
+{% endblock %}

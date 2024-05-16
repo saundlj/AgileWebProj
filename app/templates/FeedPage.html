@@ -1,49 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div id="container" style="padding-top: 50px;">
-    <div class="row">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                <div class="flashes">
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            {% endwith %}
-    </div>
     <div class="row d-flex justify-content-left align-items-left">
         <div class="col-md-6">
-            <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
-                <span class= "fa fa-pen"></span>
-                Create a Job Post
+            <button class='btn btn-info btn-sm' onclick="location.href='{{ url_for('myposts') }}'">
+                <span class= "fa fa-clipboard"></span>
+                View My Job Posts
             </button>
         </div>
         
     </div>
-</div>
   <!-- Content to be refreshed goes here -->
   
   <div class="container d-flex">
-    
-    <div class="row">
-        <div class="content">
-                {% for post in job_posts %}
-                    <h1>
-                        {{post.title}}
-                    </h1>
-                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-                    <p>Location : {{post.location}}</p>
-                    <p>Job Type : {{post.job_type}}</p>
-                    <p>Salary ($AUD): {{post.salary}}</p>
-                    <p>Description : {{post.description}}</p>
-                {% endfor %}
-        </div>
-    </div>
+
     <!-- Grid for displaying posts -->
 
     <div class="row">
