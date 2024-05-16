@@ -58,15 +58,16 @@ def JobPost():
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
     return render_template("JobPost.html", form = form) # render template so no data lost
 
-@flaskApp.route("/posts")
-def posts():
-    return render_template("posts.html")
-
 @flaskApp.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access feed page
 def feed():
     
     job_posts = Post.query.all()
+    for post in job_posts:
+        username = User.query.get(post.user_id).username
+        post.username = username 
+        post.date_string = post.date_posted.strftime("%b %d %Y")
+
     form = FeedApplyForm()
     if form.validate_on_submit(): #validated form
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
