@@ -1,5 +1,5 @@
 from flask import Flask
-from app.config import Config
+from app.config import Config, DeploymentConfig, TestConfig
 from flask_sqlalchemy import SQLAlchemy # class gives api to database
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -9,7 +9,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'  
 login_manager.login_message_category = 'info'
 
-def create_app(config):
+def create_app(config = DeploymentConfig):
     flaskApp = Flask(__name__)
     flaskApp.config.from_object(config)
 
