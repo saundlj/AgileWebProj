@@ -28,7 +28,9 @@
                     <!-- label for post title and expandable content-->
                     <span>
                         <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
-                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}"> <i class="fas fa-plus fa-xs"></i></button>
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
+                            <i class="fas fa-plus fa-xs"></i>
+                        </button>
                     </span>
                 </h1>
 
@@ -45,7 +47,9 @@
                     {% if post.id not in current_applied %}
 
                     <!-- applying for job button -->
-                    <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> <span> <i class= "fa fa-pen"> </i> Apply </span> </button>
+                    <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> 
+                        <span> <i class= "fa fa-pen"> </i> Apply </span>
+                    </button>
 
                         <!-- application form-->
                         <div id = "apply_box_{{ loop.index }}" style = "display: none;">
