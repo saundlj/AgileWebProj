@@ -240,3 +240,12 @@ footer {
   padding-left: 0px;
   margin-bottom: 5px;
 }
+
+.nonFeedBoxContainer{
+  margin-left: +1.5%;
+  margin-bottom: +1.5%;
+}
+
+.nonFeedBoxBtn{
+  margin-top: +2%;
+}

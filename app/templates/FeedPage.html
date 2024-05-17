@@ -1,22 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row d-flex justify-content-left align-items-left">
-        <div class="col-md-6">
-            <h1>Current Jobs...</h1>
-            <button class='btn btn-info btn-sm' onclick="location.href='/MyJobPosts'">
+
+   <!--Content to be refreshed goes here-->
+  
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1> Current Jobs ... </h1>
+            <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
                 <span class= "fa fa-clipboard"></span>
                 View My Job Posts
             </button>
-        </div>
-        
-    </div>
-  <!-- Content to be refreshed goes here -->
-  
-  <div class="container d-flex">
+    </div> 
 
     <!-- Grid for displaying posts -->
 
-    <div class="row">
+    <div class="row d-flex align-items-center justify-content-center">
 
         <!-- Loop through each post -->
         {% for post in posts %}
