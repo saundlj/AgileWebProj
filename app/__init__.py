@@ -9,7 +9,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'  
 login_manager.login_message_category = 'info'
 
-def create_app(config = DeploymentConfig):
+def create_app(config):
     flaskApp = Flask(__name__)
     flaskApp.config.from_object(config)
 
