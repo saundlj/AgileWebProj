@@ -49,6 +49,7 @@ class BasicUnitTests(TestCase):
 
     def test_new_username_duplicate(self):
         with self.assertRaisesRegex(NewUserError, "Username already exists. Please try another."): # provide exact error message and raise right exception 
+            db.session.add(User(username='testing', first_name = "tester", last_name = "tested", email = "email69@proj.com", password_hash = 'Admin2002'))
             new_user(User(username='testing', first_name = "test", last_name = "test", email = "email@proj.com", password_hash = 'Admin2002'))
 
     def test_new_first_name_invalid_char(self):
@@ -65,10 +66,11 @@ class BasicUnitTests(TestCase):
 
     def test_new_email_duplicate(self):
         with self.assertRaisesRegex(NewUserError, "Email already registered. Please Login instead."): # provide exact error message and raise right exception 
-            new_user(User(username='testing2', first_name = "test", last_name = "test", email = "email@proj.com", password_hash = 'Admin2002'))  
+            db.session.add(User(username='testemail1', first_name = "tester", last_name = "tested", email = "email69@proj.com", password_hash = 'Admin2002'))
+            new_user(User(username='tesemail2', first_name = "tester", last_name = "tested", email = "email69@proj.com", password_hash = 'Admin2002'))  
 
-    # def test_password_hashing(self):
+    # def test_password_hashing(self):        
     #     user = User.query.get(1)
-    #     s.set_password("bubbles")
+    #     user.set_password("bubbles")
     #     self.assertTrue(s.check_password("bubbles"))
     #     self.assertFalse(s.check_password("rabbles"))
