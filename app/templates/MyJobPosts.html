@@ -7,7 +7,7 @@
         <h1> My Job Posts </h1>
     </div>
     <div class="col-md-12">
-        <button class='btn btn-info btn-sm' onclick="location.href='/JobPost'">
+        <button class='btn btn-info btn-sm submitButton' onclick="location.href='/JobPost'">
             <span class= "fa fa-pen"></span>
             Create a Job Post
         </button>
@@ -23,7 +23,7 @@
         <div class="col-md-12">
 
             <!-- create a feedbox object -->
-            <div class="feedBox feedPageBox feedBoxSwell">
+            <div class="feedBox feedBoxSwell">
 
                 <!-- words for post title -->
                 <h1> {{post.title}}
@@ -32,10 +32,10 @@
                     <span>
 
                         <!-- stylying button with 3 different selectors -->
-                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
 
                             <!-- image of plus icon as defualt "+" rendering inappropriate-->
-                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
+                            <i class="fas fa-plus fa-xs"></i>
                         </button>
                     </span>
                 </h1>
@@ -49,15 +49,17 @@
                         {% if applicant[0].post_id == post.id %}
                             <div style="display: inline-flex;">
                                 <p><b>{{applicant[2].first_name}} {{applicant[2].last_name}}</b></p> 
-                                <p><button class = 'btn-sm' onclick="applicationExpand('applicant_box_{{ loop.index }}')" id = "applicant_btn_{{loop.index}}">+</button></p>
+                                <p><button class = 'btn feed_post_btn btnSwell feed_expand_btn applicant_btn' id = "applicant_btn_{{loop.index}}">
+                                    <i class="fas fa-plus fa-xs"></i>
+                                </button></p>
                             </div>
                             <div id = "applicant_box_{{ loop.index }}" style = "display: none;">
-                                <p>Title: {{ applicant[1].title_apl }}</p>
-                                <p>Contact at: {{ applicant[2].email }}</p>
-                                <p>Earliest Start Date: {{ applicant[1].earliest_start_date }}</p>
-                                <p>Personal Bio: {{ applicant[1].personal_bio }}</p>
-                                <p>Health Status: {{ applicant[1].health }}</p>
-                                <p>Cover Letter: {{ applicant[0].cover_letter }}</p>
+                                <p> <strong> Title: </strong> {{ applicant[1].title_apl }} </p>
+                                <p> <strong> Contact at: </strong> {{ applicant[2].email }} </p>
+                                <p> <strong> Earliest Start Date: </strong> {{ applicant[1].earliest_start_date }} </p>
+                                <p> <strong> Personal Bio: </strong> {{ applicant[1].personal_bio }} </p>
+                                <p> <strong> Health Status: </strong> {{ applicant[1].health }} </p>
+                                <p> <strong> Cover Letter: </strong> {{ applicant[0].cover_letter }} </p>
                             </div>
                             <br>
                         {% endif %}
@@ -73,27 +75,13 @@
   </div>
 </div>
 
-    <script>
-        function applicationExpand(id) {
-            //form id
-            let x = document.getElementById(id);
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const expandButtons = document.querySelectorAll('.feed_expand_btn')
+        const applicantButtons = document.querySelectorAll('.feed_expand_btn.applicant_btn')
 
-            // application button ID
-            let y = document.getElementById("applicant_btn_" + id.split("_")[2]);
-
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.innerHTML = '-';
-            } else {
-                x.style.display = "none";
-                y.innerHTML = '+'
-            }
-        }
-    </script>
-
-    <script>
         function toggleExpand(id) {
-            // ID for the button which will expand the content
+        // ID for the button which will expand the content
             let x = document.getElementById(id);
             
             // ID for the content to be expanded
@@ -102,12 +90,35 @@
 
             if (y.style.display === "none") {
                 y.style.display = "block";
-                x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+                x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
             } else {
                 y.style.display = "none";
-                x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
-            }
-        }
-    </script>
+                x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
+        }}
+
+        function applicationExpand(id) {
+            //form id
+            let x = document.getElementById("applicant_box_" + id.split("_")[2]);
+
+            // application button ID
+            let y = document.getElementById(id);
+
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
+            } else {
+                x.style.display = "none";
+                y.innerHTML = '<i class="fas fa-plus fa-xs"></i>'
+        }}
+
+        expandButtons.forEach(button => {
+            button.addEventListener('click', (event) => toggleExpand(button.id))
+        })
+
+        applicantButtons.forEach(button => {
+            button.addEventListener('click', (event) => applicationExpand(button.id))
+        })
+    })
+</script>
 
 {% endblock %}
