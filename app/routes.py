@@ -1,6 +1,6 @@
 from app import flaskApp
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm, FilterForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm, FilterForm, DeletePostForm
 from app import db
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -137,7 +137,7 @@ def account():
 
 
 
-@flaskApp.route("/MyJobPosts", methods = ['GET', 'POST'])
+@flaskApp.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
 @login_required # allows only a logged in user to access account page
 def myposts():
     applicant_info = []
@@ -153,5 +153,17 @@ def myposts():
         #get user information, ONLY email, first name and last_name to not compromise users data to other users!
         applicant_info.append([applicant, account_info, user_info]) 
         #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
-    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info)
+
+    form = DeletePostForm()
+    if form.validate_on_submit():
+        postid = form.post_id.data
+        delete_post = Post.query.filter(Post.id == postid)
+        for old_post in delete_post:
+            db.session.delete(old_post)
+        delete_application = Application.query.filter(Application.post_id == postid)
+        for old_application in delete_application:
+            db.session.delete(old_application)
+        db.session.commit()
+
+    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 
