@@ -17,7 +17,7 @@
                 <p class = 'feedBoxSubHeader'>Please enter your account details</p>
 
                 <!-- new form which user types login details into-->
-                <form method="POST" action="">
+                <form method="POST">
 
                     <!-- wtfForms tag to prevent cross site request forgery-->
                     {{form.hidden_tag()}}
@@ -58,7 +58,7 @@
                         <div class="form-check">
                             {{form.remember(class="form-check-input")}}
                             {{form.remember.label(class="form-check-input-label formTextLabel")}}
-                            <span style="align-content: right;"><small class="text-muted">
+                            <span><small class="text-muted">
                                 <a href="#"> Forgot Password?</a>
                             </small></span>
                         </div>
