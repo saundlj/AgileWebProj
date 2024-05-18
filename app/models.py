@@ -39,7 +39,8 @@ class User(db.Model, UserMixin):
     # backref adds author column to Post indicating user
     # lazy lets us look at all posts by a user 
     posts = db.relationship('Post', backref='posts', lazy=True)
-    accounts = db.relationship('Account', backref='accounts', lazy=True)
+    account_bio = db.relationship('Account', backref='accounts', lazy=True)
+    applications = db.relationship('Application', backref='applications', lazy=True)
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
@@ -76,3 +77,9 @@ class Account(db.Model):
 
     def __repr__(self):
         return f"Account('{self.user_id}', '{self.personal_bio}', '{self.updated_at})"
+    
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #refrences user table
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False) #references post table
+    cover_letter = db.Column(db.Text, nullable=True) #text field

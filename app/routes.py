@@ -1,9 +1,8 @@
 from app.blueprints import main
-from flask import render_template,redirect, url_for, flash, request
+from flask import render_template,redirect, url_for, flash
 from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm
 from app import db
-from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm
-from app.models import *
+from app.models import User, Post, Account, Application
 from flask_login import current_user, login_user, logout_user, login_required
 import time
 from app.controllers import NewUserError, LoginUserError, JobPostError, UserAccountFormError, log_in, new_user, new_job_post, new_bio
@@ -20,6 +19,7 @@ def login():
 
     if current_user.is_authenticated: #if user is remembered 
         return redirect(url_for('main.feed'))
+    
     form = LoginForm()
     if form.validate_on_submit():
         try:

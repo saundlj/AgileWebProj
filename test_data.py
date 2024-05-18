@@ -15,17 +15,17 @@ from app.models import *
 # user.id 
 # User.query.get(1)
 
-user1 = User(username = 'test', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'admin')
+user1 = User(username = 'testing', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'admin')
 user2 = User(username = 'lukes', first_name = "Luke", last_name = "Saunders", email = "realemail@gmail.com", password_hash = 'admin')
 user3 = User(username = 'tomv', first_name = "Tom", last_name = "Veitch", email = "tomveitch@gmail.com", password_hash = 'password')
 user4 = User(username = 'vitop', first_name = "Vito", last_name = "Panaia", email = "vitopanaia@gmail.com", password_hash = 'password')
 user5 = User(username = 'mattb', first_name = "Matt", last_name = "Booth", email = "mattbooth@gmail.com", password_hash = 'password')
 
-user1.set_password() # hash password
-user2.set_password() # hash password
-user3.set_password() # hash password
-user4.set_password() # hash password
-user5.set_password() # hash password
+user1.set_password(user1.password_hash) # hash password
+user2.set_password(user2.password_hash) # hash password
+user3.set_password(user3.password_hash) # hash password
+user4.set_password(user4.password_hash) # hash password
+user5.set_password(user5.password_hash) # hash password
 
 post1 = Post(title = 'Gardener',
              date_posted = datetime(2024, 5, 13, 7, 47, 48, 223252),
