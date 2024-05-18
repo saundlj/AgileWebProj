@@ -76,6 +76,7 @@ def JobPost():
         db.session.commit() #add to db
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
         # return to job posting page
+        return redirect(url_for('main.myposts'))
 
     return render_template("JobPost.html", form = form) # render template so no data lost
 
@@ -165,7 +166,7 @@ def account():
 @login_required # allows only a logged in user to access account page
 def myposts():
     applicant_info = []
-    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
+    user_posts = Post.query.filter(Post.user_id == current_user.id).order_by(Post.date_posted.desc()) #gets current users posts
     all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
     user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
 
