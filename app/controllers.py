@@ -5,36 +5,61 @@
 # having method to unit test in isolation without having to respond to requests, have the server running or flash method
 
 import re
-from app.models import User
+from app.models import User, Post
 from app import db
+
+def capitalize_first_word(title):
+    words = title.split()
+    if len(words) > 0:
+        words[0] = words[0].capitalize()
+    return ' '.join(words)
+
+def sanitize_input(input_string, name=False, email=False, username=False, text=False, description=False):
+        
+        # Remove leading and trailing whitespaces
+        sanitized_string = input_string.strip()
+        
+        if email:
+            # Remove any potentially harmful characters for email addresses
+            sanitized_string = re.sub(r'[^\w\s@.-]', '', sanitized_string)
+            invalid_characters_found = sanitized_string != input_string
+            sanitized_string = sanitized_string.lower() # case sensitive so store as lowercase
+            return sanitized_string, invalid_characters_found
+
+
+        if name:
+            # Remove any potentially harmful characters for names
+            sanitized_string = re.sub(r'[^a-zA-Z\s-]', '', sanitized_string)
+            invalid_characters_found = sanitized_string != input_string
+            sanitized_name = ' '.join(word.capitalize() for word in sanitized_string.split()) # capitilise first letter of name 
+            return sanitized_name, invalid_characters_found
+        
+        if username:
+            # Remove any potentially harmful characters for usernames
+            sanitized_string = re.sub(r'[^\w\s.-]', '', sanitized_string)
+            invalid_characters_found = sanitized_string != input_string
+            sanitized_string = sanitized_string.lower() # case sensitive so store as lowercase
+            return sanitized_string, invalid_characters_found
+
+
+        if text:
+            # Remove any potentially harmful characters for a text body 
+            sanitized_string = re.sub(r"[^\w\s.&,-/':]", '', sanitized_string)
+            invalid_characters_found = sanitized_string != input_string
+            sanitized_title = capitalize_first_word(sanitized_string)
+            return sanitized_title, invalid_characters_found
+
+        
+        if description:
+            # Remove any potentially harmful characters for a description
+            sanitized_string = re.sub(r'[^a-zA-Z0-9\s,;:.!?&\'"/()\-]', '', sanitized_string)
+            invalid_characters_found = sanitized_string != input_string
+            sanitized_title = capitalize_first_word(sanitized_string)
+            return sanitized_title, invalid_characters_found
 
 
 class NewUserError(Exception):
     pass
-
-def sanitize_input(input_string, name=False, email=False, username=False):
-    
-    # Remove leading and trailing whitespaces
-    sanitized_string = input_string.strip()
-    
-    if email:
-        # Remove any potentially harmful characters for email addresses
-        sanitized_string = re.sub(r'[^\w\s@.-]', '', sanitized_string)
-
-    if name:
-        # Remove any potentially harmful characters for names
-        sanitized_string = re.sub(r'[^a-zA-Z\s-]', '', sanitized_string)
-        invalid_characters_found = sanitized_string != input_string
-        sanitized_name = ' '.join(word.capitalize() for word in sanitized_string.split()) # capitilise first letter of name 
-        return sanitized_name, invalid_characters_found
-    
-    if username:
-        # Remove any potentially harmful characters for usernames
-        sanitized_string = re.sub(r'[^\w\s.-]', '', sanitized_string)
-
-    # Check if the sanitized string is different from the original input
-    invalid_characters_found = sanitized_string != input_string
-    return sanitized_string, invalid_characters_found
 
 def new_user(new_user):
 
@@ -67,6 +92,57 @@ def new_user(new_user):
     return new_user
 
 
-# def log_in(user):
+class LoginUserError(Exception):
+    pass
 
-#     #email errors
+def log_in(email,password):
+
+    #email errors
+    email, invalid_string = sanitize_input(email, email=True)
+    if invalid_string:
+        raise LoginUserError("Email contains at least one invalid character. Please remove and try again.")
+    
+    user = User.query.filter_by(email=email).first() # returns none if user does not exist
+    
+    if not user:
+        raise LoginUserError("Email entered is not registered. Try creating an account!")
+    
+    # password errors
+    if not user.check_password(password): # check registerd password matches input
+        raise LoginUserError("Password entered does not match registered email. Please try again.")
+
+    return user
+
+class JobPostError(Exception):
+    pass
+
+def new_job_post(post):
+
+    # Title errors
+    post.title, invalid_string = sanitize_input(post.title, text=True)
+    if invalid_string:
+        raise JobPostError("Title contains at least one invalid character. Please remove and try again.")
+    
+    # check if user already has a post with the same title 
+    existing_job = Post.query.filter_by(user_id=post.user_id, title=post.title).first()
+    if existing_job:
+        raise JobPostError("You already have a Post with the same title.")
+    
+    # Description errors
+    post.description, invalid_string = sanitize_input(post.description, description=True)
+    if invalid_string:
+        raise JobPostError("Description contains at least one invalid character. Please remove and try again.")
+
+    # Location errors
+    post.location, invalid_string = sanitize_input(post.location, name=True)
+    if invalid_string:
+        raise JobPostError("Location contains at least one invalid character. Please remove and try again.")
+    
+    # Salary errors
+    # volunteering then $0
+    
+    return post
+
+
+
+

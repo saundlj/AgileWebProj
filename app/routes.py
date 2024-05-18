@@ -4,7 +4,7 @@ from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
 import time
-from app.controllers import NewUserError, new_user
+from app.controllers import NewUserError, LoginUserError, JobPostError, log_in, new_user, new_job_post
 
 # attatch routes to blueprints and not to flaskApp
 # blueprints can be created ahead of time (no configuration needed) 
@@ -20,17 +20,15 @@ def login():
         return redirect(url_for('main.feed'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first() # check email exists 
-        if not user:
-            flash(f"Email entered is not registered. Try creating an account!", 'danger')
+        try:
+            user = log_in(form.email.data,form.password.data)
+
+        except LoginUserError as e:
+            flash(e, 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
 
-        password = form.password.data
-        if not user.check_password(password): # check password for account matches input
-            flash(f'Invalid password. Please try again.', 'danger')
-            return render_template("LoginPage.html", form = form, title = 'Login')
         login_user(user, remember=form.remember.data)
-        flash(f'Successfully Logged In!', 'success')
+        flash(f'Welcome back {user.first_name}!', 'success')
         return redirect(url_for('main.feed'))
     return render_template("LoginPage.html", form = form, title = 'Login')
 
@@ -63,10 +61,19 @@ def createAccount():
 def JobPost():
     form = JobForm()
     if form.validate_on_submit():
-        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data)
+        job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data, user_id = current_user.id)
+        try:
+            job = new_job_post(job)
+
+        except JobPostError as e:
+            flash(e, 'danger')
+            return render_template("JobPost.html", form = form)
+
         db.session.add(job)
         db.session.commit()
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
+        # return to job posting page
+        
     return render_template("JobPost.html", form = form) # render template so no data lost
 
 @main.route("/posts")

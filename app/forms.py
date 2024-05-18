@@ -66,9 +66,9 @@ class LoginForm(FlaskForm):
 
 
 class JobForm(FlaskForm):
-    jobtitle = StringField('Job Title', validators=[DataRequired()])
-    jobdescription = TextAreaField('Job Description', validators=[DataRequired()])
-    joblocation = StringField('Job Location', validators=[DataRequired()])
+    jobtitle = StringField('Job Title', validators=[DataRequired(), Length(min=5, max=100, message='Title must be at least 5 characters long.')])
+    jobdescription = TextAreaField('Job Description', validators=[DataRequired(), Length(min=10, max=500, message='Description must be between 10 and 1000 characters.')])
+    joblocation = StringField('Job Location', validators=[DataRequired(),  Length(min=2, max=50, message='Suburb name must be between 2 and 50 characters.')])
     jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
     salary = IntegerField('Job Salary ($AUD)', validators=[DataRequired()])
