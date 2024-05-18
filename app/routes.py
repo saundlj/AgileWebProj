@@ -110,6 +110,7 @@ def feed():
         post.date_string = post.date_posted.strftime("%b %d %Y")
 
     form = FeedApplyForm()
+
     if form.validate_on_submit(): #validated form
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
         db.session.add(application) #add to db
@@ -127,7 +128,6 @@ def feed():
 @main.route("/about")
 def about():
     return render_template("AboutPage.html")
-
 
 @main.route("/logout")
 @login_required
@@ -157,7 +157,7 @@ def account():
     num_jobs_posted = Post.query.filter_by(user_id=current_user.id).count()
         
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.updated_at.desc()).first()
-    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+    return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, num_jobs_applied = num_jobs_applied, num_jobs_posted = num_jobs_posted)
 
 
 
@@ -190,34 +190,3 @@ def myposts():
         db.session.commit()
         flash("Post Successfully Deleted!", 'danger')
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
-
-@main.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
-@login_required # allows only a logged in user to access account page
-def myposts():
-    applicant_info = []
-    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
-    all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
-    user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
-
-    #joins with Post on FK then filters by user's post ids
-    for applicant in user_applications:
-        account_info = Account.query.filter(Account.user_id == applicant.user_id).order_by(Account.id.desc()).first() 
-        #get account info from account db, get most recent version of their account info
-        user_info = User.query.filter(User.id == applicant.user_id).with_entities(User.email, User.first_name, User.last_name).first()
-        #get user information, ONLY email, first name and last_name to not compromise users data to other users!
-        applicant_info.append([applicant, account_info, user_info]) 
-        #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
-
-    form = DeletePostForm()
-    if form.validate_on_submit():
-        postid = form.post_id.data
-        delete_post = Post.query.filter(Post.id == postid)
-        for old_post in delete_post:
-            db.session.delete(old_post)
-        delete_application = Application.query.filter(Application.post_id == postid)
-        for old_application in delete_application:
-            db.session.delete(old_application)
-        db.session.commit()
-        flash("Post Successfully Deleted!", 'danger')
-    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
-
