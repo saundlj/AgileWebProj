@@ -1,27 +1,12 @@
 from unittest import TestCase
 from app import create_app, db
 from app.config import TestConfig
-from app.controllers import JobPostError, LoginUserError, NewUserError, new_user, log_in, new_job_post
+from app.controllers import JobPostError, LoginUserError, NewUserError, UserAccountFormError, new_user, log_in, new_job_post, new_bio
 from app.models import Post, User
 from test_data import *
 
 # TO RUN
 # python -m unittest test/unit.py
-
-# test hashing password
-
-# errors for login - invalid characters in email, email doesn't exist, wrong password
-# errors for signup - invalid characters, username taken, email taken
-
-# user create invalid job listing
-# user create valid job listing
-
-# user applies for job 
-# user cannot apply for own job   
-
-# test should not include real user data or data that changes over time
-# dont want test to rely on external environment
-
 
 class BasicUnitTests(TestCase):
 
@@ -71,7 +56,7 @@ class BasicUnitTests(TestCase):
     def test_password_hashing(self):   
         db.session.add(User(username='passwordcheck', first_name = "tester", last_name = "tested", email = "password@proj.com", password_hash = 'Random123#'))
         user = User.query.get(3)
-        user.set_password() # hash password
+        user.set_password(user.password_hash) # hash password
         self.assertTrue(user.check_password("Random123#"))
         self.assertFalse(user.check_password("RandomPassword#"))
 
@@ -102,3 +87,7 @@ class BasicUnitTests(TestCase):
              job_type = 'Life',
              description = 'This data is stored in the database',
              user_id = 1))
+            
+    def test_userbio_historic_startdate(self):
+        with self.assertRaisesRegex(UserAccountFormError,"Earliest start date cannot be before todays date!"):
+            new_bio(Account(earliest_start_date=datetime(2000, 1, 1)))

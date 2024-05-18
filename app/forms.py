@@ -75,11 +75,11 @@ class JobForm(FlaskForm):
     submit = SubmitField("Create")
 
 
-class ApplyForm(FlaskForm):
+class UserAccountForm(FlaskForm):
     title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.')]
     title_apl = SelectField('Preferred Title', choices=title_choices, validators=[DataRequired()])
     health_choices = [('Physically Able','Physically Able'), ('Not Physically Able','Not Physically Able'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
     health = SelectField('Health Status', choices=health_choices, validators=[DataRequired()])
     earliest_start_date = DateField('Earliest Start Date', default=datetime.now(timezone.utc))
-    personal_bio = TextAreaField('Personal Bio', validators=[DataRequired()])
+    personal_bio = TextAreaField('Personal Bio', validators=[DataRequired(), Length(min=10, max=500, message='Description must be between 10 and 1000 characters.')])
     submit = SubmitField("Submit")

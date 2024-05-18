@@ -24,7 +24,7 @@ from app.models import *
 def add_test_users_to_db():
     user1 = User(username = 'testing', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'Admin2002')
 
-    user1.set_password() # hash password
+    user1.set_password(user1.password_hash) # hash password
 
     post1 = Post(title = 'Test Post',
                 location = 'Somewhere Important',
@@ -35,7 +35,7 @@ def add_test_users_to_db():
 
     user2 = User(username = 'saundlj', first_name = "Luke", last_name = "Saunders", email = "realemail@gmail.com", password_hash = 'Admin2002')
 
-    user2.set_password() # hash password
+    user2.set_password(user1.password_hash) # hash password
 
     post2 = Post(title = 'Software Engineer',
                 location = 'San Francisco, CA',

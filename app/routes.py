@@ -1,10 +1,10 @@
 from app.blueprints import main
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
 import time
-from app.controllers import NewUserError, LoginUserError, JobPostError, log_in, new_user, new_job_post
+from app.controllers import NewUserError, LoginUserError, JobPostError, UserAccountFormError, log_in, new_user, new_job_post, new_bio
 
 # attatch routes to blueprints and not to flaskApp
 # blueprints can be created ahead of time (no configuration needed) 
@@ -49,7 +49,7 @@ def createAccount():
             flash(e, 'danger')
             return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
         
-        user.set_password() # hash password
+        user.set_password(user.password_hash) # hash password
         db.session.add(user)
         db.session.commit()
         flash(f'Account Successfully Created for {user.username}! You are now able to log in', 'success')
@@ -73,7 +73,7 @@ def JobPost():
         db.session.commit()
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
         # return to job posting page
-        
+
     return render_template("JobPost.html", form = form) # render template so no data lost
 
 @main.route("/posts")
@@ -101,13 +101,20 @@ def logout():
 @login_required # allows only a logged in user to access account page
 def account():
     profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
-    form = ApplyForm()
+    form = UserAccountForm()
     if form.validate_on_submit():
-        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
-        db.session.add(info)
-        db.session.commit()
-        flash('Person biography created successfully')  
-    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
+        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id, updated_at=datetime.now(timezone.utc))
+        try:
+            info = new_bio(info)
+            db.session.add(info)
+            db.session.commit()
+            flash('Person biography successfully updated')  
+
+        except UserAccountFormError as e:
+            flash(e, 'danger')
+            # return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+        
+    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.updated_at.desc()).first()
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 

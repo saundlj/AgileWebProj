@@ -38,15 +38,15 @@ class User(db.Model, UserMixin):
     # one to many relationship
     # backref adds author column to Post indicating user
     # lazy lets us look at all posts by a user 
-    posts = db.relationship('Post', backref='author', lazy=True)
-    accounts = db.relationship('Account', backref='author', lazy=True)
+    posts = db.relationship('Post', backref='posts', lazy=True)
+    accounts = db.relationship('Account', backref='accounts', lazy=True)
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
     
     # automatically handles salting
-    def set_password(self):
-        self.password_hash = generate_password_hash(self.password_hash)
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -56,12 +56,11 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True) #replace nulls
     title = db.Column(db.String(100), nullable=True)
     date_posted = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc)) # all in one UTC
-    location = db.Column(db.String(100), nullable=True)
-    job_type = db.Column(db.String(100), nullable=True)
+    location = db.Column(db.String(50), nullable=True)
+    job_type = db.Column(db.String(50), nullable=True)
     description = db.Column(db.Text, nullable=True)
     salary = db.Column(db.Integer, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
-    #user_id logic needs to be fixed
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) # lowercase because referencing column NOT class
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted})"
@@ -72,4 +71,8 @@ class Account(db.Model):
     health = db.Column(db.String(30), nullable=True)
     earliest_start_date = db.Column(db.DateTime, nullable=True, default=datetime.now(timezone.utc))
     personal_bio = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default = 1) # lowercase because referencing column NOT class
+    updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) # lowercase because referencing column NOT class
+
+    def __repr__(self):
+        return f"Account('{self.user_id}', '{self.personal_bio}', '{self.updated_at})"

@@ -4,8 +4,9 @@
 
 # having method to unit test in isolation without having to respond to requests, have the server running or flash method
 
+from datetime import date, datetime, timezone
 import re
-from app.models import User, Post
+from app.models import User, Post, Account
 from app import db
 
 def capitalize_first_word(title):
@@ -61,7 +62,7 @@ def sanitize_input(input_string, name=False, email=False, username=False, text=F
 class NewUserError(Exception):
     pass
 
-def new_user(new_user):
+def new_user(new_user:User):
 
     # username errors
     new_user.username, invalid_string = sanitize_input(new_user.username, username=True)
@@ -116,7 +117,7 @@ def log_in(email,password):
 class JobPostError(Exception):
     pass
 
-def new_job_post(post):
+def new_job_post(post:Post):
 
     # Title errors
     post.title, invalid_string = sanitize_input(post.title, text=True)
@@ -142,6 +143,24 @@ def new_job_post(post):
     # volunteering then $0
     
     return post
+
+class UserAccountFormError(Exception):
+    pass
+
+def new_bio(bio:Account):
+
+    # Date cannot be before today
+    earliest_start_datetime = datetime.combine(bio.earliest_start_date, datetime.min.time()).replace(tzinfo=timezone.utc)
+    if earliest_start_datetime < datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0):
+        raise UserAccountFormError("Earliest start date cannot be before todays date!")
+
+    # Bio errors
+    bio.personal_bio, invalid_string = sanitize_input(bio.personal_bio, description=True)
+    if invalid_string:
+        raise UserAccountFormError("Personal Bio contains at least one invalid character. Please remove and try again.")
+    
+    return bio
+
 
 
 
