@@ -1,22 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row d-flex justify-content-left align-items-left">
-        <div class="col-md-6">
-            <h1>Current Jobs...</h1>
-            <button class='btn btn-info btn-sm' onclick="location.href='/MyJobPosts'">
+
+   <!--Content to be refreshed goes here-->
+  
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1> Current Jobs ... </h1>
+            <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
                 <span class= "fa fa-clipboard"></span>
                 View My Job Posts
             </button>
+    </div> 
+    <div class="container mt-5">
+        <button class="submitButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Apply Filters
+        </button>
+        <div class="collapse feedBox" id="collapseExample">
+          <div class="card card-body">
+            <form method="post">
+                {{ filter_form.hidden_tag() }}
+                {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
+                {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+                {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
+                {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                {{ filter_form.submit() }}
+            </form>
+          </div>
         </div>
-        
-    </div>
-  <!-- Content to be refreshed goes here -->
-  
-  <div class="container d-flex">
+      </div>
 
     <!-- Grid for displaying posts -->
 
-    <div class="row">
+    <div class="row d-flex align-items-center justify-content-center">
 
         <!-- Loop through each post -->
         {% for post in posts %}

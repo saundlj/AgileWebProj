@@ -2,13 +2,12 @@
 {% block content %}
 <br>
 <br>
-<h1> Create a Job Post </h1>
-<br>
-    <div class="col-md-6">
-        <button class='btn btn-info btn-sm' onclick="location.href='/MyJobPosts'">
-            <span class= "fa fa-clipboard"></span>
-            View My Job Posts
-        </button>
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1> Create a Job Post </h1>
+            <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
+                <span class= "fa fa-clipboard"></span>
+                View My Job Posts
+            </button>
     </div>  
 
     <div class="content feedBox" style="padding-top: 20px; overflow: scroll;">
@@ -17,19 +16,19 @@
                 <h1>Set your hiring coordinates</h1>
                 
                 <h2>Tips for writing a good job post <span class="fa solid fa-star" style="color: gold;"></span> </h2>
-                <p>
+                
                     <ul> 
                         <li>Be specific about the job title</li> 
                         <li>Include any prerequiste qualifications</li> 
                         <li>Don't ask for candidates age, religion, gender, etc...</li>
                     </ul> 
-                </p>
+                
             </div>
             <div class="col-md-6">
                 <h1>
                     Start From here...
                 </h1>
-                <form method="POST" action="">
+                <form method="POST">
 
                     {{form.hidden_tag()}}
         

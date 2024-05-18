@@ -2,34 +2,29 @@
 {% block content %}
 
   <!-- Content to be refreshed goes here -->
-<div class="row d-flex justify-content-center align-items-center">
-    <div class="col-md-12">
-        <h1> My Job Posts </h1>
-    </div>
-    <div class="col-md-12">
-        <button class='btn btn-info btn-sm submitButton' onclick="location.href='/JobPost'">
-            <span class= "fa fa-pen"></span>
-            Create a Job Post
-        </button>
-    </div>  
-</div>
-  <div class="container d-flex justify-content-center align-items-center">
-    
-    <div class="row" style="overflow-wrap: normal;">
-        <!-- Loop through each post -->
-        {% for post in user_posts %}
 
-        <!--for each post access all 12 bootstrap columns-->
-        <div class="col-md-12">
+<div class="col-md-6 nonFeedBoxContainer">
+    <h1> My Job Posts </h1>
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/JobPost'">
+        <span class= "fa fa-clipboard"></span>
+        Create a Job Post
+    </button>
+</div>  
+<div class="row d-flex justify-content-center align-items-center" style="overflow-wrap: normal;">
+    <!-- Loop through each post -->
+    {% for post in user_posts %}
+
+    <!--for each post access all 12 bootstrap columns-->
+    <div class="col-md-12">
 
             <!-- create a feedbox object -->
             <div class="feedBox feedBoxSwell">
 
-                <!-- words for post title -->
-                <h1> {{post.title}}
+            <!-- words for post title -->
+            <h1> {{post.title}}
 
-                    <!-- label for post title and expandable content-->
-                    <span>
+                <!-- label for post title and expandable content-->
+                <span>
 
                         <!-- stylying button with 3 different selectors -->
                         <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
@@ -65,14 +60,12 @@
                         {% endif %}
                     {% endfor %}
 
-                    <!-- applying for job button-->
-                        <!-- application form-->
-                </div>
+                <!-- applying for job button-->
+                    <!-- application form-->
             </div>
         </div>
-        {% endfor %}
     </div>
-  </div>
+    {% endfor %}
 </div>
 
 <script>

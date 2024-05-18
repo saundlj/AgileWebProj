@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField, DateField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField, DateField, SelectMultipleField, widgets
+from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired, Optional, NumberRange
 from app.models import *
 from sqlalchemy import func
 
@@ -50,7 +50,7 @@ class JobForm(FlaskForm):
     #provide choice of job types
     jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract'), ('Volunteer', 'Volunteer')]
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
-    salary = IntegerField('Hourly Rate ($AUD)', validators=[DataRequired()])
+    salary = IntegerField('Hourly Rate ($AUD)', validators=[NumberRange(min=0)])
     submit = SubmitField("Create")
 
 
@@ -71,3 +71,11 @@ class FeedApplyForm(FlaskForm):
     cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
     post_id = IntegerField('Post ID')
     submit = SubmitField("Submit")
+
+class FilterForm(FlaskForm):
+    location = StringField('Location', validators=[Optional()])
+    job_type = SelectMultipleField('Job Type', choices=[('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract'), ('Volunteer', 'Volunteer')],
+                                   validators=[Optional()], widget=widgets.ListWidget(prefix_label=False), option_widget=widgets.CheckboxInput())
+    min_rate = IntegerField('Min Rate', validators=[Optional()])
+    max_rate = IntegerField('Max Rate', validators=[Optional()])
+    submit = SubmitField('Apply Filter')
