@@ -9,7 +9,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'  
 login_manager.login_message_category = 'info'
 
-def create_app(config):
+def create_app(config=TestConfig):
     flaskApp = Flask(__name__)
     flaskApp.config.from_object(config)
 
@@ -17,7 +17,8 @@ def create_app(config):
     flaskApp.register_blueprint(main)
     # db.drop_all(flaskApp)
     # db.create_all(flaskApp)
-    db.init_app(flaskApp) # initalise db 
+    db.init_app(flaskApp) # initalise db
+    # add_test_users_to_db() 
     login_manager.init_app(flaskApp) # initialise login_manager
     
     return flaskApp

@@ -65,3 +65,8 @@ def new_user(new_user):
         raise NewUserError("Email already registered. Please Login instead.")
     
     return new_user
+
+
+# def log_in(user):
+
+#     #email errors

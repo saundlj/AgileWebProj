@@ -30,6 +30,7 @@ class BasicUnitTests(TestCase):
         testApp = create_app(TestConfig)
         self.app_context = testApp.app_context()
         self.app_context.push()
+        db.drop_all()
         db.create_all()
         add_test_users_to_db()
 
@@ -69,8 +70,9 @@ class BasicUnitTests(TestCase):
             db.session.add(User(username='testemail1', first_name = "tester", last_name = "tested", email = "email69@proj.com", password_hash = 'Admin2002'))
             new_user(User(username='tesemail2', first_name = "tester", last_name = "tested", email = "email69@proj.com", password_hash = 'Admin2002'))  
 
-    # def test_password_hashing(self):        
-    #     user = User.query.get(1)
-    #     user.set_password("bubbles")
-    #     self.assertTrue(s.check_password("bubbles"))
-    #     self.assertFalse(s.check_password("rabbles"))
+    def test_password_hashing(self):   
+        db.session.add(User(username='passwordcheck', first_name = "tester", last_name = "tested", email = "password@proj.com", password_hash = 'Admin2002'))
+        user = User.query.get(1)
+        user.set_password() # hash password
+        self.assertTrue(user.check_password("Admin2002"))
+        self.assertFalse(user.check_password("RandomPassword"))
