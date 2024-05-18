@@ -89,7 +89,6 @@ a.article-title:hover {
   border-color: #000000;
   border-width: 10;
   display: flexbox;
-  transition: height 0.3s ease; /* Add smooth transition */
   overflow-wrap: normal;
 }
 
@@ -121,12 +120,14 @@ a.article-title:hover {
 }
 
 /* Style for expandable content */
-.expandable-content {
+.expandable_content {
+  height: 0px;
   display: none;
 }
 
-.expandable-content.active {
-  display: block;
+.apply_box {
+  height: 0px;
+  display: none;
 }
 
 /* Style for footer */
