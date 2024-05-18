@@ -1,5 +1,7 @@
 from app.blueprints import main
 from flask import render_template,redirect, url_for, flash, request
+from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm
+from app import db
 from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm
 from app.models import *
 from flask_login import current_user, login_user, logout_user, login_required
@@ -58,6 +60,7 @@ def createAccount():
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
 @main.route('/JobPost', methods = ['GET','POST'])
+@login_required
 def JobPost():
     form = JobForm()
     if form.validate_on_submit():
@@ -70,21 +73,55 @@ def JobPost():
             return render_template("JobPost.html", form = form)
 
         db.session.add(job)
-        db.session.commit()
+        db.session.commit() #add to db
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
         # return to job posting page
 
     return render_template("JobPost.html", form = form) # render template so no data lost
 
-@main.route("/posts")
-def posts():
-    return render_template("posts.html")
-
 @main.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def feed():
-    job_posts = Post.query.all()
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts )
+    filter_form =  FilterForm()
+    if filter_form.validate_on_submit():
+        location = filter_form.location.data
+        job_type = filter_form.job_type.data
+        min_salary = filter_form.min_rate.data
+        max_salary = filter_form.max_rate.data
+
+        query = Post.query
+        if location:
+            query = query.filter(Post.location.ilike(f'%{location}%'))
+        if job_type:
+            query = query.filter(Post.job_type.in_(job_type))
+        if min_salary is not None:
+            query = query.filter(Post.salary >= min_salary)
+        if max_salary is not None:
+            query = query.filter(Post.salary <= max_salary)
+
+        job_posts = query.all()
+
+    else:
+        job_posts = Post.query.all()
+
+    for post in job_posts:
+        username = User.query.get(post.user_id).username
+        post.username = username 
+        post.date_string = post.date_posted.strftime("%b %d %Y")
+
+    form = FeedApplyForm()
+    if form.validate_on_submit(): #validated form
+        application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
+        db.session.add(application) #add to db
+        db.session.commit()
+        flash('Successfully Applied', 'success')
+        
+    current_applied = [] #check applications user has made so far
+    for applicant in Application.query.all():
+        if applicant.user_id == current_user.id:
+            current_applied.append(applicant.post_id)
+
+    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied, filter_form=filter_form)
 
 
 @main.route("/about")
@@ -93,6 +130,7 @@ def about():
 
 
 @main.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('main.about'))
@@ -113,9 +151,73 @@ def account():
         except UserAccountFormError as e:
             flash(e, 'danger')
             # return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+
+
+    num_jobs_applied = Application.query.filter_by(user_id=current_user.id).count()
+    num_jobs_posted = Post.query.filter_by(user_id=current_user.id).count()
         
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.updated_at.desc()).first()
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
 
 
+
+@main.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
+@login_required # allows only a logged in user to access account page
+def myposts():
+    applicant_info = []
+    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
+    all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
+    user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
+
+    #joins with Post on FK then filters by user's post ids
+    for applicant in user_applications:
+        account_info = Account.query.filter(Account.user_id == applicant.user_id).order_by(Account.id.desc()).first() 
+        #get account info from account db, get most recent version of their account info
+        user_info = User.query.filter(User.id == applicant.user_id).with_entities(User.email, User.first_name, User.last_name).first()
+        #get user information, ONLY email, first name and last_name to not compromise users data to other users!
+        applicant_info.append([applicant, account_info, user_info]) 
+        #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
+
+    form = DeletePostForm()
+    if form.validate_on_submit():
+        postid = form.post_id.data
+        delete_post = Post.query.filter(Post.id == postid)
+        for old_post in delete_post:
+            db.session.delete(old_post)
+        delete_application = Application.query.filter(Application.post_id == postid)
+        for old_application in delete_application:
+            db.session.delete(old_application)
+        db.session.commit()
+        flash("Post Successfully Deleted!", 'danger')
+    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
+
+@main.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
+@login_required # allows only a logged in user to access account page
+def myposts():
+    applicant_info = []
+    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
+    all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
+    user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
+
+    #joins with Post on FK then filters by user's post ids
+    for applicant in user_applications:
+        account_info = Account.query.filter(Account.user_id == applicant.user_id).order_by(Account.id.desc()).first() 
+        #get account info from account db, get most recent version of their account info
+        user_info = User.query.filter(User.id == applicant.user_id).with_entities(User.email, User.first_name, User.last_name).first()
+        #get user information, ONLY email, first name and last_name to not compromise users data to other users!
+        applicant_info.append([applicant, account_info, user_info]) 
+        #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
+
+    form = DeletePostForm()
+    if form.validate_on_submit():
+        postid = form.post_id.data
+        delete_post = Post.query.filter(Post.id == postid)
+        for old_post in delete_post:
+            db.session.delete(old_post)
+        delete_application = Application.query.filter(Application.post_id == postid)
+        for old_application in delete_application:
+            db.session.delete(old_application)
+        db.session.commit()
+        flash("Post Successfully Deleted!", 'danger')
+    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 

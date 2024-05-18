@@ -1,31 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div id="result" style="padding: 50px;">
-    <button class = 'btn btn-info btn-sm' onclick="location.href='JobPost'">
-        <span class= "fa fa-pen"></span>
-        Create a Job Post
-    </button>
-  <!-- Content to be refreshed goes here -->
-  <div class="container d-flex">
-       
-    <div class="row">
-        <div class="content">
-                {% for post in job_posts %}
-                    <h1>
-                        {{post.title}}
-                    </h1>
-                    <p>Posted By {{post.company}} on {{post.date_posted}}</p>
-                    <p>Location : {{post.location}}</p>
-                    <p>Job Type : {{post.job_type}}</p>
-                    <p>Salary ($AUD): {{post.salary}}</p>
-                    <p>Description : {{post.description}}</p>
-                {% endfor %}
+   <!--Content to be refreshed goes here-->
+  
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1> Current Jobs ... </h1>
+            <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
+                <span class= "fa fa-clipboard"></span>
+                View My Job Posts
+            </button>
+    </div> 
+    <div class="container mt-5">
+        <button class="submitButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Apply Filters
+        </button>
+        <div class="collapse feedBox" id="collapseExample">
+          <div class="card card-body">
+            <form method="post">
+                {{ filter_form.hidden_tag() }}
+                {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
+                {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+                {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
+                {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                {{ filter_form.submit() }}
+            </form>
+          </div>
         </div>
-    </div>
+      </div>
+
     <!-- Grid for displaying posts -->
 
-    <div class="row">
+    <div class="row d-flex align-items-center justify-content-center">
 
         <!-- Loop through each post -->
         {% for post in posts %}
@@ -34,91 +39,196 @@
         <div class="col-md-12">
 
             <!-- create a feedbox object -->
-            <div class="feedBox">
-
+            <div class="feedBox feedBoxSwell">
                 <!-- words for post title -->
                 <h1> {{post.title}}
-
                     <!-- label for post title and expandable content-->
                     <span>
-
-                        <!-- stylying button with 3 different selectors -->
-                        <button onclick="toggleExpand('expand_btn_{{ loop.index }}')" class = "btn btn-sm btn-outline-info feed_expand_btn" id = "expand_btn_{{ loop.index }}">
-
-                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
-                            <img src="../static/plusIcon.png" alt="" style="width: 20px; height: 22px;">
+                        <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
+                            <i class="fas fa-plus fa-xs"></i>
                         </button>
                     </span>
                 </h1>
 
                 <!-- Metadata -->
-                <p><strong>Posted By {{post.company}} on {{post.date_posted}}</strong></p>
+                <p><strong>Posted By {{post.username}} on {{post.date_string}}</strong></p>
                 <p><strong>Location :</strong> {{post.location}}</p>
                 <!-- Expandable content section -->
-                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
+                <div class="expandable_content" id= "expandable_content_{{loop.index}}">
                     <p><strong>Job Type : </strong>{{post.job_type}}</p>
-                    <p><strong>Salary : </strong>{{post.salary}}</p>
+                    <p><strong>Salary ($AUD per/hour): </strong>{{post.salary}}</p>
                     <p><strong>Description : </strong>{{post.description}}</p>
 
-                    <!-- applying for job button-->
-                    <p><button class = 'btn btn-info btn-sm' onclick="applicationExpand('apply_box_{{ loop.index }}')" id = "apply_btn_{{loop.index}}"> <span class= "fa fa-pen"></span> Apply </button></p>
+                    <!-- Checks not already applied for job-->
+                    {% if post.id not in current_applied %}
 
-                    <!-- application form-->
-                    <div id = "apply_box_{{ loop.index }}" style = "display: none;">
-                        <p><strong>Application</strong></p>
-                        <p>Please write your application in the box below:</p>
-                        <form method = "post">
-                            <!-- text box area -->
-                            <textarea id = "application" name = "application"></textarea>
-                            <br>
-                            <!-- submit and save as draft button -->
-                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-send"></span> Submit</button>
-                            <button type = "submit" class = "btn btn-info btn-sm"> <span class = "bi bi-save"></span> Save as Draft</button>
-                        </form>
-                    </div>
+                        <!-- applying for job button -->
+                        <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> 
+                            <span> <i class= "fa fa-pen"> </i> Apply </span>
+                        </button>
+
+                    {% else %}   
+                        <!-- else show applied -->
+                        <p id = "application_response_{{loop.index}}" class = "application_response colour_change"></p>
+                    {% endif %} 
+                </div>
+                <!-- application form-->
+                <div id = "apply_box_{{ loop.index }}" class = "apply_box">
+                    <p><strong>Application</strong></p>
+                    <p>What makes you a good candidate?</p>
+                    
+                    <form method="POST" action="" class="feedApplyForm">
+
+                        {{form.hidden_tag()}}
+
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                        <fieldset class="form-group">
+            
+                            <div class = "form-group">  
+                                {{form.cover_letter.label(class='form-control-label')}}
+            
+                                {% if form.cover_letter.errors %}
+                                    {{form.cover_letter(class="form-control is-invalid")}}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.cover_letter.errors %}
+                                            <span>{{error}}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{form.cover_letter(class='form-control')}}
+                                {% endif %}
+                            </div>
+            
+                        </fieldset>
+                        <br>
+                        <div class="form-group">
+                            {{form.submit(class="submitButton btnSwell")}}
+                        </div>
+                    </form>   
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-  </div>
 </div>
-
 <script>
+    // Set of possible messages that can be displayed
+    const textOptions = [
+        "Thank you for submitting your application! We'll be in touch soon.",
+        "Your application has been received. We appreciate your interest!",
+        "Success! Your application is in the queue for review.",
+        "All set! We've received your application and will review it shortly.",
+        "Application submitted successfully. Check your email for confirmation.",
+        "Great! We have your application. Please allow some time for processing.",
+        "Thanks! We’re thrilled to review your application soon.",
+        "Your application is on its way to our team. Stay tuned for updates!",
+        "You’ve successfully applied. We’ll notify you with the next steps.",
+        "Excellent! We look forward to exploring your application further."
+    ];
+    
+    // Function to get a random element from the array
+    function getRandomText(textOptions) {
+        return textOptions[Math.floor(Math.random() * textOptions.length)];
+    }
+    
     function applicationExpand(id) {
-        //form id
-        let x = document.getElementById(id);
-
-        // application button ID
+        // Form ID
+        let x = document.getElementById("apply_box_" + id.split("_")[2]);
+    
+        // Application button ID
         let y = document.getElementById("apply_btn_" + id.split("_")[2]);
-
-        if (x.style.display === "none") {
-            x.style.display = "block";
-            y.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+        if (getComputedStyle(x).height === "0px") {
+            smoothExpansion(x, true);
+            y.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
         } else {
-            x.style.display = "none";
-            y.innerHTML = "<i class = 'fa fa-pen'></i> Apply"
+            smoothExpansion(x, false);
+            y.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
         }
     }
-</script>
-
-<script>
+    
     function toggleExpand(id) {
         // ID for the button which will expand the content
         let x = document.getElementById(id);
-        
+    
         // ID for the content to be expanded
         let y = document.getElementById("expandable_content_" + id.split("_")[2]);
-        console.log(y);
-
-        if (y.style.display === "none") {
-            y.style.display = "block";
-            x.innerHTML = '<img src="static/minusIcon.png" alt="" style="width: 20px; height: 22px;">';
+    
+        // ID for application message
+        let z = document.getElementById("application_response_" + id.split("_")[2]);
+        if (getComputedStyle(y).height === "0px") {
+            smoothExpansion(y, true);
+            x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
+            z.innerHTML = getRandomText(textOptions);
+            z.style.fontWeight = "bold";
+            z.style.fontSize = "1.2em";
         } else {
-            y.style.display = "none";
-            x.innerHTML = '<img src="static/plusIcon.png" alt="" style="width: 20px; height: 22px;">';
+            smoothExpansion(y, false);
+            x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
+    
+    function smoothExpansion(element, expand) {
+        if (expand) {
+            // Prepare element for expansion
+            element.style.display = "block";
+            element.style.height = "auto";
+            const height = element.scrollHeight + "px";
+            element.style.height = "0";
+            element.style.opacity = "0";
+    
+            // Force reflow to apply initial height
+            element.offsetHeight;
+
+            requestAnimationFrame(() => {
+                element.style.transition = "height 0.4s ease-in-out, opacity 1s ease-in-out";
+                element.style.height = height;
+                element.style.opacity = "1";}
+            )
+        }
+        else {
+            // Transition to zero height
+            element.style.transition = "height 0.5s ease-in-out 400ms, opacity 0.6s ease-in-out";
+            element.style.height = "0";
+            element.style.opacity = "0";
+        }
+    }
+    
+    // Event listener to expand post button
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all expand buttons correctly
+        const expandButtons = document.querySelectorAll('.feed_expand_btn');
+        // Select all application buttons
+        const applyButtons = document.querySelectorAll('.feed_apply_btn');
+    
+        // Event handler function for each expand button
+        expandButtons.forEach(button => {
+            button.addEventListener('click', (event) => toggleExpand(button.id));
+        });
+    
+        // Event handler function for each application button
+        applyButtons.forEach(button => {
+            button.addEventListener('click', (event) => applicationExpand(button.id));
+        });
+    });
+    
+    // Changing color of application messages
+    let textElements = document.querySelectorAll('.application_response');
+    
+    textElements.forEach(textElement => {
+        startColorChange(textElement);
+    });
+    
+    function startColorChange(textElement) {
+        let colors = ['rgba(63,94,251, 0.8)', 'rgb(132, 31, 255)', 'rgb(21, 0, 255)', 'rgb(255, 0, 0)'];
+        let index = 0;
+        setInterval(function() {
+            textElement.style.color = colors[index];
+            index = (index + 1) % colors.length;  // Move to the next color
+        }, 3000);
+    }
+    
 </script>
 
 {% endblock content %}

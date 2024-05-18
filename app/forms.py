@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField, DateField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, ValidationError, TextAreaField, IntegerField, SelectField, DateField, SelectMultipleField, widgets
+from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired, Optional, NumberRange
 from app.models import *
 from sqlalchemy import func
 import string
@@ -69,17 +69,43 @@ class JobForm(FlaskForm):
     jobtitle = StringField('Job Title', validators=[DataRequired(), Length(min=5, max=100, message='Title must be at least 5 characters long.')])
     jobdescription = TextAreaField('Job Description', validators=[DataRequired(), Length(min=10, max=500, message='Description must be between 10 and 1000 characters.')])
     joblocation = StringField('Job Location', validators=[DataRequired(),  Length(min=2, max=50, message='Suburb name must be between 2 and 50 characters.')])
-    jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract')]
+    #provide choice of job types
+    jobtype_choices = [('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract'), ('Volunteer', 'Volunteer')]
     jobtype = SelectField('Job Type', choices=jobtype_choices, validators=[DataRequired()])
-    salary = IntegerField('Job Salary ($AUD)', validators=[DataRequired()])
+    salary = IntegerField('Hourly Rate ($AUD)', validators=[NumberRange(min=0)])
     submit = SubmitField("Create")
 
 
 class UserAccountForm(FlaskForm):
-    title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.')]
+    #provide choice of titles to user
+    title_choices = [('Mr.', 'Mr.'), ('Ms.', 'Ms.'), ('Mrs.', 'Mrs.'), ('Miss.', 'Miss.'), ('Master.', 'Master.'), ('Madam.', 'Madam.'), ('Mx.', 'Mx.'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
     title_apl = SelectField('Preferred Title', choices=title_choices, validators=[DataRequired()])
+    #provide choice of health selections
     health_choices = [('Physically Able','Physically Able'), ('Not Physically Able','Not Physically Able'), ('I Would Rather Not Say', 'I Would Rather Not Say')]
     health = SelectField('Health Status', choices=health_choices, validators=[DataRequired()])
+    #default start time to now
     earliest_start_date = DateField('Earliest Start Date', default=datetime.now(timezone.utc))
     personal_bio = TextAreaField('Personal Bio', validators=[DataRequired(), Length(min=10, max=500, message='Description must be between 10 and 1000 characters.')])
     submit = SubmitField("Submit")
+
+class FeedApplyForm(FlaskForm):
+    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
+    post_id = IntegerField('Post ID')
+    submit = SubmitField("Submit")
+
+class FeedApplyForm(FlaskForm):
+    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
+    post_id = IntegerField('Post ID')
+    submit = SubmitField("Submit")
+
+class FilterForm(FlaskForm):
+    location = StringField('Location', validators=[Optional()])
+    job_type = SelectMultipleField('Job Type', choices=[('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time'), ('Casual', 'Casual'), ('Contract', 'Contract'), ('Volunteer', 'Volunteer')],
+                                   validators=[Optional()], widget=widgets.ListWidget(prefix_label=False), option_widget=widgets.CheckboxInput())
+    min_rate = IntegerField('Min Rate', validators=[Optional()])
+    max_rate = IntegerField('Max Rate', validators=[Optional()])
+    submit = SubmitField('Apply Filter')
+
+class DeletePostForm(FlaskForm):
+    post_id = IntegerField('Post ID', validators=[DataRequired()])
+    submit = SubmitField('Delete Post')

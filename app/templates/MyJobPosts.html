@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <!-- Content to be refreshed goes here -->
+
+<div class="col-md-6 nonFeedBoxContainer">
+    <h1> My Job Posts </h1>
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/JobPost'">
+        <span class= "fa fa-clipboard"></span>
+        Create a Job Post
+    </button>
+</div>  
+<div class="row d-flex justify-content-center align-items-center" style="overflow-wrap: normal;">
+    <!-- Loop through each post -->
+    {% for post in user_posts %}
+
+    <!--for each post access all 12 bootstrap columns-->
+    <div class="col-md-12">
+
+            <!-- create a feedbox object -->
+            <div class="feedBox feedBoxSwell">
+
+            <!-- words for post title -->
+            <h1> {{post.title}}
+
+                <!-- label for post title and expandable content-->
+                <span>
+
+                        <!-- stylying button with 3 different selectors -->
+                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
+
+                            <!-- image of plus icon as defualt "+" rendering inappropriate-->
+                            <i class="fas fa-plus fa-xs"></i>
+                        </button>
+                    </span>
+                </h1>
+
+                <!-- Metadata -->
+                <p><strong> {{ post.date_posted }}</strong> </p>
+
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                    <div class="form-group">
+                        {{form.submit(class="submitButton btnSwell")}}
+                    </div>
+                </form>
+                <br>
+                
+                <!-- Expandable content section -->
+                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
+                    <p><strong> Applicants:</strong> </p>
+                    {% for applicant in applicant_info %}
+                        {% if applicant[0].post_id == post.id %}
+                            <div style="display: inline-flex;">
+                                <p><b>{{applicant[2].first_name}} {{applicant[2].last_name}}</b></p> 
+                                <p><button class = 'btn feed_post_btn btnSwell feed_expand_btn applicant_btn' id = "applicant_btn_{{loop.index}}">
+                                    <i class="fas fa-plus fa-xs"></i>
+                                </button></p>
+                            </div>
+                            <div id = "applicant_box_{{ loop.index }}" style = "display: none;">
+                                <p> <strong> Title: </strong> {{ applicant[1].title_apl }} </p>
+                                <p> <strong> Contact at: </strong> {{ applicant[2].email }} </p>
+                                <p> <strong> Earliest Start Date: </strong> {{ applicant[1].earliest_start_date }} </p>
+                                <p> <strong> Personal Bio: </strong> {{ applicant[1].personal_bio }} </p>
+                                <p> <strong> Health Status: </strong> {{ applicant[1].health }} </p>
+                                <p> <strong> Cover Letter: </strong> {{ applicant[0].cover_letter }} </p>
+                            </div>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+
+                <!-- applying for job button-->
+                    <!-- application form-->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const expandButtons = document.querySelectorAll('.feed_expand_btn')
+        const applicantButtons = document.querySelectorAll('.feed_expand_btn.applicant_btn')
+
+        function toggleExpand(id) {
+        // ID for the button which will expand the content
+            let x = document.getElementById(id);
+            
+            // ID for the content to be expanded
+            let y = document.getElementById("expandable_content_" + id.split("_")[2]);
+            console.log(y);
+
+            if (y.style.display === "none") {
+                y.style.display = "block";
+                x.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
+            } else {
+                y.style.display = "none";
+                x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
+        }}
+
+        function applicationExpand(id) {
+            //form id
+            let x = document.getElementById("applicant_box_" + id.split("_")[2]);
+
+            // application button ID
+            let y = document.getElementById(id);
+
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
+            } else {
+                x.style.display = "none";
+                y.innerHTML = '<i class="fas fa-plus fa-xs"></i>'
+        }}
+
+        expandButtons.forEach(button => {
+            button.addEventListener('click', (event) => toggleExpand(button.id))
+        })
+
+        applicantButtons.forEach(button => {
+            button.addEventListener('click', (event) => applicationExpand(button.id))
+        })
+    })
+</script>
+
+{% endblock %}
