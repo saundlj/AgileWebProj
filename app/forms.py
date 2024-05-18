@@ -79,3 +79,7 @@ class FilterForm(FlaskForm):
     min_rate = IntegerField('Min Rate', validators=[Optional()])
     max_rate = IntegerField('Max Rate', validators=[Optional()])
     submit = SubmitField('Apply Filter')
+
+class DeletePostForm(FlaskForm):
+    post_id = IntegerField('Post ID', validators=[DataRequired()])
+    submit = SubmitField('Delete Post')
