@@ -10,15 +10,23 @@
                 View My Job Posts
             </button>
     </div> 
-
-    <form method="post">
-        {{ filter_form.hidden_tag() }}
-        {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
-        {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
-        {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
-        {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
-        {{ filter_form.submit() }}
-    </form>
+    <div class="container mt-5">
+        <button class="submitButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Apply Filters
+        </button>
+        <div class="collapse feedBox" id="collapseExample">
+          <div class="card card-body">
+            <form method="post">
+                {{ filter_form.hidden_tag() }}
+                {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
+                {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+                {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
+                {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                {{ filter_form.submit() }}
+            </form>
+          </div>
+        </div>
+      </div>
 
     <!-- Grid for displaying posts -->
 
