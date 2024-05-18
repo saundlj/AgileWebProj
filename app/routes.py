@@ -164,6 +164,6 @@ def myposts():
         for old_application in delete_application:
             db.session.delete(old_application)
         db.session.commit()
-
+        flash("Post Successfully Deleted!", 'danger')
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 
