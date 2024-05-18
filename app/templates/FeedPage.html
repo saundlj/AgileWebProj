@@ -2,33 +2,46 @@
 {% block content %}
 
    <!--Content to be refreshed goes here-->
-  
-    <div class="col-md-6 nonFeedBoxContainer">
-        <h1> Current Jobs ... </h1>
-            <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
-                <span class= "fa fa-clipboard"></span>
-                View My Job Posts
-            </button>
-    </div> 
-    <div class="container mt-5">
-        <button class="submitButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          Apply Filters
-        </button>
-        <div class="collapse feedBox" id="collapseExample">
-          <div class="card card-body">
-            <form method="post">
-                {{ filter_form.hidden_tag() }}
-                {{ filter_form.location.label }} {{ filter_form.location(size=32) }}<br>
-                {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
-                {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br> 
-                {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
-                {{ filter_form.submit() }}
-            </form>
-          </div>
-        </div>
-      </div>
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-md-12 ">
+                <div class ="flex-container">
+                    <button class = 'flex-item btn btn-sm submitButton btnSwell nonFeedBoxBtn' id = 'FilterExpandBtn'>
+                        Apply Filters
+                    </button>
 
-    <!-- Grid for displaying posts -->
+                    <h1 class = 'flex-item'> Current Jobs ... </h1>
+
+                    <button class=' flex-item btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
+                        <span class= "fa fa-clipboard"></span>
+                        View My Job Posts
+                    </button>
+                </div>
+        </div>
+    </div>
+
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-md-6 ">
+            <div id="FilterContent" class="feedBox feedBoxSwell filterFeedBox" style="display: none;">
+                <form method="post">
+                    {{ filter_form.hidden_tag() }}
+                    {{ filter_form.location.label(class = 'formTextLabel') }} {{ filter_form.location(size=32, class = 'form-control') }}<br>
+                    <div class="flex-container" style="margin-bottom: +3%;">
+                        {% for subfield in filter_form.job_type %}
+                            <div class="form-check flex-item">
+                                {{ subfield(class='form-check-input') }}
+                                {{ subfield.label(class='form-check-label formTextLabel') }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ filter_form.min_rate.label(class = 'formTextLabel') }} {{ filter_form.min_rate(placeholder='MIN', class = 'form-control') }}<br> 
+                    {{ filter_form.max_rate.label(class = 'formTextLabel') }} {{ filter_form.max_rate(placeholder='MAX', class = 'form-control') }}<br>
+                    {{ filter_form.submit( class = 'submitButton btnSwell CreateAccountLoginSubmitBtn') }}
+                </form>
+            </div>
+        </div>
+    </div> 
+
+    <!-- Grid for displaying posts filterJobTypeMargin -->
 
     <div class="row d-flex align-items-center justify-content-center">
 
@@ -194,6 +207,16 @@
             element.style.opacity = "0";
         }
     }
+
+    function filterExpand(id){
+        let FilterContent = document.getElementById('FilterContent'); 
+        if (getComputedStyle(FilterContent).height === "0px"){
+            smoothExpansion(FilterContent,true)
+        } 
+        else {
+            smoothExpansion(FilterContent,false);
+        }
+    }
     
     // Event listener to expand post button
     document.addEventListener("DOMContentLoaded", function() {
@@ -201,6 +224,9 @@
         const expandButtons = document.querySelectorAll('.feed_expand_btn');
         // Select all application buttons
         const applyButtons = document.querySelectorAll('.feed_apply_btn');
+
+        //adding event listener to filter button
+        const filterExpandBtnID = document.getElementById('FilterExpandBtn');
     
         // Event handler function for each expand button
         expandButtons.forEach(button => {
@@ -211,6 +237,9 @@
         applyButtons.forEach(button => {
             button.addEventListener('click', (event) => applicationExpand(button.id));
         });
+
+        // event handler for expanding the filter options
+        filterExpandBtnID.addEventListener('click',(event) => filterExpand());
     });
     
     // Changing color of application messages
