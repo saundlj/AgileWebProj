@@ -6,7 +6,7 @@
         <div class="col-md-12 ">
                 <div class ="flex-container">
                     <button class = 'flex-item btn btn-sm submitButton btnSwell nonFeedBoxBtn' id = 'FilterExpandBtn'>
-                        Apply Filters
+                        Filters
                     </button>
 
                     <h1 class = 'flex-item'> Current Jobs ... </h1>
@@ -21,13 +21,13 @@
 
     <div class="row d-flex align-items-center justify-content-center">
         <div class="col-md-6 ">
-            <div id="FilterContent" class="feedBox feedBoxSwell filterFeedBox" style="display: none;">
+            <div  class="feedBox feedBoxSwell filterFeedBox" id="FilterContent" style ="display: none">
                 <form method="post">
                     {{ filter_form.hidden_tag() }}
                     {{ filter_form.location.label(class = 'formTextLabel') }} {{ filter_form.location(size=32, class = 'form-control') }}<br>
                     <div class="flex-container" style="margin-bottom: +3%;">
                         {% for subfield in filter_form.job_type %}
-                            <div class="form-check flex-item">
+                            <div class="form-check flex-item d-flex">
                                 {{ subfield(class='form-check-input') }}
                                 {{ subfield.label(class='form-check-label formTextLabel') }}
                             </div>
@@ -210,11 +210,13 @@
 
     function filterExpand(id){
         let FilterContent = document.getElementById('FilterContent'); 
-        if (getComputedStyle(FilterContent).height === "0px"){
-            smoothExpansion(FilterContent,true)
+
+        if (getComputedStyle(FilterContent).display === "none"){ 
+            smoothExpansion(FilterContent,true);
         } 
         else {
-            smoothExpansion(FilterContent,false);
+            smoothExpansion(FilterContent,false)
+            FilterContent.style.display = "none";
         }
     }
     
