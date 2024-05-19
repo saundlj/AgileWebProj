@@ -162,6 +162,7 @@
     
         // Application button ID
         let y = document.getElementById("apply_btn_" + id.split("_")[2]);
+
         if (getComputedStyle(x).height === "0px") {
             smoothExpansion(x, true);
             y.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
@@ -172,14 +173,21 @@
     }
     
     function toggleExpand(id) {
-        // ID for the button which will expand the content
+        // button which will expand the content
         let x = document.getElementById(id);
     
-        // ID for the content to be expanded
+        // content to be expanded
         let y = document.getElementById("expandable_content_" + id.split("_")[2]);
     
-        // ID for application message
+        // application message
         let z = document.getElementById("application_response_" + id.split("_")[2]);
+
+        // apply area content
+        let m = document.getElementById("apply_box_" + id.split("_")[2]);
+
+        // apply button 
+        let k = document.getElementById("apply_btn_" + id.split("_")[2]);
+
         if (getComputedStyle(y).height === "0px") {
             smoothExpansion(y, true);
             x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
@@ -187,6 +195,8 @@
             z.style.fontWeight = "bold";
             z.style.fontSize = "1.2em";
         } else {
+            smoothExpansion(m, false)
+            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>'
             smoothExpansion(y, false);
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }

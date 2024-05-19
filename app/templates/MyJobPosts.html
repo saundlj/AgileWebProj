@@ -37,14 +37,25 @@
 
                 <!-- Metadata -->
                 <p><strong> {{ post.date_posted }}</strong> </p>
+
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                    <div class="form-group">
+                        {{form.submit(class="submitButton btnSwell")}}
+                    </div>
+                </form>
+                <br>
+                
                 <!-- Expandable content section -->
-                <div class="expandable_content" id= "expandable_content_{{loop.index}}" style="display: none;">
+                <div id= "expandable_content_{{loop.index}}" style="display: none;">
                     <p><strong> Applicants:</strong> </p>
                     {% for applicant in applicant_info %}
                         {% if applicant[0].post_id == post.id %}
                             <div style="display: inline-flex;">
                                 <p><b>{{applicant[2].first_name}} {{applicant[2].last_name}}</b></p> 
-                                <p><button class = 'btn feed_post_btn btnSwell feed_expand_btn applicant_btn' id = "applicant_btn_{{loop.index}}">
+                                <p><button class = 'btn feed_post_btn btnSwell applicant_btn' id = "applicant_btn_{{loop.index}}">
                                     <i class="fas fa-plus fa-xs"></i>
                                 </button></p>
                             </div>
@@ -71,7 +82,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const expandButtons = document.querySelectorAll('.feed_expand_btn')
-        const applicantButtons = document.querySelectorAll('.feed_expand_btn.applicant_btn')
+        const applicantButtons = document.querySelectorAll('.applicant_btn')
 
         function toggleExpand(id) {
         // ID for the button which will expand the content
@@ -100,6 +111,7 @@
                 x.style.display = "block";
                 y.innerHTML = '<i class = "fas fa-minus fa-xs"></i>';
             } else {
+                console.log(x)
                 x.style.display = "none";
                 y.innerHTML = '<i class="fas fa-plus fa-xs"></i>'
         }}

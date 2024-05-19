@@ -1,66 +1,88 @@
-from app import flaskApp
-from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, ApplyForm, FeedApplyForm, FilterForm
+from app.blueprints import main
+from flask import render_template,redirect, url_for, flash
+from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm
 from app import db
-from app.models import *
+from app.models import User, Post, Account, Application
+from datetime import datetime, timezone
 from flask_login import current_user, login_user, logout_user, login_required
 import time
+from app.controllers import NewUserError, LoginUserError, JobPostError, UserAccountFormError, log_in, new_user, new_job_post, new_bio
 
-@flaskApp.route("/", methods = ['GET','POST'])
-@flaskApp.route("/home", methods = ['GET'])
+# attatch routes to blueprints and not to flaskApp
+# blueprints can be created ahead of time (no configuration needed) 
+@main.route("/", methods = ['GET','POST'])
+@main.route("/home", methods = ['GET'])
 def home():
     return render_template("home.html", title = "Home")
 
-@flaskApp.route('/login', methods = ['GET','POST'])
+@main.route('/login', methods = ['GET','POST'])
 def login():
 
     if current_user.is_authenticated: #if user is remembered 
-        return redirect(url_for('feed'))
+        return redirect(url_for('main.feed'))
     
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first() # check email exists 
-        if not user:
-            flash(f"Email entered is not registered. Try creating an account!", 'danger')
+        try:
+            user = log_in(form.email.data,form.password.data)
+
+        except LoginUserError as e:
+            flash(e, 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
-        password = form.password.data
-        if not user.check_password(password): # check password for account matches input
-            flash(f'Invalid password. Please try again.', 'danger')
-            return render_template("LoginPage.html", form = form, title = 'Login')
+
         login_user(user, remember=form.remember.data)
-        flash(f'Successfully Logged In!', 'success')
-        return redirect(url_for('feed'))
+        flash(f'Welcome back {user.first_name}!', 'success')
+        return redirect(url_for('main.feed'))
     return render_template("LoginPage.html", form = form, title = 'Login')
 
-@flaskApp.route('/createAccount', methods = ['GET','POST'])
+@main.route('/createAccount', methods = ['GET','POST'])
 def createAccount():
     if current_user.is_authenticated:
-        return redirect(url_for('feed'))
+        return redirect(url_for('main.feed'))
     
     form = CreateAccountForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password_hash=form.password.data)
-        user.set_password() # hash password
+        
+        # error checking and santising of form data
+        try:
+            user = new_user(user)
+        
+        except NewUserError as e:
+            flash(e, 'danger')
+            return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
+        
+        user.set_password(user.password_hash) # hash password
         db.session.add(user)
         db.session.commit()
-        flash(f'Account Successfully Created for {form.username.data}! You are now able to log in', 'success')
-        return redirect(url_for('login')) # redirect to login page
+        flash(f'Account Successfully Created for {user.username}! You are now able to log in', 'success')
+        return redirect(url_for('main.login')) # redirect to login page
     
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
-@flaskApp.route('/JobPost', methods = ['GET','POST'])
+@main.route('/JobPost', methods = ['GET','POST'])
 @login_required
 def JobPost():
     form = JobForm()
-    if form.validate_on_submit(): #validated form
+    if form.validate_on_submit():
         job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data, user_id = current_user.id)
+        try:
+            job = new_job_post(job)
+
+        except JobPostError as e:
+            flash(e, 'danger')
+            return render_template("JobPost.html", form = form)
+
         db.session.add(job)
         db.session.commit() #add to db
         flash(f'Job Posting Successfully Created for {form.jobtitle.data}!', 'success')    
+        # return to job posting page
+        return redirect(url_for('main.myposts'))
+
     return render_template("JobPost.html", form = form) # render template so no data lost
 
-@flaskApp.route("/feed", methods = ['GET', 'POST'])
-@login_required # allows only a logged in user to access feed page
+@main.route("/feed", methods = ['GET', 'POST'])
+@login_required # allows only a logged in user to access account page
 def feed():
     filter_form =  FilterForm()
     if filter_form.validate_on_submit():
@@ -90,6 +112,7 @@ def feed():
         post.date_string = post.date_posted.strftime("%b %d %Y")
 
     form = FeedApplyForm()
+
     if form.validate_on_submit(): #validated form
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
         db.session.add(application) #add to db
@@ -104,44 +127,47 @@ def feed():
     return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied, filter_form=filter_form)
 
 
-@flaskApp.route("/about")
+@main.route("/about")
 def about():
     return render_template("AboutPage.html")
 
-
-@flaskApp.route("/logout")
+@main.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('about'))
+    return redirect(url_for('main.about'))
 
-@flaskApp.route("/account", methods = ['GET', 'POST'])
+@main.route("/account", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def account():
-    profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file) # capability for user to edit profile photo 
-    form = ApplyForm()
+    profile_pic = url_for('static', filename = 'user_photos/'+ current_user.image_file)
+    form = UserAccountForm()
+    if form.validate_on_submit():
+        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id, updated_at=datetime.now(timezone.utc))
+        try:
+            info = new_bio(info)
+            db.session.add(info)
+            db.session.commit()
+            flash('Person biography successfully updated')  
 
-    if form.validate_on_submit(): #if from validates
-        info = Account(title_apl=form.title_apl.data, health=form.health.data, earliest_start_date=form.earliest_start_date.data, personal_bio=form.personal_bio.data, user_id = current_user.id)
-        db.session.add(info)
-        db.session.commit() #add to db
-        flash('Person biography created successfully', 'success')  
+        except UserAccountFormError as e:
+            flash(e, 'danger')
+            # return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info)
+
 
     num_jobs_applied = Application.query.filter_by(user_id=current_user.id).count()
     num_jobs_posted = Post.query.filter_by(user_id=current_user.id).count()
-
-    #get account info of current user, order descending on id to select most recent addtion to db
-    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.id.desc()).first()
-
+        
+    user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.updated_at.desc()).first()
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, num_jobs_applied = num_jobs_applied, num_jobs_posted = num_jobs_posted)
 
 
 
-@flaskApp.route("/MyJobPosts", methods = ['GET', 'POST'])
+@main.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
 @login_required # allows only a logged in user to access account page
 def myposts():
     applicant_info = []
-    user_posts = Post.query.filter(Post.user_id == current_user.id) #gets current users posts
+    user_posts = Post.query.filter(Post.user_id == current_user.id).order_by(Post.date_posted.desc()) #gets current users posts
     all_post_ids = [post.id for post in user_posts] #returns all the post ids by the current user
     user_applications = Application.query.filter(Application.post_id.in_(all_post_ids)).all()
 
@@ -153,5 +179,16 @@ def myposts():
         #get user information, ONLY email, first name and last_name to not compromise users data to other users!
         applicant_info.append([applicant, account_info, user_info]) 
         #append account info as well as applicants because it contains the cover letter. Gets most up to date account info
-    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info)
 
+    form = DeletePostForm()
+    if form.validate_on_submit():
+        postid = form.post_id.data
+        delete_post = Post.query.filter(Post.id == postid)
+        for old_post in delete_post:
+            db.session.delete(old_post)
+        delete_application = Application.query.filter(Application.post_id == postid)
+        for old_application in delete_application:
+            db.session.delete(old_application)
+        db.session.commit()
+        flash("Post Successfully Deleted!", 'danger')
+    return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
