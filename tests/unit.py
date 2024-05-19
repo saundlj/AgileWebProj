@@ -1,8 +1,8 @@
 from unittest import TestCase
 from app import create_app, db
 from app.config import TestConfig
-from app.controllers import JobPostError, LoginUserError, NewUserError, UserAccountFormError, new_user, log_in, new_job_post, new_bio
-from app.models import Post, User
+from app.controllers import ApplicationFormError, JobPostError, LoginUserError, NewUserError, UserAccountFormError, new_user, log_in, new_job_post, new_bio, new_application
+from app.models import Post, User, Application
 from test_data import *
 
 # TO RUN
@@ -91,3 +91,9 @@ class BasicUnitTests(TestCase):
     def test_userbio_historic_startdate(self):
         with self.assertRaisesRegex(UserAccountFormError,"Earliest start date cannot be before todays date!"):
             new_bio(Account(earliest_start_date=datetime(2000, 1, 1)))
+
+    def test_user_apply_own_post(self):
+        with self.assertRaisesRegex(ApplicationFormError, "Cannot apply for your own job post!"):
+            app = Application(user_id = 1, post_id = 1, cover_letter = "You should not be allowed to apply to your own job.")
+            post = Post.query.filter_by(id=1).first()
+            new_application(app, post)

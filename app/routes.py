@@ -1,12 +1,12 @@
 from app.blueprints import main
-from flask import render_template,redirect, url_for, flash
+from flask import render_template,redirect, url_for, flash, request
 from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm, DeleteApplication
 from app import db
 from app.models import User, Post, Account, Application
 from datetime import datetime, timezone
 from flask_login import current_user, login_user, logout_user, login_required
 import time
-from app.controllers import NewUserError, LoginUserError, JobPostError, UserAccountFormError, log_in, new_user, new_job_post, new_bio
+from app.controllers import NewUserError, LoginUserError, JobPostError, UserAccountFormError, ApplicationFormError, log_in, new_user, new_job_post, new_bio, new_application
 
 # attatch routes to blueprints and not to flaskApp
 # blueprints can be created ahead of time (no configuration needed) 
@@ -84,6 +84,7 @@ def JobPost():
 @main.route("/feed", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def feed():
+    sort_order = request.args.get('sort', 'desc')
     filter_form =  FilterForm()
     if filter_form.validate_on_submit():
         location = filter_form.location.data
@@ -101,10 +102,17 @@ def feed():
         if max_salary is not None:
             query = query.filter(Post.salary <= max_salary)
 
-        job_posts = query.all()
+        
+        if sort_order == 'asc':
+            job_posts = query.order_by(Post.date_posted.asc()).all()
+        else:
+            job_posts = query.order_by(Post.date_posted.desc()).all()
 
     else:
-        job_posts = Post.query.all()
+        if sort_order == 'asc':
+            job_posts = Post.query.order_by(Post.date_posted.asc()).all()
+        else:
+            job_posts = Post.query.order_by(Post.date_posted.desc()).all()
 
     for post in job_posts:
         username = User.query.get(post.user_id).username
@@ -115,9 +123,15 @@ def feed():
 
     if form.validate_on_submit(): #validated form
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
-        db.session.add(application) #add to db
-        db.session.commit()
-        flash('Successfully Applied', 'success')
+        post = Post.query.filter_by(id=form.post_id.data).first()
+        try:
+            application = new_application(application,post)
+            db.session.add(application) #add to db
+            db.session.commit()
+            flash(f'Successfully Applied for "{post.title}"', 'success')
+
+        except ApplicationFormError as e:
+            flash(e, 'danger')
         
     current_applied = [] #check applications user has made so far
     for applicant in Application.query.all():
@@ -148,7 +162,7 @@ def account():
             info = new_bio(info)
             db.session.add(info)
             db.session.commit()
-            flash('Person biography successfully updated')  
+            flash('Person biography successfully updated', 'success')  
 
         except UserAccountFormError as e:
             flash(e, 'danger')

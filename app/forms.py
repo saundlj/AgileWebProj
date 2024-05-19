@@ -90,12 +90,7 @@ class UserAccountForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class FeedApplyForm(FlaskForm):
-    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
-    post_id = IntegerField('Post ID')
-    submit = SubmitField("Submit")
-
-class FeedApplyForm(FlaskForm):
-    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired()])
+    cover_letter = TextAreaField('Cover Letter', validators=[DataRequired(), Length(min=10, max=500, message='Cover Letter must be between 10 and 500 characters.')])
     post_id = IntegerField('Post ID')
     submit = SubmitField("Submit")
 

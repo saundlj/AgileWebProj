@@ -6,7 +6,7 @@
 
 from datetime import date, datetime, timezone
 import re
-from app.models import User, Post, Account
+from app.models import Application, User, Post, Account
 from app import db
 
 def capitalize_first_word(title):
@@ -160,6 +160,22 @@ def new_bio(bio:Account):
         raise UserAccountFormError("Personal Bio contains at least one invalid character. Please remove and try again.")
     
     return bio
+
+class ApplicationFormError(Exception):
+    pass
+
+def new_application(application:Application, post:Post):
+
+    # Cover Letter check 
+    application.cover_letter, invalid_string = sanitize_input(application.cover_letter, description=True)
+    if invalid_string:
+        raise ApplicationFormError("Cover Letter contains at least one invalid character. Please remove and try again.")
+    
+    # cannot apply for own job post
+    if post.user_id == application.user_id:
+        raise ApplicationFormError("Cannot apply for your own job post!")
+    
+    return application
 
 
 

@@ -82,4 +82,8 @@ class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #refrences user table
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False) #references post table
-    cover_letter = db.Column(db.Text, nullable=True) #text field
+    cover_letter = db.Column(db.Text, nullable=True) 
+    post = db.relationship('Post', backref='applications')
+
+    def __repr__(self):
+        return f"Application('{self.user_id}', '{self.post_id}')"
