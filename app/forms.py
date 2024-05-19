@@ -110,3 +110,7 @@ class FilterForm(FlaskForm):
 class DeletePostForm(FlaskForm):
     post_id = IntegerField('Post ID', validators=[DataRequired()])
     submit = SubmitField('Delete Post')
+
+class DeleteApplication(FlaskForm):
+    application_id = IntegerField('Application ID', validators=[DataRequired()])
+    submit = SubmitField('Delete Application')
