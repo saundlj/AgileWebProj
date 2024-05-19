@@ -214,7 +214,7 @@ def myposts():
         for old_post in delete_post:
             db.session.delete(old_post)
             db.session.commit()
-        flash("Post Successfully Deleted!", 'danger')
+        flash("Post Successfully Deleted!", 'success')
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 
 
@@ -229,7 +229,7 @@ def myapplications():
         if old_application:
             db.session.delete(old_application)
             db.session.commit()
-        flash("Application Successfully Deleted!", 'danger')
+        flash("Application Successfully Deleted!", 'success')
 
     application_data = []
     myapp = Application.query.filter(Application.user_id == current_user.id)

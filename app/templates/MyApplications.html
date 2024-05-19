@@ -5,9 +5,9 @@
     
 <div class="col-md-6 nonFeedBoxContainer">
     <h1>My Applications</h1>
-    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='{{ url_for('main.feed')}}'">
         <span class= "fa fa-clipboard"></span>
-        My Job Posts
+        Find Jobs
     </button>
 
     {% if not application_data %}
