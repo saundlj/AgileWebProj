@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <!-- Content to be refreshed goes here -->
+    
+<div class="col-md-6 nonFeedBoxContainer">
+    <h1>My Applications</h1>
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
+        <span class= "fa fa-clipboard"></span>
+        My Job Posts
+    </button>
+</div>  
+<div class="row d-flex justify-content-center align-items-center" style="overflow-wrap: normal;">
+    <!-- Loop through each post -->
+    {% for application in application_data %}
+
+    <!--for each post access all 12 bootstrap columns-->
+    <div class="col-md-12">
+        <!-- create a feedbox object -->
+        <div class="feedBox feedBoxSwell">
+
+            <!-- words for post title -->
+            <h1> {{application[1].title}} </h1>
+
+            <!-- Metadata -->
+            <p><strong>Job Posted: {{ application[1].date_posted }}</strong> </p>
+            <p>Cover Letter: {{ application[0].cover_letter }}</p>
+
+            <form method="POST">
+                {{form.hidden_tag()}}
+                <input type="hidden" name="application_id" value="{{ application[0].id }}">
+
+                <div class="form-group">
+                    {{form.submit(class="submitButton btnSwell")}}
+                </div>
+            </form>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
