@@ -275,3 +275,15 @@ footer {
   gap: 10px;
   align-items: center;
 }
+
+.sort_btn {
+  border-radius: 30px;
+  background: rgba(63, 94, 251, 0.8);
+  background: linear-gradient(37deg, rgb(132, 31, 255) 0%, rgb(21, 0, 255) 100%);
+  border-color: purple;
+  height: 36px;
+  width: auto;
+  margin-bottom: +7px;
+  margin-left: +16px;
+  color: white;
+}

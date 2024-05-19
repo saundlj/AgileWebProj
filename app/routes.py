@@ -205,12 +205,15 @@ def myposts():
     if form.validate_on_submit():
         postid = form.post_id.data
         delete_post = Post.query.filter(Post.id == postid)
-        for old_post in delete_post:
-            db.session.delete(old_post)
         delete_application = Application.query.filter(Application.post_id == postid)
+        #finds all applications associated with post and deletes
         for old_application in delete_application:
             db.session.delete(old_application)
-        db.session.commit()
+            db.session.commit()
+        #deletes old post
+        for old_post in delete_post:
+            db.session.delete(old_post)
+            db.session.commit()
         flash("Post Successfully Deleted!", 'danger')
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 
