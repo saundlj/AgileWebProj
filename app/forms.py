@@ -5,6 +5,7 @@ from app.models import *
 from sqlalchemy import func
 import string
 
+
 #write flask forms in python classes below.
 #e.g.
 # class LoginForm(FlaskForm):
