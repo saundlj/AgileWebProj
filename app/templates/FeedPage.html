@@ -202,8 +202,11 @@
         } else {
             //collapse apply area content
             smoothExpansion(m, false);
-            // adjust internal HTML of apply button
-            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            // checking if apply button was actually rendered
+            if (k != null){
+                // adjust internal HTML of apply button
+                k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            }
             // collapse job information message
             smoothExpansion(y, false);
             // change internal HTML of button
