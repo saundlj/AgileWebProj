@@ -26,7 +26,9 @@
                             {{ filter_form.location.label}} {{ filter_form.location(size=32) }}<br>
                             {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
                             {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br>
+                            <br>
                             {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                            <br>
                             {{ filter_form.submit(class="submitButton btnSwell") }}
                         </form>
                     </div>
@@ -56,10 +58,10 @@
         </div>
     <div>
         <a href="{{ url_for('main.feed', sort='desc') }}">
-            <button class = 'btn feed_post_btn btnSwell'>Sort by Newest</button>
+            <button class = 'btn sort_btn'>Sort by Newest</button>
         </a>
         <a href="{{ url_for('main.feed', sort='asc') }}">
-            <button class = 'btn feed_post_btn btnSwell'>Sort by Oldest</button>
+            <button class = 'btn sort_btn'>Sort by Oldest</button>
         </a>
     </div>
 
