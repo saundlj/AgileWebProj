@@ -1,147 +1,144 @@
 {% extends "layout.html" %}
-{% block content %}
+{% block content %}   <!--Content to be refreshed goes here-->
 
-   <!--Content to be refreshed goes here-->
+<div class="container">
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1>Current Jobs...</h1>
+        <button class="btn btn-sm submitButton btnSwell nonFeedBoxBtn" onclick="location.href='/MyJobPosts'">
+        <span class="fa fa-clipboard"></span>
+        View My Job Posts
+    </button>
+    <br>
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyApplications'">
+        <span class= "fa fa-list"></span>
+        View My Applications
+     </button>
 
-    <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-12 ">
-            <div class ="flex-container">
-                <button class = 'flex-item btn btn-sm submitButton btnSwell nonFeedBoxBtn' id = 'FilterExpandBtn'>
-                    Filters
-                </button>
-
-                <h1 class = 'flex-item'> Current Jobs ... </h1>
-
-                <button class=' flex-item btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
-                    <span class= "fa fa-clipboard"></span>
-                    View My Job Posts
-                </button>
-              <br>
-                <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyApplications'">
-                    <span class= "fa fa-list"></span>
-                    View My Applications
-                </button>
-            </div>
-        </div>
     </div>
-
-    <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-6 ">
-            <div  class="feedBox feedBoxSwell" id="FilterContent" style ="display: none">
-                <form method="post">
-                    {{ filter_form.hidden_tag() }}
-                    {{ filter_form.location.label(class = 'formTextLabel') }} {{ filter_form.location(size=32, class = 'form-control') }}<br>
-                    <div class="flex-container" style="margin-bottom: +3%;">
-                        {% for subfield in filter_form.job_type %}
-                            <div class="form-check flex-item d-flex">
-                                {{ subfield(class='form-check-input') }}
-                                {{ subfield.label(class='form-check-label formTextLabel') }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {{ filter_form.min_rate.label(class = 'formTextLabel') }} {{ filter_form.min_rate(placeholder='MIN', class = 'form-control') }}<br> 
-                    {{ filter_form.max_rate.label(class = 'formTextLabel') }} {{ filter_form.max_rate(placeholder='MAX', class = 'form-control') }}<br>
-                    {{ filter_form.submit( class = 'submitButton btnSwell CreateAccountLoginSubmitBtn') }}
-                </form>
-            </div>
-        </div>
-    </div> 
-
-    <!-- Grid for displaying posts filterJobTypeMargin -->
-
-    <div class="row d-flex align-items-center justify-content-center">
-
-        <!-- Loop through each post -->
-        {% for post in posts %}
-
-        <!--for each post access all 12 bootstrap columns-->
-        <div class="col-md-12">
-
-            <!-- create a feedbox object -->
+    <div class="row">
+        <div class="col-md-6">
             <div class="feedBox feedBoxSwell">
-                <!-- words for post title -->
-                <h1> {{post.title}}
-                    <!-- label for post title and expandable content-->
-                    <span>
-                        <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
-                        <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
-                            <i class="fas fa-plus fa-xs"></i>
-                        </button>
-                    </span>
-                </h1>
-
-                <!-- Metadata -->
-                <p><strong>Posted By {{post.username}} on {{post.date_string}}</strong></p>
-                <p><strong>Location :</strong> {{post.location}}</p>
-                <!-- Expandable content section -->
-                <div class="expandable_content" id= "expandable_content_{{loop.index}}">
-                    <p><strong>Job Type : </strong>{{post.job_type}}</p>
-                    <p><strong>Salary ($AUD per/hour): </strong>{{post.salary}}</p>
-                    <p><strong>Description : </strong>{{post.description}}</p>
-
-                    <!-- Checks not already applied for job-->
-                    {% if post.id not in current_applied %}
-
-                        <!-- applying for job button -->
-                        <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> 
-                            <span> <i class= "fa fa-pen"> </i> Apply </span>
-                        </button>
-
-                    {% else %}   
-                        <!-- else show applied -->
-                        <p id = "application_response_{{loop.index}}" class = "application_response colour_change"></p>
-                    {% endif %} 
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2>Apply Some Filters...</h2>
+                        <form method="post">
+                            {{ filter_form.location.label}} {{ filter_form.location(size=32) }}<br>
+                            {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+                            {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br>
+                            {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                            {{ filter_form.submit(class="submitButton btnSwell") }}
+                        </form>
+                    </div>
                 </div>
-                <!-- application form-->
-                <div id = "apply_box_{{ loop.index }}" class = "apply_box">
-                    <p><strong>Application</strong></p>
-                    <p>What makes you a good candidate?</p>
-                    
-                    <form method="POST" action="" class="feedApplyForm">
+                
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class = "row">
+                <div class="col-md-12">
+                    <div class="feedBox feedBoxSwell" id = "compassOurVision" style="height: 50vh;">
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <span id = 'compassOurVisionTitle'> Our Vision</span>
+                            <span>
+                                <!-- feedbox button next to feed box title-->
+                                <button id = compassOurVisionButton class = 'btn feed_post_btn btnSwell'><i class="fa-solid fa-less-than"></i></button>
+                            </span>
+                        </h1>
+    
+                        <p id = compassOurVisionContent>Welcome to Career Compass, where we navigate the path to professional success for both job seekers and employers. 
+                            Our mission is to bridge the gap between talented individuals and thriving organizations, facilitating connections 
+                            that lead to fulfilling careers and sustained business growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center">
 
-                        {{form.hidden_tag()}}
-
-                        <input type="hidden" name="post_id" value="{{ post.id }}">
-
-                        <fieldset class="form-group">
-            
-                            <div class = "form-group">  
-                                {{form.cover_letter.label(class='form-control-label')}}
-            
-                                {% if form.cover_letter.errors %}
-                                    {{form.cover_letter(class="form-control is-invalid")}}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.cover_letter.errors %}
-                                            <span>{{error}}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{form.cover_letter(class='form-control')}}
-                                {% endif %}
+            <!-- Loop through each post -->
+            {% for post in posts %}
+    
+            <!--for each post access all 12 bootstrap columns-->
+            <div class="col-md-12">
+    
+                <!-- create a feedbox object -->
+                <div class="feedBox feedBoxSwell">
+                    <!-- words for post title -->
+                    <h1> {{post.title}}
+                        <!-- label for post title and expandable content-->
+                        <span>
+                            <!-- stylying button with 3 different selectors btn btn-sm btn-outline-info -->
+                            <button  class = "btn feed_expand_btn feed_post_btn btnSwell" id = "expand_btn_{{ loop.index }}">
+                                <i class="fas fa-plus fa-xs"></i>
+                            </button>
+                        </span>
+                    </h1>
+    
+                    <!-- Metadata -->
+                    <p><strong>Posted By {{post.username}} on {{post.date_string}}</strong></p>
+                    <p><strong>Location :</strong> {{post.location}}</p>
+                    <!-- Expandable content section -->
+                    <div class="expandable_content" id= "expandable_content_{{loop.index}}">
+                        <p><strong>Job Type : </strong>{{post.job_type}}</p>
+                        <p><strong>Salary ($AUD per/hour): </strong>{{post.salary}}</p>
+                        <p><strong>Description : </strong>{{post.description}}</p>
+    
+                        <!-- Checks not already applied for job-->
+                        {% if post.id not in current_applied %}
+    
+                            <!-- applying for job button -->
+                            <button class = 'btn feed_apply_btn feed_post_btn btnSwell'  id = "apply_btn_{{loop.index}}"> 
+                                <span> <i class= "fa fa-pen"> </i> Apply </span>
+                            </button>
+    
+                        {% else %}   
+                            <!-- else show applied -->
+                            <p id = "application_response_{{loop.index}}" class = "application_response colour_change"></p>
+                        {% endif %} 
+                    </div>
+                    <!-- application form-->
+                    <div id = "apply_box_{{ loop.index }}" class = "apply_box">
+                        <p><strong>Application</strong></p>
+                        <p>What makes you a good candidate?</p>
+                        
+                        <form method="POST" action="" class="feedApplyForm">
+    
+                            {{form.hidden_tag()}}
+    
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+    
+                            <fieldset class="form-group">
+                
+                                <div class = "form-group">  
+                                    {{form.cover_letter.label(class='form-control-label')}}
+                
+                                    {% if form.cover_letter.errors %}
+                                        {{form.cover_letter(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.cover_letter.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.cover_letter(class='form-control')}}
+                                    {% endif %}
+                                </div>
+                
+                            </fieldset>
+                            <br>
+                            <div class="form-group">
+                                {{form.submit(class="submitButton btnSwell")}}
                             </div>
-            
-                        </fieldset>
-                        <br>
-                        <div class="form-group">
-                            {{form.submit(class="submitButton btnSwell")}}
-                        </div>
-                    </form>   
+                        </form>   
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-
-    <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-6 ">
-            <div  class="feedBox feedBoxSwell" id="noFilterContent" style ="display: none;text-align: center;">
-                <h2>There are no jobs available with your current requirements.</h2>
-            </div>
+            {% endfor %}
         </div>
     </div>
-
 </div>
 
+   
 <script>
     // Set of possible messages that can be displayed
     const textOptions = [
@@ -194,16 +191,28 @@
         // apply button 
         let k = document.getElementById("apply_btn_" + id.split("_")[2]);
 
+        console.log(k)
+
         if (getComputedStyle(y).height === "0px") {
+            //expand job information 
             smoothExpansion(y, true);
+            //change internal HTML of button 
             x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
+            // generate and style user message for submission
             z.innerHTML = getRandomText(textOptions);
             z.style.fontWeight = "bold";
             z.style.fontSize = "1.2em";
         } else {
-            smoothExpansion(m, false)
-            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>'
+            //collapse apply area content
+            smoothExpansion(m, false);
+            // checking if apply button was actually rendered
+            if (k != null){
+                // adjust internal HTML of apply button
+                k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            }
+            // collapse job information message
             smoothExpansion(y, false);
+            // change internal HTML of button
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
@@ -234,7 +243,7 @@
         }
     }
 
-    function filterExpand(id){
+    function filterExpand(){
         let FilterContent = document.getElementById('FilterContent'); 
 
         if (getComputedStyle(FilterContent).display === "none"){ 
@@ -253,7 +262,6 @@
         // element which has the user message for no posts
         let userMessage = document.getElementById('noFilterContent');
 
-        console.log(renderedPosts)
 
         if (renderedPosts.length <= 2){
             userMessage.style.display = 'block';
@@ -305,7 +313,61 @@
             index = (index + 1) % colors.length;  // Move to the next color
         }, 3000);
     }
-    
+    document.addEventListener('DOMContentLoaded', function () {
+    // defining the html for the two togglable about page feedboxes
+    const abtTabId = {
+        'compassOurVision': {
+            'option1': {
+                'title': 'About Career Compass',
+                'content': 'Welcome to Career Compass, where we navigate the path to professional success for both job seekers and employers. Our mission is to bridge the gap between talented individuals and thriving organizations, facilitating connections that lead to fulfilling careers and sustained business growth.'
+            },
+            'option2': {
+                'title': 'Our Vision',
+                'content': 'At Career Compass, we envision a world where every individual finds purpose in their work and every organization discovers the perfect match for their team. We strive to create an ecosystem where talent meets opportunity, driving innovation, productivity, and prosperity for all.'
+            }
+        },
+        'DivStarted': {
+            'option1': {
+                'title': 'Our Commitment to Diversity and Inclusion',
+                'content': 'At Career Compass, we believe that diversity is not only a moral imperative but also a strategic advantage. We are committed to fostering an inclusive environment where individuals from all backgrounds feel valued, respected, and empowered to thrive. Through our recruitment practices and partnerships, we strive to promote diversity, equity, and inclusion in the workplace.'
+            },
+            'option2': {
+                'title': 'Get Started with Career Compass Today!',
+                'content': "Whether you're a job seeker embarking on a new career journey or an employer seeking top talent, Career Compass is here to help you navigate your way to success. Join our community today and let us guide you toward a brighter future!"
+            }
+        }
+    };
+
+    function generateContent(id) {
+        //defining ID's of elements in feedboxes
+        let title = document.getElementById(id + 'Title');
+        let content = document.getElementById(id + 'Content');
+        let button = document.getElementById(id + 'Button');
+
+        //adjusting HTML of content
+        if (title.innerHTML === abtTabId[id]['option1']['title']) {
+            title.innerHTML = abtTabId[id]['option2']['title'];
+            content.innerHTML = abtTabId[id]['option2']['content'];
+        } else {
+            title.innerHTML = abtTabId[id]['option1']['title'];
+            content.innerHTML = abtTabId[id]['option1']['content'];
+        }
+
+        //adjusting inner HTML of button
+        if (button.innerHTML === '<i class="fa-solid fa-less-than"></i>'){
+            button.innerHTML = '<i class="fa-solid fa-greater-than"></i>';
+        }
+        else{
+            button.innerHTML = '<i class="fa-solid fa-less-than"></i>';
+            };
+    }
+
+    // adding event listeners 
+    Object.keys(abtTabId).forEach(id => {
+        let buttonId = id + 'Button';
+        document.getElementById(buttonId).addEventListener('click', () => generateContent(id));
+    });
+});
 </script>
 
 {% endblock content %}
