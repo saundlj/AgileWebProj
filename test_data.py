@@ -15,6 +15,7 @@ from app.models import *
 # user.id 
 # User.query.get(1)
 
+# data to initialse db with for marker to see functionality
 def deployment_data():
 
     user1 = User(username = 'testing', first_name = "test", last_name = "test", email = "admin@proj.com", password_hash = 'admin')

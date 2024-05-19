@@ -12,19 +12,8 @@ login_manager.login_message_category = 'info'
 def create_app(config=DeploymentConfig):
     flaskApp = Flask(__name__)
     flaskApp.config.from_object(config)
-
-    # from app.blueprints import main
-    # flaskApp.register_blueprint(main)
-    # db.drop_all(flaskApp)
-    # db.create_all(flaskApp)
     db.init_app(flaskApp) # initalise db
     login_manager.init_app(flaskApp) # initialise login_manager
-
-    # if config==DeploymentConfig:
-    #     from test_data import deployment_data
-    #     db.drop_all()
-    #     db.create_all()
-    #     deployment_data()
 
     with flaskApp.app_context():
         # Import models after app context to avoid circular imports
@@ -42,5 +31,3 @@ def create_app(config=DeploymentConfig):
         flaskApp.register_blueprint(main)
     
     return flaskApp
-    
-# from app import models

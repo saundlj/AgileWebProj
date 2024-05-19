@@ -21,7 +21,6 @@ from app import db, login_manager
 # INSRUCTIONS FOR MIGRATING DATABASE WHEN A CHSNGE HAPPENS
 # flask db upgrade
 
-# helps manage user sessions in the backgroud - credit https://www.youtube.com/watch?v=CSHx6eCkmv0&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=6
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -36,7 +35,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg') 
     password_hash = db.Column(db.String(128), nullable=False)
     # one to many relationship
-    # backref adds author column to Post indicating user
+    # backref adds user column to Post indicating user
     # lazy lets us look at all posts by a user 
     posts = db.relationship('Post', backref='posts', lazy=True)
     account_bio = db.relationship('Account', backref='accounts', lazy=True)
@@ -52,7 +51,8 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-    
+# nullable is set to true for testing purposes
+# In the Post form, all data is required.
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True) #replace nulls
     title = db.Column(db.String(100), nullable=True)
@@ -66,6 +66,8 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted})"
 
+# nullable is set to true for testing purposes
+# In the Account form, all data is required.
 class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title_apl = db.Column(db.String(6), nullable=True)
@@ -78,6 +80,8 @@ class Account(db.Model):
     def __repr__(self):
         return f"Account('{self.user_id}', '{self.personal_bio}', '{self.updated_at})"
     
+# nullable is set to true for testing purposes
+# In the Application form, all data is required.
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #refrences user table
