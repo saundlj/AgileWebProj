@@ -23,8 +23,16 @@
             <h1> {{application[1].title}} </h1>
 
             <!-- Metadata -->
-            <p><strong>Job Posted: {{ application[1].date_posted }}</strong> </p>
-            <p>Cover Letter: {{ application[0].cover_letter }}</p>
+            <!-- Metadata -->
+            <p class="post-info">
+                <strong>Posted on:</strong> <span>{{ application[1].date_posted.strftime("%b %d %Y") }}</span>
+                <strong>Location:</strong> <span>{{ application[1].location }}</span>
+                <strong>Job Type:</strong> <span>{{ application[1].job_type }}</span>
+                <strong>Hourly Rate:</strong> <span>${{ application[1].salary }}</span><br>
+                <p> <strong>Cover Letter: </strong> <br>
+                    <span>{{ application[0].cover_letter }}</span></p>
+            </p>
+            
 
             <form method="POST">
                 {{form.hidden_tag()}}
