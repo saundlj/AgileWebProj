@@ -16,6 +16,8 @@ localHost = "http://localhost:5000/"
 
 # python -m unittest tests/selenium.py
 
+# Could not get selinium test cases running on windows laptop...
+
 class SeliniumTestCase(TestCase):
 
     def setUp(self):

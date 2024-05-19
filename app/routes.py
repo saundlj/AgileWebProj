@@ -15,6 +15,7 @@ from app.controllers import NewUserError, LoginUserError, JobPostError, UserAcco
 def home():
     return render_template("home.html", title = "Home")
 
+# login page 
 @main.route('/login', methods = ['GET','POST'])
 def login():
 
@@ -22,14 +23,18 @@ def login():
         return redirect(url_for('main.feed'))
     
     form = LoginForm()
+
+    # string validation and error checking is done in controller.py
     if form.validate_on_submit():
         try:
             user = log_in(form.email.data,form.password.data)
 
+        # if there is an error while the user tries to log in, re render the login page so the user doesn't lose form data. Present error message. 
         except LoginUserError as e:
             flash(e, 'danger')
             return render_template("LoginPage.html", form = form, title = 'Login')
 
+        # direct user to feed page if successfully logged in
         login_user(user, remember=form.remember.data)
         flash(f'Welcome back {user.first_name}!', 'success')
         return redirect(url_for('main.feed'))
@@ -37,14 +42,17 @@ def login():
 
 @main.route('/createAccount', methods = ['GET','POST'])
 def createAccount():
+
+    # if user is already authenticated (remember me ticked or logged in), redirect to feed page
     if current_user.is_authenticated:
         return redirect(url_for('main.feed'))
     
     form = CreateAccountForm()
+
     if form.validate_on_submit():
         user = User(username=form.username.data, first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password_hash=form.password.data)
         
-        # error checking and santising of form data
+        # error checking and santising of form data in controllers.py
         try:
             user = new_user(user)
         
@@ -61,11 +69,12 @@ def createAccount():
     return render_template("CreateAccount.html", form = form, title = 'Register') # render template so no data lost
 
 @main.route('/JobPost', methods = ['GET','POST'])
-@login_required
+@login_required # user must be autheticated and logged in to access this page
 def JobPost():
     form = JobForm()
     if form.validate_on_submit():
         job = Post(title=form.jobtitle.data, description=form.jobdescription.data, location = form.joblocation.data, job_type = form.jobtype.data, salary = form.salary.data, user_id = current_user.id)
+        # data validations and sanitising of form data in controllers.py
         try:
             job = new_job_post(job)
 
@@ -81,12 +90,12 @@ def JobPost():
 
     return render_template("JobPost.html", form = form) # render template so no data lost
 
-@main.route("/feed", methods = ['GET', 'POST'])
-@login_required # allows only a logged in user to access account page
+@main.route("/feed", methods=['GET', 'POST'])
+@login_required  # Allows only a logged in user to access feed page
 def feed():
-    sort_order = request.args.get('sort', 'desc')
-    filter_form =  FilterForm()
-    if filter_form.validate_on_submit():
+    sort_order = request.args.get('sort', 'desc')  # Get sort order from request arguments
+    filter_form = FilterForm()
+    if filter_form.validate_on_submit():  # If filter form is submitted and validated
         location = filter_form.location.data
         job_type = filter_form.job_type.data
         min_salary = filter_form.min_rate.data
@@ -94,52 +103,50 @@ def feed():
 
         query = Post.query
         if location:
-            query = query.filter(Post.location.ilike(f'%{location}%'))
+            query = query.filter(Post.location.ilike(f'%{location}%'))  # Filter posts by location
         if job_type:
-            query = query.filter(Post.job_type.in_(job_type))
+            query = query.filter(Post.job_type.in_(job_type))  # Filter posts by job type
         if min_salary is not None:
-            query = query.filter(Post.salary >= min_salary)
+            query = query.filter(Post.salary >= min_salary)  # Filter posts by minimum salary
         if max_salary is not None:
-            query = query.filter(Post.salary <= max_salary)
+            query = query.filter(Post.salary <= max_salary)  # Filter posts by maximum salary
 
-        
         if sort_order == 'asc':
-            job_posts = query.order_by(Post.date_posted.asc()).all()
+            job_posts = query.order_by(Post.date_posted.asc()).all()  # Sort posts in ascending order
         else:
-            job_posts = query.order_by(Post.date_posted.desc()).all()
-
+            job_posts = query.order_by(Post.date_posted.desc()).all()  # Sort posts in descending order
     else:
         if sort_order == 'asc':
-            job_posts = Post.query.order_by(Post.date_posted.asc()).all()
+            job_posts = Post.query.order_by(Post.date_posted.asc()).all()  # Default sort order if no filter applied
         else:
             job_posts = Post.query.order_by(Post.date_posted.desc()).all()
 
+    # Add additional information to posts
     for post in job_posts:
         username = User.query.get(post.user_id).username
         post.username = username 
-        post.date_string = post.date_posted.strftime("%b %d %Y")
+        post.date_string = post.date_posted.strftime("%b %d %Y")  # Format date to a readable string
 
     form = FeedApplyForm()
 
-    if form.validate_on_submit(): #validated form
-        application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
+    if form.validate_on_submit():  # If application form is submitted and validated
+        application = Application(user_id=current_user.id, cover_letter=form.cover_letter.data, post_id=form.post_id.data)
         post = Post.query.filter_by(id=form.post_id.data).first()
         try:
-            application = new_application(application,post)
-            db.session.add(application) #add to db
+            application = new_application(application, post)
+            db.session.add(application)  # Add to db
             db.session.commit()
             flash(f'Successfully Applied for "{post.title}"', 'success')
 
         except ApplicationFormError as e:
             flash(e, 'danger')
         
-    current_applied = [] #check applications user has made so far
+    current_applied = []  # Check applications user has made so far
     for applicant in Application.query.all():
         if applicant.user_id == current_user.id:
             current_applied.append(applicant.post_id)
 
-    return render_template("FeedPage.html", title = 'Feed',  posts = job_posts, form = form, current_applied = current_applied, filter_form=filter_form)
-
+    return render_template("FeedPage.html", title='Feed', posts=job_posts, form=form, current_applied=current_applied, filter_form=filter_form)
 
 @main.route("/about")
 def about():
@@ -151,6 +158,7 @@ def logout():
     logout_user()
     return redirect(url_for('main.about'))
 
+# Current users account page with ability to update bio 
 @main.route("/account", methods = ['GET', 'POST'])
 @login_required # allows only a logged in user to access account page
 def account():
@@ -175,8 +183,7 @@ def account():
     user_info = Account.query.filter(Account.user_id == current_user.id).order_by(Account.updated_at.desc()).first()
     return render_template("AccountPage.html", title = 'Account', profile_pic = profile_pic, form = form, user_info = user_info, num_jobs_applied = num_jobs_applied, num_jobs_posted = num_jobs_posted)
 
-
-
+# View current users Job posts, other user data on who have applied for the job and the ability to delete them 
 @main.route("/MyJobPosts", methods = ['GET', 'POST', 'DELETE'])
 @login_required # allows only a logged in user to access account page
 def myposts():
@@ -208,7 +215,7 @@ def myposts():
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
 
 
-
+# View current users Job applications and the ability to delete them 
 @main.route("/MyApplications", methods = ['GET', 'POST', 'DELETE'])
 @login_required # allows only a logged in user to access account page
 def myapplications():
