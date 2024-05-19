@@ -125,7 +125,17 @@
         </div>
         {% endfor %}
     </div>
+
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-md-6 ">
+            <div  class="feedBox feedBoxSwell" id="noFilterContent" style ="display: none;text-align: center;">
+                <h2>There are no jobs available with your current requirements.</h2>
+            </div>
+        </div>
+    </div>
+
 </div>
+
 <script>
     // Set of possible messages that can be displayed
     const textOptions = [
@@ -219,6 +229,23 @@
             FilterContent.style.display = "none";
         }
     }
+
+    function filterSubmit(){
+        // collection of all the posts currently being rendered on page
+        const renderedPosts = document.querySelectorAll(".feedBox");
+
+        // element which has the user message for no posts
+        let userMessage = document.getElementById('noFilterContent');
+
+        console.log(renderedPosts)
+
+        if (renderedPosts.length <= 2){
+            userMessage.style.display = 'block';
+        } 
+        else{
+            userMessage.style.display = 'none';
+        }
+    }
     
     // Event listener to expand post button
     document.addEventListener("DOMContentLoaded", function() {
@@ -242,6 +269,9 @@
 
         // event handler for expanding the filter options
         filterExpandBtnID.addEventListener('click',(event) => filterExpand());
+
+        // event handler for when no job posts appear on the page
+        filterSubmit();
     });
     
     // Changing color of application messages
