@@ -123,11 +123,12 @@ def feed():
 
     if form.validate_on_submit(): #validated form
         application = Application(user_id = current_user.id, cover_letter = form.cover_letter.data, post_id = form.post_id.data)
+        post = Post.query.filter_by(id=form.post_id.data).first()
         try:
-            application = new_application(application)
+            application = new_application(application,post)
             db.session.add(application) #add to db
             db.session.commit()
-            flash('Successfully Applied', 'success')
+            flash(f'Successfully Applied for "{post.title}"', 'success')
 
         except ApplicationFormError as e:
             flash(e, 'danger')
@@ -161,7 +162,7 @@ def account():
             info = new_bio(info)
             db.session.add(info)
             db.session.commit()
-            flash('Person biography successfully updated')  
+            flash('Person biography successfully updated', 'success')  
 
         except UserAccountFormError as e:
             flash(e, 'danger')

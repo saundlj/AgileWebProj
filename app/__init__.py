@@ -31,11 +31,11 @@ def create_app(config=DeploymentConfig):
         from app import models
 
         # Create database tables if needed
-        if config == DeploymentConfig:
-            from test_data import deployment_data
-            db.drop_all()
-            db.create_all()
-            deployment_data()
+        # if config == DeploymentConfig:
+        #     from test_data import deployment_data
+        #     db.drop_all()
+        #     db.create_all()
+        #     deployment_data()
 
         # Register blueprints
         from app.blueprints import main

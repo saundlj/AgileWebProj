@@ -36,7 +36,12 @@
                 </h1>
 
                 <!-- Metadata -->
-                <p><strong> {{ post.date_posted }}</strong> </p>
+                <p class="post-info">
+                    <strong>Posted on:</strong> <span>{{ post.date_posted.strftime("%b %d %Y") }}</span>
+                    <strong>Location:</strong> <span>{{ post.location }}</span>
+                    <strong>Job Type:</strong> <span>{{ post.job_type }}</span>
+                    <strong>Hourly Rate:</strong> <span>${{ post.salary }}</span>
+                </p>
 
                 <form method="POST">
                     {{form.hidden_tag()}}

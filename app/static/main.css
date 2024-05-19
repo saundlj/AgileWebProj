@@ -250,3 +250,17 @@ footer {
 .nonFeedBoxBtn{
   margin-top: +2%;
 }
+
+.post-info {
+  font-weight: normal;
+}
+.post-info strong {
+  font-weight: bold;
+}
+
+.post-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
