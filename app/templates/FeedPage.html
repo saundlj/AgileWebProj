@@ -30,6 +30,15 @@
 
     <!-- Grid for displaying posts -->
 
+    <div>
+        <a href="{{ url_for('main.feed', sort='desc') }}">
+            <button>Sort by Newest</button>
+        </a>
+        <a href="{{ url_for('main.feed', sort='asc') }}">
+            <button>Sort by Oldest</button>
+        </a>
+    </div>
+
     <div class="row d-flex align-items-center justify-content-center">
 
         <!-- Loop through each post -->
