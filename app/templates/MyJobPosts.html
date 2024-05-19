@@ -38,19 +38,12 @@
                 <!-- Metadata -->
                 <p><strong> {{ post.date_posted }}</strong> </p>
 
-                <form method="POST">
-                    {{form.hidden_tag()}}
-                    <input type="hidden" name="post_id" value="{{ post.id }}">
-
-                    <div class="form-group">
-                        {{form.submit(class="submitButton btnSwell")}}
-                    </div>
-                </form>
-                <br>
+                
                 
                 <!-- Expandable content section -->
                 <div id= "expandable_content_{{loop.index}}" style="display: none;">
                     <p><strong> Applicants:</strong> </p>
+                    
                     {% for applicant in applicant_info %}
                         {% if applicant[0].post_id == post.id %}
                             <div style="display: inline-flex;">
@@ -70,9 +63,19 @@
                             <br>
                         {% endif %}
                     {% endfor %}
+                <!-- Form for deleting the posts -->
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
 
+                    <div class="form-group">
+                        {{form.submit(class="submitButton btnSwell")}}
+                    </div>
+                </form>
+                <br>            
                 <!-- applying for job button-->
                     <!-- application form-->
+                
             </div>
         </div>
     </div>
