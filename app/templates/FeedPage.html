@@ -188,6 +188,8 @@
         // apply button 
         let k = document.getElementById("apply_btn_" + id.split("_")[2]);
 
+        console.log(k)
+
         if (getComputedStyle(y).height === "0px") {
             //expand job information 
             smoothExpansion(y, true);
@@ -254,7 +256,6 @@
         // element which has the user message for no posts
         let userMessage = document.getElementById('noFilterContent');
 
-        console.log(renderedPosts)
 
         if (renderedPosts.length <= 2){
             userMessage.style.display = 'block';
