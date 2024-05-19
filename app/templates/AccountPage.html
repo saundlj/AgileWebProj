@@ -29,7 +29,7 @@
                             <br>{{current_user.email}}</h4>
                     </div>
                     <div class="col-md-4">
-                        <h4><strong>Current Time in Kenya</strong><br><span id="kenya-time"></span><br>
+                        <h4><strong>Current Time in Perth</strong><br><span id="kenya-time"></span><br>
                         </h4>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
         // Function to update the time every second
         function updateTime() {
           // Get the current date and time in Kenya timezone
-          const kenyaTime = new Date().toLocaleString("en-US", {timeZone: "Africa/Nairobi"});
+          const kenyaTime = new Date().toLocaleString("en-US", {timeZone: "Australia/Perth"});
           
           // Update the content of the HTML element with id "kenya-time"
           document.getElementById("kenya-time").textContent = kenyaTime;

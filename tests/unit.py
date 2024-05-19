@@ -6,7 +6,7 @@ from app.models import Post, User, Application
 from test_data import *
 
 # TO RUN
-# python -m unittest test/unit.py
+# python -m unittest tests/unit.py
 
 class BasicUnitTests(TestCase):
 
