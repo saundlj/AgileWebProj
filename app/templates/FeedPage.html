@@ -1,57 +1,58 @@
 {% extends "layout.html" %}
-{% block content %}
+{% block content %}   <!--Content to be refreshed goes here-->
+
+<div class="container">
+    <div class="col-md-6 nonFeedBoxContainer">
+        <h1>Current Jobs...</h1>
+        <button class="btn btn-sm submitButton btnSwell nonFeedBoxBtn" onclick="location.href='/MyJobPosts'">
+        <span class="fa fa-clipboard"></span>
+        View My Job Posts
+    </button>
+    <br>
+    <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyApplications'">
+        <span class= "fa fa-list"></span>
+        View My Applications
+     </button>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feedBox feedBoxSwell">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2>Apply Some Filters...</h2>
+                        <form method="post">
+                            {{ filter_form.location.label}} {{ filter_form.location(size=32) }}<br>
+                            {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
+                            {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br>
+                            {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
+                            {{ filter_form.submit(class="submitButton btnSwell") }}
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class = "row">
+                <div class="col-md-12">
+                    <div class="feedBox feedBoxSwell" id = "compassOurVision" style="height: 50vh;">
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <span id = 'compassOurVisionTitle'> Our Vision</span>
+                            <span>
+                                <!-- feedbox button next to feed box title-->
+                                <button id = compassOurVisionButton class = 'btn feed_post_btn btnSwell'><i class="fa-solid fa-less-than"></i></button>
+                            </span>
+                        </h1>
     
-   <!--Content to be refreshed goes here-->
-    <div class="container">
-        <div class="col-md-6 nonFeedBoxContainer">
-            <h1> Current Jobs ... </h1>
-                <button class='btn btn-sm submitButton btnSwell nonFeedBoxBtn' onclick="location.href='/MyJobPosts'">
-                    <span class= "fa fa-clipboard"></span>
-                    View My Job Posts
-                </button>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="feedBox feedBoxSwell">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h2>Apply Some Filters...</h2>
-                            <form method="post">
-                                {{ filter_form.location.label}} {{ filter_form.location(size=32) }}<br>
-                                {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
-                                {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br>
-                                {{ filter_form.max_rate.label }} {{ filter_form.max_rate(placeholder='MAX') }}<br>
-                                {{ filter_form.submit(class="submitButton btnSwell") }}
-                            </form>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class = "row">
-                    <div class="col-md-12">
-                        <div class="feedBox feedBoxSwell" id = "compassOurVision" style="height: 50vh;">
-                            <h1 class="d-flex justify-content-between align-items-center">
-                                <!-- feed box title-->
-                                <span id = 'compassOurVisionTitle'> Saved Jobs</span>
-                                <span>
-                                    <!-- feedbox button next to feed box title-->
-                                    <button id = compassOurVisionButton class = 'btn feed_post_btn btnSwell'><i class="fa-solid fa-less-than"></i></button>
-                                </span>
-                            </h1>
-        
-                            <p id = compassOurVisionContent>Welcome to Career Compass, where we navigate the path to professional success for both job seekers and employers. 
-                                Our mission is to bridge the gap between talented individuals and thriving organizations, facilitating connections 
-                                that lead to fulfilling careers and sustained business growth.
-                            </p>
-                        </div>
+                        <p id = compassOurVisionContent>Welcome to Career Compass, where we navigate the path to professional success for both job seekers and employers. 
+                            Our mission is to bridge the gap between talented individuals and thriving organizations, facilitating connections 
+                            that lead to fulfilling careers and sustained business growth.
+                        </p>
                     </div>
                 </div>
             </div>
-            
         </div>
-        
     <div>
         <a href="{{ url_for('main.feed', sort='desc') }}">
             <button>Sort by Newest</button>
@@ -144,14 +145,9 @@
             {% endfor %}
         </div>
     </div>
-   
-    
-    
-   
+</div>
 
-    <!-- Grid for displaying posts -->
-
-    
+   
 <script>
     // Set of possible messages that can be displayed
     const textOptions = [
@@ -205,15 +201,25 @@
         let k = document.getElementById("apply_btn_" + id.split("_")[2]);
 
         if (getComputedStyle(y).height === "0px") {
+            //expand job information 
             smoothExpansion(y, true);
+            //change internal HTML of button 
             x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
+            // generate and style user message for submission
             z.innerHTML = getRandomText(textOptions);
             z.style.fontWeight = "bold";
             z.style.fontSize = "1.2em";
         } else {
-            smoothExpansion(m, false)
-            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>'
+            //collapse apply area content
+            smoothExpansion(m, false);
+            // checking if apply button was actually rendered
+            if (k != null){
+                // adjust internal HTML of apply button
+                k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            }
+            // collapse job information message
             smoothExpansion(y, false);
+            // change internal HTML of button
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
@@ -243,6 +249,34 @@
             element.style.opacity = "0";
         }
     }
+
+    function filterExpand(){
+        let FilterContent = document.getElementById('FilterContent'); 
+
+        if (getComputedStyle(FilterContent).display === "none"){ 
+            smoothExpansion(FilterContent,true);
+        } 
+        else {
+            smoothExpansion(FilterContent,false)
+            FilterContent.style.display = "none";
+        }
+    }
+
+    function filterSubmit(){
+        // collection of all the posts currently being rendered on page
+        const renderedPosts = document.querySelectorAll(".feedBox");
+
+        // element which has the user message for no posts
+        let userMessage = document.getElementById('noFilterContent');
+
+
+        if (renderedPosts.length <= 2){
+            userMessage.style.display = 'block';
+        } 
+        else{
+            userMessage.style.display = 'none';
+        }
+    }
     
     // Event listener to expand post button
     document.addEventListener("DOMContentLoaded", function() {
@@ -250,6 +284,9 @@
         const expandButtons = document.querySelectorAll('.feed_expand_btn');
         // Select all application buttons
         const applyButtons = document.querySelectorAll('.feed_apply_btn');
+
+        //adding event listener to filter button
+        const filterExpandBtnID = document.getElementById('FilterExpandBtn');
     
         // Event handler function for each expand button
         expandButtons.forEach(button => {
@@ -260,6 +297,12 @@
         applyButtons.forEach(button => {
             button.addEventListener('click', (event) => applicationExpand(button.id));
         });
+
+        // event handler for expanding the filter options
+        filterExpandBtnID.addEventListener('click',(event) => filterExpand());
+
+        // event handler for when no job posts appear on the page
+        filterSubmit();
     });
     
     // Changing color of application messages
@@ -288,6 +331,16 @@
             'option2': {
                 'title': 'Our Vision',
                 'content': 'At Career Compass, we envision a world where every individual finds purpose in their work and every organization discovers the perfect match for their team. We strive to create an ecosystem where talent meets opportunity, driving innovation, productivity, and prosperity for all.'
+            }
+        },
+        'DivStarted': {
+            'option1': {
+                'title': 'Our Commitment to Diversity and Inclusion',
+                'content': 'At Career Compass, we believe that diversity is not only a moral imperative but also a strategic advantage. We are committed to fostering an inclusive environment where individuals from all backgrounds feel valued, respected, and empowered to thrive. Through our recruitment practices and partnerships, we strive to promote diversity, equity, and inclusion in the workplace.'
+            },
+            'option2': {
+                'title': 'Get Started with Career Compass Today!',
+                'content': "Whether you're a job seeker embarking on a new career journey or an employer seeking top talent, Career Compass is here to help you navigate your way to success. Join our community today and let us guide you toward a brighter future!"
             }
         }
     };

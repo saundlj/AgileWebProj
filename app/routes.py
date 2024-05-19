@@ -1,6 +1,6 @@
 from app.blueprints import main
 from flask import render_template,redirect, url_for, flash, request
-from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm
+from app.forms import CreateAccountForm, LoginForm, JobForm, UserAccountForm, FeedApplyForm, FilterForm, DeletePostForm, DeleteApplication
 from app import db
 from app.models import User, Post, Account, Application
 from datetime import datetime, timezone
@@ -206,3 +206,27 @@ def myposts():
         db.session.commit()
         flash("Post Successfully Deleted!", 'danger')
     return render_template("MyJobPosts.html", user_posts = user_posts, applicant_info = applicant_info, form = form)
+
+
+
+@main.route("/MyApplications", methods = ['GET', 'POST', 'DELETE'])
+@login_required # allows only a logged in user to access account page
+def myapplications():
+    form = DeleteApplication()
+
+    if form.validate_on_submit():
+        old_application = Application.query.filter(Application.id == form.application_id.data).first()
+        if old_application:
+            db.session.delete(old_application)
+            db.session.commit()
+        flash("Application Successfully Deleted!", 'danger')
+
+    application_data = []
+    myapp = Application.query.filter(Application.user_id == current_user.id)
+    for application in myapp:
+        app_info = Post.query.filter(application.post_id == Post.id).first() 
+        application_data.append([application, app_info])
+    
+    return render_template("MyApplications.html", application_data = application_data , form = form)
+
+

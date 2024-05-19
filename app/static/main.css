@@ -219,6 +219,10 @@ footer {
   font-weight: 550;
 }
 
+.filterJobTypeMargin {
+  margin-left: +4%;
+}
+
 /* Style for login page fields */
 .LoginPageFields {
   margin-bottom: 7px;
@@ -249,6 +253,13 @@ footer {
 
 .nonFeedBoxBtn{
   margin-top: +2%;
+}
+
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .post-info {
