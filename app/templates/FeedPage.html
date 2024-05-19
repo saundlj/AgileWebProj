@@ -189,15 +189,22 @@
         let k = document.getElementById("apply_btn_" + id.split("_")[2]);
 
         if (getComputedStyle(y).height === "0px") {
+            //expand job information 
             smoothExpansion(y, true);
+            //change internal HTML of button 
             x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
+            // generate and style user message for submission
             z.innerHTML = getRandomText(textOptions);
             z.style.fontWeight = "bold";
             z.style.fontSize = "1.2em";
         } else {
-            smoothExpansion(m, false)
-            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>'
+            //collapse apply area content
+            smoothExpansion(m, false);
+            // adjust internal HTML of apply button
+            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            // collapse job information message
             smoothExpansion(y, false);
+            // change internal HTML of button
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
@@ -228,7 +235,7 @@
         }
     }
 
-    function filterExpand(id){
+    function filterExpand(){
         let FilterContent = document.getElementById('FilterContent'); 
 
         if (getComputedStyle(FilterContent).display === "none"){ 
@@ -297,8 +304,8 @@
         setInterval(function() {
             textElement.style.color = colors[index];
             index = (index + 1) % colors.length;  // Move to the next color
-        }, 3000);
-    }
+        }, 3000)
+    };
     
 </script>
 
