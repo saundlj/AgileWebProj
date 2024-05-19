@@ -9,8 +9,16 @@
         <span class= "fa fa-clipboard"></span>
         Create a Job Post
     </button>
+
+    {% if not user_posts[0] %}
+        <br>
+        <br>
+        <h2>No jobs submitted.</h2></b>
+    {% endif %}
+
 </div>  
 <div class="row d-flex justify-content-center align-items-center" style="overflow-wrap: normal;">
+
     <!-- Loop through each post -->
     {% for post in user_posts %}
 

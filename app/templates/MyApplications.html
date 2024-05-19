@@ -9,6 +9,13 @@
         <span class= "fa fa-clipboard"></span>
         My Job Posts
     </button>
+
+    {% if not application_data %}
+        <br>
+        <br>
+        <h2>No applications submitted.</h2></b>
+    {% endif %}
+
 </div>  
 <div class="row d-flex justify-content-center align-items-center" style="overflow-wrap: normal;">
     <!-- Loop through each post -->
