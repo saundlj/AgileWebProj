@@ -22,6 +22,7 @@
                     <div class="col-md-10">
                         <h2>Apply Some Filters...</h2>
                         <form method="post">
+                            {{ filter_form.hidden_tag() }}
                             {{ filter_form.location.label}} {{ filter_form.location(size=32) }}<br>
                             {{ filter_form.job_type.label }} {{ filter_form.job_type() }}<br>
                             {{ filter_form.min_rate.label }} {{ filter_form.min_rate(placeholder='MIN') }}<br>

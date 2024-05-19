@@ -68,7 +68,7 @@
                             <div id = "applicant_box_{{ loop.index }}" style = "display: none;">
                                 <p> <strong> Title: </strong> {{ applicant[1].title_apl }} </p>
                                 <p> <strong> Contact at: </strong> {{ applicant[2].email }} </p>
-                                <p> <strong> Earliest Start Date: </strong> {{ applicant[1].earliest_start_date }} </p>
+                                <p> <strong> Earliest Start Date: </strong> {{ applicant[1].earliest_start_date.strftime("%b %d %Y") }} </p>
                                 <p> <strong> Personal Bio: </strong> {{ applicant[1].personal_bio }} </p>
                                 <p> <strong> Health Status: </strong> {{ applicant[1].health }} </p>
                                 <p> <strong> Cover Letter: </strong> {{ applicant[0].cover_letter }} </p>
