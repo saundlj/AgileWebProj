@@ -89,29 +89,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Custom Script -->
-    <script>
-      $(document).ready(function(){
-        // Function to load data initially and at intervals
-        function refreshContent() {
-            $.ajax({
-                url: '/fetch-content', // URL to the server-side endpoint for fetching content
-                type: 'GET', // HTTP method (GET or POST)
-                success: function(data){
-                    $('#result').html(data); // Replace the content of #result with the fetched content
-                },
-                error: function(xhr, status, error){
-                    console.error(status, error); // Handle errors
-                }
-            });
-        }
-
-        // Load content initially
-        refreshContent();
-
-        // Set interval to refresh content every 5 seconds (adjust as needed)
-        setInterval(refreshContent, 5000); // 5000 milliseconds = 5 seconds
-      });
-    </script>
     
     <footer>
       <div class="container" style="padding-top: 20px;">
