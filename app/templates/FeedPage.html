@@ -188,16 +188,28 @@
         // apply button 
         let k = document.getElementById("apply_btn_" + id.split("_")[2]);
 
+        console.log(k)
+
         if (getComputedStyle(y).height === "0px") {
+            //expand job information 
             smoothExpansion(y, true);
+            //change internal HTML of button 
             x.innerHTML = '<i class="fas fa-minus fa-xs"></i>';
+            // generate and style user message for submission
             z.innerHTML = getRandomText(textOptions);
             z.style.fontWeight = "bold";
             z.style.fontSize = "1.2em";
         } else {
-            smoothExpansion(m, false)
-            k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>'
+            //collapse apply area content
+            smoothExpansion(m, false);
+            // checking if apply button was actually rendered
+            if (k != null){
+                // adjust internal HTML of apply button
+                k.innerHTML = '<span><i class="fa fa-pen"></i> Apply</span>';
+            }
+            // collapse job information message
             smoothExpansion(y, false);
+            // change internal HTML of button
             x.innerHTML = '<i class="fas fa-plus fa-xs"></i>';
         }
     }
@@ -228,7 +240,7 @@
         }
     }
 
-    function filterExpand(id){
+    function filterExpand(){
         let FilterContent = document.getElementById('FilterContent'); 
 
         if (getComputedStyle(FilterContent).display === "none"){ 
@@ -247,7 +259,6 @@
         // element which has the user message for no posts
         let userMessage = document.getElementById('noFilterContent');
 
-        console.log(renderedPosts)
 
         if (renderedPosts.length <= 2){
             userMessage.style.display = 'block';
@@ -297,8 +308,8 @@
         setInterval(function() {
             textElement.style.color = colors[index];
             index = (index + 1) % colors.length;  // Move to the next color
-        }, 3000);
-    }
+        }, 3000)
+    };
     
 </script>
 
